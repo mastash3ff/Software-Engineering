@@ -23,7 +23,7 @@ public class MainActivity extends FragmentActivity
 		setContentView(R.layout.activity_main);
 		addFragment();
 	}
-	/*
+	
 	//makes use of custom actionbar
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity
 	    inflater.inflate(R.menu.activity_action_bar, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
-	*/
+	
 
 	void addFragment(){
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder,
