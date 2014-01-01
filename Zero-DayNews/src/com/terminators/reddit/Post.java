@@ -1,4 +1,4 @@
-package com.terminators.main;
+package com.terminators.reddit;
 
 
 /**
@@ -8,7 +8,6 @@ package com.terminators.main;
  */
 public class Post
 {
-
 	String subreddit;
 	String title;
 	String author;
@@ -19,24 +18,19 @@ public class Post
 	int points;
 	int numComments;
 
-
-	String getDetails () 
+	String getDetails() 
 	{
-
 		String details = author + "posted this and got " + numComments + " replies";
 		return details;
-
 	}
 
-	String getTitle(){
-
+	String getTitle()
+	{
 		return title;
-
 	}
 
-	String getScore(){
-
+	String getScore()
+	{
 		return Integer.toString(points);
-
 	}
 }
