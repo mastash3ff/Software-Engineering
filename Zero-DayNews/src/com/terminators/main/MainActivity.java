@@ -1,5 +1,4 @@
 package com.terminators.main;
-
 import com.example.zero_daynews.R;
 import com.terminators.reddit.PostFragment;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.view.MenuInflater;
  */
 
 // testing
+// brandon testing
 
 public class MainActivity extends FragmentActivity
 {
