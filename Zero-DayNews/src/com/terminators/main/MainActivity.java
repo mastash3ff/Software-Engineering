@@ -38,8 +38,7 @@ public class MainActivity extends FragmentActivity
 
 	void addFragment(){
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder,
-				//TODO change to technology :D
-				PostFragment.newInstance("starcraft"))
+				PostFragment.newInstance("technology"))
 				.commit();
 	}
 
