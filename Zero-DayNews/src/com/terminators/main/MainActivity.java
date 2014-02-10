@@ -12,6 +12,8 @@ import android.view.MenuInflater;
  *
  */
 
+//testing2
+
 public class MainActivity extends FragmentActivity
 {
 

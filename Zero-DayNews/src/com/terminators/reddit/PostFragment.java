@@ -20,6 +20,7 @@ import android.widget.TextView;
  *
  */
 
+
 public class PostFragment extends Fragment
 {
 
