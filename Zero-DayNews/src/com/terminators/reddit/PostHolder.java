@@ -13,6 +13,7 @@ import android.util.Log;
 /** Class that creates Post objects out of the Reddit API and stores a list of these posts for other classes
  * 
  * @author Brandon
+ * @author Hathy
  *
  */
 
@@ -42,8 +43,8 @@ public class PostHolder
 	 */
 	private void generateURL()
 	{
-		url=URL_TEMPLATE.replace( "SUBREDDIT_NAME", subreddit );
-		url=url.replace( "AFTER", after );
+		url = URL_TEMPLATE.replace( "SUBREDDIT_NAME", subreddit );
+		url = url.replace( "AFTER", after );
 	}
 
 	/**
@@ -66,21 +67,24 @@ public class PostHolder
 			after=data.getString("after");
 
 			
-			//TODO change 'children.length()' to display how many reddit posts are displayed
-			for( int i = 0; i < children.length() ; i++ )
+			//TODO change 5 or 'children.length()' to display how many reddit posts are displayed
+			for( int i = 0; i < 5 ; i++ )
 			{
 				JSONObject cur = children.getJSONObject(i).getJSONObject("data");
 
 				Post p = new Post();
 				p.title = cur.optString("title");
 				p.url = cur.optString("url");
-				p.numComments = cur.optInt("num_comments");
-				p.points = cur.optInt("score");
+	//			p.numComments = cur.optInt("num_comments");
+	//			p.points = cur.optInt("score");
 				p.author = cur.optString("author");
 				p.subreddit = cur.optString("subreddit");
 				p.permalink = cur.optString("permalink");
 				p.domain = cur.optString("domain");
 				p.id = cur.optString("id");
+				p.body = cur.optString("body");
+				
+				//Log.v("Loggin url", p.url);
 
 				if( p.title != null )
 					list.add(p);

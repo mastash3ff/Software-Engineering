@@ -4,8 +4,14 @@ package com.terminators.reddit;
 /**
  * Class that holds data for JSON objects returned by Reddit API.
  * @author Brandon
+ * @author Hathy
  *
  */
+
+//Commented out stuff that would not be useful for our purposes.  Can review this later.
+
+//represents data structure of JSON
+//https://github.com/reddit/reddit/wiki/JSON
 public class Post
 {
 	String subreddit;
@@ -15,12 +21,13 @@ public class Post
 	String url;
 	String domain;
 	String id;
-	int points;
-	int numComments;
+	String body;
+	//int numComments;
+	//int points;
 
 	String getDetails() 
 	{
-		String details = author + "posted this and got " + numComments + " replies";
+		String details = author + "posted this";// and got " + numComments + " replies";
 		return details;
 	}
 
@@ -28,9 +35,10 @@ public class Post
 	{
 		return title;
 	}
-
+/*
 	String getScore()
 	{
 		return Integer.toString(points);
 	}
+	*/
 }

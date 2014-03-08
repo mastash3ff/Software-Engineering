@@ -11,6 +11,7 @@ import android.util.Log;
 /**
  * Utility class that handles network connections
  * @author Brandon
+ * @author Hathy
  *
  */
 
@@ -26,14 +27,14 @@ public class NetworkComm
 
 	public static HttpURLConnection getConnection(String url){
 
-		System.out.println( "URL:" + url );
+		//System.out.println( "URL:" + url );
 		HttpURLConnection hcon = null;
 
 		try {
 
 			hcon = (HttpURLConnection) new URL(url).openConnection();
 			hcon.setReadTimeout(30000); //30 second time-out
-			hcon.setRequestProperty("User-Agent", "Alien V1.0");
+			hcon.setRequestProperty("User-Agent", "FSU SE Project 1.0");
 
 		} 
 		catch (MalformedURLException e) 

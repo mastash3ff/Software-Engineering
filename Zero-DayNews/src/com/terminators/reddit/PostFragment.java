@@ -3,13 +3,18 @@ package com.terminators.reddit;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.zero_daynews.R;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,9 +22,11 @@ import android.widget.TextView;
 /**
  * Loads posts into a listview
  * @author Brandon
+ * @author Hathy
  *
  */
 
+//edited out some post score stuff
 
 public class PostFragment extends Fragment
 {
@@ -31,6 +38,8 @@ public class PostFragment extends Fragment
 	String subreddit;
 	List<Post> posts;
 	PostHolder postsHolder;
+	
+	private View redditView;
 
 	public PostFragment()
 	{
@@ -61,9 +70,51 @@ public class PostFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		//setContentView(R.layout.post_item);
 		setRetainInstance(true);
+		
+		//TODO might not need this, set listeners for the clickable posts
+		//redditView = (View) findViewById(R.id.post_details);
+		//redditView.setOnClickListener(redditListener);
+		
+	}
+	
+    private View findViewById(int postDetails) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	//TODO need to implement listener for clickable posts that react to accordingly
+	OnClickListener redditListener = new OnClickListener()
+	{
+		public void onClick(View v)
+		{
+			
+			//distinguish between reddit URL and text post then setup intent
+			
+			// postview clicked
+			//check if that post has a non-reddit url
+			//open that url like a webpage with an intent
+			//else open text body with intent
+				
+			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+					Uri.parse("http://www.newsherald.com/entertainment"));
+			
+			startActivity(intent);
+		}
+	};
+
+	//TODO need to implement listener for clickable posts that react to accordingly
+	OnClickListener rssListener = new OnClickListener()
+	{
+		public void onClick(View v)
+		{
+			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+					Uri.parse("http://www.newsherald.com/entertainment"));
+			startActivity(intent);
+		}
+	};
+	 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{   
@@ -124,21 +175,25 @@ public class PostFragment extends Fragment
 			{
 				if( convertView == null )
 				{
-					convertView=getActivity().getLayoutInflater().inflate(R.layout.post_item, null);
+					convertView=getActivity().getLayoutInflater().inflate( R.layout.post_item, null );
 				}
 
 				TextView postTitle;
-				postTitle=(TextView)convertView.findViewById(R.id.post_title);
+				//ID can be found in post_item.xml
+				postTitle = (TextView)convertView.findViewById( R.id.post_title );
 
 				TextView postDetails;
-				postDetails=(TextView)convertView.findViewById( R.id.post_details );
+				postDetails = (TextView)convertView.findViewById( R.id.post_details );
 
-				TextView postScore;
-				postScore = (TextView)convertView.findViewById(R.id.post_score);
+				//		TextView postScore;
+				//		postScore = (TextView)convertView.findViewById(R.id.post_score);
 
 				postTitle.setText( posts.get( position ).title );
 				postDetails.setText( posts.get( position ).getDetails() );
-				postScore.setText( posts.get( position ).getScore() );
+				
+				//TODO think we set listeners here
+				
+				//	postScore.setText( posts.get( position ).getScore() );
 				return convertView;
 			}
 				};
