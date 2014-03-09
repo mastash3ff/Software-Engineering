@@ -1,6 +1,8 @@
 package com.android.rss;
 
 import java.util.List;
+
+import com.example.zero_daynews.R;
 //TODO	import com.android.groupproject.R;
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -32,7 +34,7 @@ public class ITCutiesReaderAppActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		// Set view
-//TODO		setContentView(R.layout.activity_news_feed);
+        setContentView(R.layout.activity_main);
 
 		// Set reference to this activity
 		local = this;
@@ -40,10 +42,10 @@ public class ITCutiesReaderAppActivity extends Activity
 		GetRSSDataTask task = new GetRSSDataTask();
 
 		// Start download RSS task
-		task.execute("http://www.wmbb.com/Global/category.asp?C=207804&clienttype=rss");
+		task.execute("http://feeds.feedburner.com/TechCrunch/");
 
 		// Debug the thread name
-		Log.d("ITCRssReader", Thread.currentThread().getName());
+		Log.d("RssReader", Thread.currentThread().getName());
 	}
 
 	private class GetRSSDataTask extends AsyncTask<String, Void, List<RssItem> > 
@@ -53,7 +55,7 @@ public class ITCutiesReaderAppActivity extends Activity
 		{
 
 			// Debug the task thread name
-			Log.d("ITCRssReader", Thread.currentThread().getName());
+			Log.d("RssReader", Thread.currentThread().getName());
 
 			try
 			{
@@ -66,7 +68,7 @@ public class ITCutiesReaderAppActivity extends Activity
 			}
 			catch (Exception e)
 			{
-				Log.e("ITCRssReader", e.getMessage());
+				Log.e("RssReader", e.getMessage());
 			}
 
 			return null;
