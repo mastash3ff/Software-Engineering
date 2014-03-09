@@ -79,10 +79,12 @@ public class PostFragment extends Fragment
 		
 	}
 	
+	/*
     private View findViewById(int postDetails) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	*/
 
 	//TODO need to implement listener for clickable posts that react to accordingly
 	OnClickListener redditListener = new OnClickListener()
