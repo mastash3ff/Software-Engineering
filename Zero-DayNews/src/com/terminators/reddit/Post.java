@@ -31,5 +31,10 @@ public class Post
 	{
 		return title;
 	}
+	
+	String getBodyText()
+	{
+		return body;
+	}
 
 }

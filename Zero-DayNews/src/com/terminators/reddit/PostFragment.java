@@ -67,37 +67,6 @@ public class PostFragment extends Fragment
 		//setContentView(R.layout.post_item);
 		setRetainInstance(true);
 	}
-	
-	//TODO need to implement listener for clickable posts that react to accordingly
-	OnClickListener redditListener = new OnClickListener()
-	{
-		public void onClick(View v)
-		{
-			
-			//distinguish between reddit URL and text post then setup intent
-			
-			// postview clicked
-			//check if that post has a non-reddit url
-			//open that url like a webpage with an intent
-			//else open text body with intent
-				
-			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
-					Uri.parse("http://www.newsherald.com/entertainment"));
-			
-			startActivity(intent);
-		}
-	};
-
-	//TODO need to implement listener for clickable posts that react to accordingly
-	OnClickListener rssListener = new OnClickListener()
-	{
-		public void onClick(View v)
-		{
-			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
-					Uri.parse("http://www.newsherald.com/entertainment"));
-			startActivity(intent);
-		}
-	};
 	 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
@@ -171,9 +140,6 @@ public class PostFragment extends Fragment
 
 				postTitle.setText( posts.get( position ).title );
 				postDetails.setText( posts.get( position ).getDetails() );
-				
-				postDetails.setOnClickListener(redditListener);
-				System.out.println("setting listener");
 				
 				return convertView;
 			}
