@@ -3,7 +3,6 @@ package com.android.rss;
 import java.util.List;
 
 import com.example.zero_daynews.R;
-//TODO	import com.android.groupproject.R;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,7 +33,7 @@ public class ITCutiesReaderAppActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		// Set view
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.news_rssfeed);
 
 		// Set reference to this activity
 		local = this;
@@ -74,24 +73,24 @@ public class ITCutiesReaderAppActivity extends Activity
 			return null;
 		}
 
+		//TODO not working
 		@Override
 		protected void onPostExecute(List<RssItem> result)
 		{
 
 			// Get a ListView from main view
-			//TODO				ListView itcItems = (ListView) findViewById(R.id.listMainView);
+			ListView itcItems = (ListView) findViewById(R.id.listMainView);
 
 			// Create a list adapter
-			//ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local,R.id.listMainView, result);
 			ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local,android.R.layout.simple_list_item_1, result);
 
 
 			// Set list adapter for the ListView
-			//TODO			itcItems.setAdapter(adapter);
+			itcItems.setAdapter(adapter);
 
 
 			// Set list view item click listener
-			//TODO			itcItems.setOnItemClickListener(new ListListener(result, local));
+			itcItems.setOnItemClickListener(new ListListener(result, local));
 		}
 	}
 
