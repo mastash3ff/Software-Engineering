@@ -75,8 +75,6 @@ public class PostHolder
 				Post p = new Post();
 				p.title = cur.optString("title");
 				p.url = cur.optString("url");
-	//			p.numComments = cur.optInt("num_comments");
-	//			p.points = cur.optInt("score");
 				p.author = cur.optString("author");
 				p.subreddit = cur.optString("subreddit");
 				p.permalink = cur.optString("permalink");
@@ -84,8 +82,6 @@ public class PostHolder
 				p.id = cur.optString("id");
 				p.body = cur.optString("body");
 				
-				//Log.v("Loggin url", p.url);
-
 				if( p.title != null )
 					list.add(p);
 			}

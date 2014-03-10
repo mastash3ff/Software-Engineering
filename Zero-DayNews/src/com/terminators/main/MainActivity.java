@@ -1,16 +1,11 @@
 package com.terminators.main;
 
-import com.android.rss.ITCutiesReaderAppActivity;
 import com.example.zero_daynews.R;
 import com.terminators.reddit.PostFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 /**
  * Class that holds data for JSON objects returned by Reddit API.
@@ -45,4 +40,6 @@ public class MainActivity extends FragmentActivity
 				PostFragment.newInstance("technology"))
 				.commit();
 	}
+	
+	
 }

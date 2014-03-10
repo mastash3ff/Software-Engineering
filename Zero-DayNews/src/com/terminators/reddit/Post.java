@@ -8,8 +8,6 @@ package com.terminators.reddit;
  *
  */
 
-//Commented out stuff that would not be useful for our purposes.  Can review this later.
-
 //represents data structure of JSON
 //https://github.com/reddit/reddit/wiki/JSON
 public class Post
@@ -22,12 +20,10 @@ public class Post
 	String domain;
 	String id;
 	String body;
-	//int numComments;
-	//int points;
 
 	String getDetails() 
 	{
-		String details = author + "posted this";// and got " + numComments + " replies";
+		String details = author + "posted this";
 		return details;
 	}
 
@@ -35,10 +31,5 @@ public class Post
 	{
 		return title;
 	}
-/*
-	String getScore()
-	{
-		return Integer.toString(points);
-	}
-	*/
+
 }

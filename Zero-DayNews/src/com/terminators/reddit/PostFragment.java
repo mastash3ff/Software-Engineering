@@ -3,7 +3,6 @@ package com.terminators.reddit;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.zero_daynews.R;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,10 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
 
 /**
  * Loads posts into a listview
@@ -25,8 +22,6 @@ import android.widget.TextView;
  * @author Hathy
  *
  */
-
-//edited out some post score stuff
 
 public class PostFragment extends Fragment
 {
@@ -39,7 +34,6 @@ public class PostFragment extends Fragment
 	List<Post> posts;
 	PostHolder postsHolder;
 	
-	private View redditView;
 
 	public PostFragment()
 	{
@@ -72,20 +66,8 @@ public class PostFragment extends Fragment
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.post_item);
 		setRetainInstance(true);
-		
-		//TODO might not need this, set listeners for the clickable posts
-		//redditView = (View) findViewById(R.id.post_details);
-		//redditView.setOnClickListener(redditListener);
-		
 	}
 	
-	/*
-    private View findViewById(int postDetails) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	*/
-
 	//TODO need to implement listener for clickable posts that react to accordingly
 	OnClickListener redditListener = new OnClickListener()
 	{
@@ -187,15 +169,12 @@ public class PostFragment extends Fragment
 				TextView postDetails;
 				postDetails = (TextView)convertView.findViewById( R.id.post_details );
 
-				//		TextView postScore;
-				//		postScore = (TextView)convertView.findViewById(R.id.post_score);
-
 				postTitle.setText( posts.get( position ).title );
 				postDetails.setText( posts.get( position ).getDetails() );
 				
-				//TODO think we set listeners here
+				postDetails.setOnClickListener(redditListener);
+				System.out.println("setting listener");
 				
-				//	postScore.setText( posts.get( position ).getScore() );
 				return convertView;
 			}
 				};

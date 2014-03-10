@@ -73,7 +73,6 @@ public class ITCutiesReaderAppActivity extends Activity
 			return null;
 		}
 
-		//TODO not working
 		@Override
 		protected void onPostExecute(List<RssItem> result)
 		{
