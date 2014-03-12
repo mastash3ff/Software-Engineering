@@ -31,7 +31,7 @@ public class ITCutiesReaderAppActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		// Set view
-      setContentView(R.layout.news_rssfeed);
+      setContentView(R.layout.activity_news_feed);
 
 		// Set reference to this activity
 		local = this;

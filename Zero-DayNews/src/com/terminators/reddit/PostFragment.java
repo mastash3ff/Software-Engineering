@@ -21,7 +21,6 @@ import java.util.List;
  * @author Hathy
  *
  */
-
 public class PostFragment extends Fragment
 {
 	ListView postsList;
@@ -79,7 +78,6 @@ public class PostFragment extends Fragment
 
 		if (posts.size() == 0)
 		{
-
 			// Must execute network tasks outside the UI
 			// thread. So create a new thread.
 

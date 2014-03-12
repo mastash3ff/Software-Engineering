@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 
 
 public class MainActivity extends FragmentActivity
@@ -39,27 +40,38 @@ public class MainActivity extends FragmentActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 	
-	 OnClickListener rssListener = new OnClickListener()
+  OnClickListener rssListener = new OnClickListener()
+	{
+	  public void onClick(View v)
 	  {
-	    public void onClick(View v)
-	    {
-	      Intent intent = new Intent(getApplicationContext(), ITCutiesReaderAppActivity.class);
-	      startActivity(intent);
-	    }
-	  };
+	    Intent intent = new Intent(getApplicationContext(), ITCutiesReaderAppActivity.class);
+	    startActivity(intent);
+	  }
+	};
 	  
-	  OnClickListener redditListener = new OnClickListener()
-    {
-      public void onClick(View v)
-	     {
-	       addFragment();
-	     }
-    };
+	OnClickListener redditListener = new OnClickListener()
+  {
+    public void onClick(View v)
+	  {
+	    addFragment();
+	  }
+  };
     
-    void addFragment()
-    {
-      getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder,
-          PostFragment.newInstance("technology"))
-          .commit();
-    }
+  void addFragment()
+  {
+    getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder,
+        PostFragment.newInstance("technology"))
+        .commit();
+    rssBtn.setVisibility(View.GONE);
+    redditBtn.setVisibility(View.GONE);
+  }
+  
+  public void onBackPressed()
+  {
+    View v = findViewById(R.id.posts_list);
+    v.setVisibility(View.GONE);
+    rssBtn.setVisibility(View.VISIBLE);
+    redditBtn.setVisibility(View.VISIBLE);
+  }
+  
 }
