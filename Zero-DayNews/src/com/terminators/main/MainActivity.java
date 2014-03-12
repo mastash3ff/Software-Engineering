@@ -66,6 +66,7 @@ public class MainActivity extends FragmentActivity
     redditBtn.setVisibility(View.GONE);
   }
   
+  @Override
   public void onBackPressed()
   {
     View v = findViewById(R.id.posts_list);

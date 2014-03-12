@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import com.terminators.main.NetworkComm;
 import android.util.Log;
 
 /** Class that creates Post objects out of the Reddit API and stores a list of these posts for other classes
@@ -13,7 +12,6 @@ import android.util.Log;
  * @author Hathy
  *
  */
-
 public class PostHolder
 {
 	/**
@@ -29,7 +27,7 @@ public class PostHolder
 	PostHolder(String sr)
 	{
 		subreddit = sr;    
-		after= "";
+		after = "";
 		generateURL();
 	}
 
@@ -51,19 +49,18 @@ public class PostHolder
 	 */
 	List<Post> fetchPosts()
 	{
-		String raw= NetworkComm.readContents(url);
-		List<Post> list=new ArrayList<Post>();
+		String raw = NetworkComm.readContents(url);
+		List<Post> list = new ArrayList<Post>();
 		
 		try
 		{
-			JSONObject data=new JSONObject(raw).getJSONObject("data");
-			JSONArray children=data.getJSONArray("children");
+			JSONObject data = new JSONObject(raw).getJSONObject("data");
+			JSONArray children = data.getJSONArray("children");
 
 			//Using this property we can fetch the next set of
 			//posts from the same subreddit
-			after=data.getString("after");
+			after = data.getString("after");
 
-			
 			//TODO change 5 or 'children.length()' to display how many reddit posts are displayed
 			for (int i = 0; i < children.length() ; i++)
 			{
