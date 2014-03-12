@@ -15,7 +15,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class RssParseHandler extends DefaultHandler 
 {
-
 	private List<RssItem> rssItems;
 
 	// Used to reference item while parsing
@@ -87,5 +86,5 @@ public class RssParseHandler extends DefaultHandler
 			}
 		}
 	}
-
+	
 }

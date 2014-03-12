@@ -10,7 +10,6 @@ package com.android.rss;
 
 public class RssItem 
 {
-
 	// item title
 	private String title;
 	// item link
@@ -41,5 +40,5 @@ public class RssItem
 	{
 		return title;
 	}
-
+	
 }

@@ -1,7 +1,6 @@
 package com.android.rss;
 
 import java.util.List;
-
 import com.example.zero_daynews.R;
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -21,7 +20,6 @@ import android.widget.ListView;
 
 public class ITCutiesReaderAppActivity extends Activity
 {
-
 	// A reference to the local object
 	private ITCutiesReaderAppActivity local;
 
@@ -33,7 +31,7 @@ public class ITCutiesReaderAppActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		// Set view
-        setContentView(R.layout.news_rssfeed);
+      setContentView(R.layout.news_rssfeed);
 
 		// Set reference to this activity
 		local = this;
@@ -52,7 +50,6 @@ public class ITCutiesReaderAppActivity extends Activity
 		@Override
 		protected List<RssItem> doInBackground(String... urls) 
 		{
-
 			// Debug the task thread name
 			Log.d("RssReader", Thread.currentThread().getName());
 
@@ -63,7 +60,6 @@ public class ITCutiesReaderAppActivity extends Activity
 
 				// Parse RSS, get items
 				return rssReader.getItems();
-
 			}
 			catch (Exception e)
 			{
@@ -76,21 +72,18 @@ public class ITCutiesReaderAppActivity extends Activity
 		@Override
 		protected void onPostExecute(List<RssItem> result)
 		{
-
 			// Get a ListView from main view
-			ListView itcItems = (ListView) findViewById(R.id.listMainView);
+			ListView itcItems = (ListView)findViewById(R.id.listMainView);
 
 			// Create a list adapter
-			ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local,android.R.layout.simple_list_item_1, result);
-
+			ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local, android.R.layout.simple_list_item_1, result);
 
 			// Set list adapter for the ListView
 			itcItems.setAdapter(adapter);
-
 
 			// Set list view item click listener
 			itcItems.setOnItemClickListener(new ListListener(result, local));
 		}
 	}
-
+	
 }

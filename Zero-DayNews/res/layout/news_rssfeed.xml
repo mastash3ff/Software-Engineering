@@ -1,16 +1,19 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+    <TextView
+        android:id="@+id/textViewNews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/listMainView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
     </ListView>
 
-</menu>
+</LinearLayout>
