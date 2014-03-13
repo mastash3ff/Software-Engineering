@@ -7,5 +7,7 @@
     <color name="Grey">#f7f9f6</color>
     <string name="displayRSS">Display RSS Feeds</string>
     <string name="displayReddit">Display Reddit Feeds</string>
+    <string name="share">Share</string>
+    <string name="shareto">Share to...</string>
 
 </resources>

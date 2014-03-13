@@ -1,17 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- might be able to remove some of these -->
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
     <item
-        android:title="@string/app_name"
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_launcher"/>
+        android:icon="@drawable/ic_launcher"
+        android:title="@string/app_name"/>
     <item
-        android:title="@string/app_name"
         android:id="@+id/action_compose"
         android:icon="@drawable/ic_launcher"
-        android:showAsAction="ifRoom"/>
-
+        android:showAsAction="ifRoom"
+        android:title="@string/app_name"/>
+    <item
+        android:id="@+id/menu_item_share"
+        android:actionProviderClass="android.widget.ShareActionProvider"
+        android:showAsAction="ifRoom"
+        android:title="@string/share"/>
 </menu>
