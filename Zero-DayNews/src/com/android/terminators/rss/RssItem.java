@@ -1,4 +1,4 @@
-package com.android.rss;
+package com.android.terminators.rss;
 
 /**
  * This code encapsulates RSS item data.

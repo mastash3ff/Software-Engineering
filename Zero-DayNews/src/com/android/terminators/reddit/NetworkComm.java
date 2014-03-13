@@ -1,4 +1,4 @@
-package com.terminators.reddit;
+package com.android.terminators.reddit;
 
 import java.io.BufferedReader;
 import java.io.IOException;

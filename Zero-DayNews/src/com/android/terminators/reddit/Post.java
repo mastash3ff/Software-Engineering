@@ -1,4 +1,4 @@
-package com.terminators.reddit;
+package com.android.terminators.reddit;
 
 /**
  * Class that holds data for JSON objects returned by Reddit API.

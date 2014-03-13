@@ -1,9 +1,9 @@
-package com.terminators.main;
+package com.android.terminators;
 
-import com.example.zero_daynews.R;
-import com.terminators.admob.BannerSample;
-import com.terminators.reddit.*;
-import com.android.rss.*;
+import com.android.terminators.ZeroDayNews.R;
+import com.android.terminators.reddit.*;
+import com.android.terminators.rss.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,8 +13,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ListView;
-
 import com.google.android.gms.ads.*;
 
 
@@ -48,8 +46,6 @@ public class MainActivity extends FragmentActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
-
-	
   OnClickListener rssListener = new OnClickListener()
 	{
 	  public void onClick(View v)

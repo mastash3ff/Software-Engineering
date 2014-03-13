@@ -1,4 +1,4 @@
-package com.android.rss;
+package com.android.terminators.rss;
 
 import java.util.ArrayList;
 import java.util.List;

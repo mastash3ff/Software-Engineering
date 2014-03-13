@@ -1,4 +1,4 @@
-package com.android.rss;
+package com.android.terminators.rss;
 
 import java.util.List;
 import javax.xml.parsers.SAXParser;

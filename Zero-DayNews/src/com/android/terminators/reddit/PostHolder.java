@@ -1,4 +1,4 @@
-package com.terminators.reddit;
+package com.android.terminators.reddit;
 
 import java.util.ArrayList;
 import java.util.List;

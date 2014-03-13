@@ -1,4 +1,4 @@
-package com.terminators.main;
+package com.android.terminators;
 
 public class Article
 {  
