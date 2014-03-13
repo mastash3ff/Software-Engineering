@@ -39,7 +39,6 @@ public class PostFragment extends Fragment
 		PostFragment pf = new PostFragment();
 		pf.subreddit = subreddit;
 		pf.postsHolder = new PostHolder(pf.subreddit);
-
 		return pf;
 	}
 
@@ -48,7 +47,6 @@ public class PostFragment extends Fragment
 	{
 		View v = inflater.inflate(R.layout.posts, container, false);
 		postsList = (ListView)v.findViewById(R.id.posts_list);
-
 		return v;
 	}
 
@@ -90,7 +88,8 @@ public class PostFragment extends Fragment
 
 					handler.post(new Runnable()
 					{
-						public void run(){
+						public void run()
+						{
 							createAdapter();
 						}
 					});

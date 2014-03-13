@@ -35,7 +35,8 @@ public class RssParseHandler extends DefaultHandler
   }
 
   @Override
-  public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+  public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+  {
     if ("item".equals(qName))
     {
       currentItem = new RssItem();

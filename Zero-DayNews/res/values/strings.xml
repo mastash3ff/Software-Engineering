@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Zero-Day News</string>
+    <string name="app_name">Zero Day News</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_activity_action_bar">Activity_action_bar</string>
     <color name="Grey">#f7f9f6</color>

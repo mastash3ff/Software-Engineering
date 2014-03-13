@@ -3,7 +3,7 @@ package com.android.terminators;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
-
+import com.google.android.gms.ads.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,12 +13,20 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import com.google.android.gms.ads.*;
+import android.widget.TextView;
 
-
+/**
+ * Zero Day News
+ * @author Brandon
+ * @author Brian
+ * @author Derrick
+ */
 public class MainActivity extends FragmentActivity
 {
+  private TextView titleTxt;
   private Button rssBtn, redditBtn;
+  private AdView adView;
+  private AdRequest adRequest;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -26,9 +34,11 @@ public class MainActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		AdView adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
+		adView = (AdView)findViewById(R.id.adView);
+		adRequest = new AdRequest.Builder().build();
 		adView.loadAd(adRequest);
+		
+		titleTxt = (TextView)findViewById(R.id.appTitle);
 		
     rssBtn = (Button)findViewById(R.id.rssButton);
     rssBtn.setOnClickListener(rssListener);
@@ -39,7 +49,8 @@ public class MainActivity extends FragmentActivity
 
 	//makes use of custom action bar
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.activity_action_bar, menu);
@@ -69,6 +80,7 @@ public class MainActivity extends FragmentActivity
         .add(R.id.fragment_holder, PostFragment.newInstance("technology"));
     transaction.addToBackStack(null);
     transaction.commit();
+    titleTxt.setVisibility(View.GONE);
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
   }
@@ -77,6 +89,7 @@ public class MainActivity extends FragmentActivity
   public void onBackPressed()
   {
     super.onBackPressed();
+    titleTxt.setVisibility(View.VISIBLE);
     rssBtn.setVisibility(View.VISIBLE);
     redditBtn.setVisibility(View.VISIBLE);
   }
