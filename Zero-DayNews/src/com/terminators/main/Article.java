@@ -1,5 +1,7 @@
 package com.terminators.main;
 
-class Article{}
+public class Article
+{  
 
+}
 

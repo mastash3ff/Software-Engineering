@@ -1,7 +1,5 @@
 package com.terminators.reddit;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.example.zero_daynews.R;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,17 +13,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Loads posts into a listview
- * @author Brandon
  * @author Hathy
  *
  */
-
 public class PostFragment extends Fragment
 {
-
 	ListView postsList;
 	ArrayAdapter<Post> adapter;
 	Handler handler;
@@ -34,28 +31,26 @@ public class PostFragment extends Fragment
 	List<Post> posts;
 	PostHolder postsHolder;
 	
-
 	public PostFragment()
 	{
 		handler = new Handler();
 		posts = new ArrayList<Post>();
 	}
 
-	public static Fragment newInstance( String subreddit ) 
+	public static Fragment newInstance(String subreddit) 
 	{
 		PostFragment pf = new PostFragment();
 		pf.subreddit = subreddit;
-		pf.postsHolder = new PostHolder( pf.subreddit);
+		pf.postsHolder = new PostHolder(pf.subreddit);
 
 		return pf;
-
 	}
 
 	@Override
-	public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) 
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{
-		View v = inflater.inflate( R.layout.posts, container, false );
-		postsList = (ListView)v.findViewById( R.id.posts_list );
+		View v = inflater.inflate(R.layout.posts, container, false);
+		postsList = (ListView)v.findViewById(R.id.posts_list);
 
 		return v;
 	}
@@ -81,13 +76,13 @@ public class PostFragment extends Fragment
 		// setRetainInstance(true) method has been called on
 		// this fragment
 
-		if( posts.size() == 0)
+		if (posts.size() == 0)
 		{
-
 			// Must execute network tasks outside the UI
 			// thread. So create a new thread.
 
-			new Thread(){
+			new Thread()
+			{
 				public void run()
 				{
 					posts.addAll(postsHolder.fetchPosts());
@@ -116,34 +111,34 @@ public class PostFragment extends Fragment
 	 */
 	private void createAdapter()
 	{
-
 		// Make sure this fragment is still a part of the activity.
-		if( getActivity() == null ) 
+		if (getActivity() == null) 
 			return;
 
-		adapter = new ArrayAdapter<Post>( getActivity(), R.layout.post_item, posts)
-				{
+		adapter = new ArrayAdapter<Post>(getActivity(), R.layout.post_item, posts)
+		{
 			@Override
-			public View getView( int position, View convertView, ViewGroup parent) 
+			public View getView(int position, View convertView, ViewGroup parent) 
 			{
-				if( convertView == null )
+				if (convertView == null)
 				{
-					convertView=getActivity().getLayoutInflater().inflate( R.layout.post_item, null );
+					convertView = getActivity().getLayoutInflater().inflate(R.layout.post_item, null);
 				}
 
 				TextView postTitle;
 				//ID can be found in post_item.xml
-				postTitle = (TextView)convertView.findViewById( R.id.post_title );
+				postTitle = (TextView)convertView.findViewById(R.id.post_title);
 
 				TextView postDetails;
-				postDetails = (TextView)convertView.findViewById( R.id.post_details );
+				postDetails = (TextView)convertView.findViewById(R.id.post_details);
 
-				postTitle.setText( posts.get( position ).title );
-				postDetails.setText( posts.get( position ).getDetails() );
+				postTitle.setText(posts.get(position).getTitle());
+				postDetails.setText(posts.get(position).getDetails());
 				
 				return convertView;
 			}
-				};
-				postsList.setAdapter( adapter );
+		};
+		postsList.setAdapter(adapter);
 	}
+	
 }

@@ -10,37 +10,36 @@ import javax.xml.parsers.SAXParserFactory;
  * @author ITCuties
  *
  */
-
 public class RssReader 
 {
-	private String rssUrl;
+  private String rssUrl;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param rssUrl
-	 */
-	public RssReader(String rssUrl) 
-	{
-		this.rssUrl = rssUrl;
-	}
+  /**
+   * Constructor
+   * 
+   * @param rssUrl
+   */
+  public RssReader(String rssUrl) 
+  {
+    this.rssUrl = rssUrl;
+  }
 
-	/**
-	 * Get RSS items.
-	 * 
-	 * @return
-	 */
-	public List<RssItem> getItems() throws Exception
-	{
-		// SAX parse RSS data
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		SAXParser saxParser = factory.newSAXParser();
+  /**
+   * Get RSS items.
+   * 
+   * @return
+   */
+  public List<RssItem> getItems() throws Exception
+  {
+    // SAX parse RSS data
+    SAXParserFactory factory = SAXParserFactory.newInstance();
+    SAXParser saxParser = factory.newSAXParser();
 
-		RssParseHandler handler = new RssParseHandler();
-		
-		saxParser.parse(rssUrl, handler);
+    RssParseHandler handler = new RssParseHandler();
+    
+    saxParser.parse(rssUrl, handler);
 
-		return handler.getItems();
-	}
+    return handler.getItems();
+  }
 
 }

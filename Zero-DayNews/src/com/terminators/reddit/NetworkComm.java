@@ -1,4 +1,4 @@
-package com.terminators.main;
+package com.terminators.reddit;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,45 +10,39 @@ import android.util.Log;
 
 /**
  * Utility class that handles network connections
- * @author Brandon
  * @author Hathy
  *
  */
 
 public class NetworkComm
 {
-
-	/**
-	 * Returns a connection to a specified URL.  Has other properties like timeout and 
-	 * user-agent set to the requirements
+  /**
+   * Returns a connection to a specified URL.  Has other properties like timeout and 
+   * user-agent set to the requirements
 	 * @param url
 	 * @return
 	 */
+  public static HttpURLConnection getConnection(String url)
+  {
+    //System.out.println("URL:" + url);
+  	HttpURLConnection hcon = null;
 
-	public static HttpURLConnection getConnection(String url){
-
-		//System.out.println( "URL:" + url );
-		HttpURLConnection hcon = null;
-
-		try {
-
+	  try
+		{
 			hcon = (HttpURLConnection) new URL(url).openConnection();
 			hcon.setReadTimeout(30000); //30 second time-out
 			hcon.setRequestProperty("User-Agent", "FSU SE Project 1.0");
-
 		} 
 		catch (MalformedURLException e) 
 		{
-			Log.e("getConnection()", "Invalid URL: "+ e.toString() );
+			Log.e("getConnection()", "Invalid URL: "+ e.toString());
 		}
-
-		catch ( IOException e) {
-
-			Log.e("getConnection()", "Could not connect: " + e.toString() );
+		catch (IOException e)
+		{
+			Log.e("getConnection()", "Could not connect: " + e.toString());
 		}
 
 		return hcon;
-
 	}
 
 	/**
@@ -57,25 +51,27 @@ public class NetworkComm
 	 * @param url
 	 * @return
 	 */
-	public static String readContents (String url) {
-
+	public static String readContents (String url)
+	{
 		HttpURLConnection hcon = getConnection(url);
-		if( hcon == null ) return null;
-		try{
+		if (hcon == null) return null;
+		try
+		{
 			StringBuffer sb = new StringBuffer(8192);
 			String tmp = "";
-			BufferedReader br = new BufferedReader( new InputStreamReader( hcon.getInputStream() ));
+			BufferedReader br = new BufferedReader(new InputStreamReader(hcon.getInputStream()));
 
-			while( ( tmp=br.readLine() ) != null)
+			while ((tmp = br.readLine()) != null)
 				sb.append(tmp).append("\n");
 
 			br.close();                       
 			return sb.toString();
 		}
-		catch( IOException e )
+		catch (IOException e)
 		{
-			Log.d( "READ FAILED", e.toString() );
+			Log.d("READ FAILED", e.toString());
 			return null;
 		}
-	}//end readContents
+	} //end readContents
+	
 }
