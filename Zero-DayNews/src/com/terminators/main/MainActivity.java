@@ -65,7 +65,7 @@ public class MainActivity extends FragmentActivity
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
   }
-  
+
   @Override
   public void onBackPressed()
   {

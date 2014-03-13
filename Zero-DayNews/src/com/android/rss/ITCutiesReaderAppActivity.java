@@ -75,8 +75,7 @@ public class ITCutiesReaderAppActivity extends Activity
       ListView itcItems = (ListView) findViewById(R.id.listMainView);
 
       // Create a list adapter
-      //ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local,R.id.listMainView, result);
-      ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(local, android.R.layout.simple_list_item_1, result);
+      ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
 
       // Set list adapter for the ListView
       itcItems.setAdapter(adapter);
