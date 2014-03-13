@@ -7,6 +7,7 @@ import com.android.rss.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -68,9 +69,10 @@ public class MainActivity extends FragmentActivity
     
   void addFragment()
   {
-    getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder,
-        PostFragment.newInstance("technology"))
-        .commit();
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+        .add(R.id.fragment_holder, PostFragment.newInstance("technology"));
+    transaction.addToBackStack(null);
+    transaction.commit();
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
   }
@@ -78,8 +80,7 @@ public class MainActivity extends FragmentActivity
   @Override
   public void onBackPressed()
   {
-    View v = findViewById(R.id.posts_list);
-    v.setVisibility(View.GONE);
+    super.onBackPressed();
     rssBtn.setVisibility(View.VISIBLE);
     redditBtn.setVisibility(View.VISIBLE);
   }

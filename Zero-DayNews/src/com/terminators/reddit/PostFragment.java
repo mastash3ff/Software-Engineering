@@ -59,7 +59,7 @@ public class PostFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.post_item);
+		//setContentView(R.layout.posts);
 		setRetainInstance(true);
 	}
 	 
