@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.android.gms.ads.*;
 
@@ -29,10 +32,10 @@ public class MainActivity extends FragmentActivity
 		adView.loadAd(adRequest);
 		
     rssBtn = (Button)findViewById(R.id.rssButton);
-    //rssBtn.setOnClickListener(rssListener);
+    rssBtn.setOnClickListener(rssListener);
     
     redditBtn = (Button)findViewById(R.id.redditButton);
-    //redditBtn.setOnClickListener(redditListener);
+    redditBtn.setOnClickListener(redditListener);
 	}
 
 	//makes use of custom action bar
@@ -45,4 +48,40 @@ public class MainActivity extends FragmentActivity
 	}
 
 
+	
+  OnClickListener rssListener = new OnClickListener()
+	{
+	  public void onClick(View v)
+	  {
+	    Intent intent = new Intent(getApplicationContext(), ITCutiesReaderAppActivity.class);
+	    startActivity(intent);
+	  }
+	};
+	  
+	OnClickListener redditListener = new OnClickListener()
+  {
+    public void onClick(View v)
+	  {
+	    addFragment();
+	  }
+  };
+    
+  void addFragment()
+  {
+    getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder,
+        PostFragment.newInstance("technology"))
+        .commit();
+    rssBtn.setVisibility(View.GONE);
+    redditBtn.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void onBackPressed()
+  {
+    View v = findViewById(R.id.posts_list);
+    v.setVisibility(View.GONE);
+    rssBtn.setVisibility(View.VISIBLE);
+    redditBtn.setVisibility(View.VISIBLE);
+  }
+  
 }

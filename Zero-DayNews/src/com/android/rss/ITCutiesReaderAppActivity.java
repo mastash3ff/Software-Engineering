@@ -64,11 +64,17 @@ public class ITCutiesReaderAppActivity extends Activity
 				// Parse RSS, get items
 				return rssReader.getItems();
 
+
 			}
 			catch (Exception e)
 			{
 				Log.e("RssReader", e.getMessage());
 			}
+
+      RssItem[] result;
+	// Create a list adapter
+      //ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
+
 
 			return null;
 		}
