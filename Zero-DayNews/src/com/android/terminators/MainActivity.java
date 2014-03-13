@@ -40,12 +40,14 @@ public class MainActivity extends FragmentActivity
     adRequest = new AdRequest.Builder().build();
     adView.loadAd(adRequest);
 
-    //TODO uncomment this for social share.  needs specific information.  need to work with later.
-    //Intent sendIntent = new Intent();
-    //sendIntent.setAction(Intent.ACTION_SEND);
-    //sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-    //sendIntent.setType("text/plain");
-    //startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.shareto)));
+    /*
+    TODO uncomment this for social share.  needs specific information.  need to work with later.
+    Intent sendIntent = new Intent();
+    sendIntent.setAction(Intent.ACTION_SEND);
+    sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+    sendIntent.setType("text/plain");
+    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.shareto)));
+     */
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
