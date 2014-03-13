@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.zero_daynews.Activity_action_bar"
+            android:name="com.android.terminators.ZeroDayNews.Activity_action_bar"
             android:label="@string/title_activity_activity_action_bar" >
         </activity>
 
