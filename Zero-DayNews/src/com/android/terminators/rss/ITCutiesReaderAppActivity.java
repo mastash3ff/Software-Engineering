@@ -38,7 +38,7 @@ public class ITCutiesReaderAppActivity extends Activity
     GetRSSDataTask task = new GetRSSDataTask();
 
     // Start download RSS task
-    task.execute("http://feeds.feedburner.com/TechCrunch/");
+    task.execute();
 
     // Debug the thread name
     Log.d("ITCRssReader", Thread.currentThread().getName());
@@ -55,7 +55,7 @@ public class ITCutiesReaderAppActivity extends Activity
       try
       {
         // Create RSS reader
-        RssReader rssReader = new RssReader(urls[0]);
+        RssReader rssReader = new RssReader();
 
         // Parse RSS, get items
         return rssReader.getItems();
@@ -72,7 +72,7 @@ public class ITCutiesReaderAppActivity extends Activity
     protected void onPostExecute(List<RssItem> result)
     {
       // Get a ListView from main view
-      ListView itcItems = (ListView) findViewById(R.id.listMainView);
+      ListView itcItems = (ListView)findViewById(R.id.listMainView);
 
       // Create a list adapter
       ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);

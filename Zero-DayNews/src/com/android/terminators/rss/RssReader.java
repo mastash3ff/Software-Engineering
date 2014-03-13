@@ -1,8 +1,10 @@
 package com.android.terminators.rss;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import com.android.terminators.Feed;
 
 /**
  * Class reads RSS data.
@@ -12,18 +14,6 @@ import javax.xml.parsers.SAXParserFactory;
  */
 public class RssReader 
 {
-  private String rssUrl;
-
-  /**
-   * Constructor
-   * 
-   * @param rssUrl
-   */
-  public RssReader(String rssUrl) 
-  {
-    this.rssUrl = rssUrl;
-  }
-
   /**
    * Get RSS items.
    * 
@@ -31,13 +21,17 @@ public class RssReader
    */
   public List<RssItem> getItems() throws Exception
   {
+    Feed feed = new Feed();
+    Iterator<String> itr = feed.getRssFeed().listIterator();
+    
     // SAX parse RSS data
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
 
     RssParseHandler handler = new RssParseHandler();
     
-    saxParser.parse(rssUrl, handler);
+    while (itr.hasNext())
+      saxParser.parse(itr.next(), handler);
 
     return handler.getItems();
   }

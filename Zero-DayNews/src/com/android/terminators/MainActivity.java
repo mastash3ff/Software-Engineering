@@ -27,6 +27,7 @@ public class MainActivity extends FragmentActivity
   private Button rssBtn, redditBtn;
   private AdView adView;
   private AdRequest adRequest;
+  private Feed feed = new Feed();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
@@ -34,9 +35,11 @@ public class MainActivity extends FragmentActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		/*
 		adView = (AdView)findViewById(R.id.adView);
 		adRequest = new AdRequest.Builder().build();
 		adView.loadAd(adRequest);
+		*/
 		
 		titleTxt = (TextView)findViewById(R.id.appTitle);
 		
