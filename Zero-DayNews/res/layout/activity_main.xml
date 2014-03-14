@@ -33,18 +33,22 @@
         android:id="@+id/redditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rssButton"
         android:layout_margin="10dip"
+        android:layout_below="@+id/rssButton"
         android:layout_centerHorizontal="true"
         android:text="@string/displayReddit" />
 
     <!-- looks might need tweaking -->
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-5178282085023497/1033225563" >
+
     </com.google.android.gms.ads.AdView>
  
 </RelativeLayout>

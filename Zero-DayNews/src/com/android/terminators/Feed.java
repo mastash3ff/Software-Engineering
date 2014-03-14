@@ -2,14 +2,19 @@ package com.android.terminators;
 
 import java.util.ArrayList;
 
+/**
+ * Feed class
+ * @author Derrick
+ */
 public class Feed
 {
   private ArrayList<String> rssFeedList;
   private ArrayList<String> redditFeedList;
   private String techCrunch = "http://feeds.feedburner.com/TechCrunch/";
   private String slashDot = "http://rss.slashdot.org/Slashdot/slashdot/";
-  private String wired = "http://feeds.wired.com/wired27b";
+  private String wired = "http://feeds.wired.com/wired27b/";
   private String technology = "technology";
+  private String science = "science";
   
   public Feed()
   {
@@ -19,6 +24,7 @@ public class Feed
     addRssFeed(slashDot);
     addRssFeed(wired);
     addRedditFeed(technology);
+    addRedditFeed(science);
   }
   
   public ArrayList<String> getRssFeed()

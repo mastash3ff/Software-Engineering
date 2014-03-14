@@ -36,9 +36,11 @@ public class MainActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    /*
     adView = (AdView)findViewById(R.id.adView);
     adRequest = new AdRequest.Builder().build();
     adView.loadAd(adRequest);
+    */
 
     /*
     TODO uncomment this for social share.  needs specific information.  need to work with later.
@@ -72,7 +74,7 @@ public class MainActivity extends FragmentActivity
     MenuItem item = menu.findItem(R.id.menu_item_share);
 
     //Fetch and store ShareActionProvider
-    mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+    // mShareActionProvider = (ShareActionProvider)item.getActionProvider();
 
     //return true to display menu
     return true;
