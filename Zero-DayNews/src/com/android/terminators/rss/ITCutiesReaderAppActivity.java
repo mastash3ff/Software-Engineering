@@ -84,5 +84,4 @@ public class ITCutiesReaderAppActivity extends Activity
       itcItems.setOnItemClickListener(new ListListener(result, local));
     }
   }
-
 }
