@@ -15,7 +15,7 @@ public class Feed
   private String wired = "http://feeds.wired.com/wired27b/";
   private String technology = "technology";
   private String science = "science";
-  
+
   public Feed()
   {
     rssFeedList = new ArrayList<String>();
@@ -26,25 +26,25 @@ public class Feed
     addRedditFeed(technology);
     addRedditFeed(science);
   }
-  
+
   public ArrayList<String> getRssFeed()
   {
     return rssFeedList;
   }
-  
+
   public ArrayList<String> getRedditFeed()
   {
     return redditFeedList;
   }
-  
+
   public void addRssFeed(String feed)
   {
     rssFeedList.add(feed);
   }
-  
+
   public void addRedditFeed(String feed)
   {
     redditFeedList.add(feed);
   }
-  
+
 }

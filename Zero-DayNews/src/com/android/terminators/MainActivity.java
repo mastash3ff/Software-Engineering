@@ -110,7 +110,7 @@ public class MainActivity extends FragmentActivity
   void addFragment()
   {
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-        .add(R.id.fragment_holder, PostFragment.newInstance("technology"));
+        .add(R.id.fragment_holder, PostFragment.newInstance());
     transaction.addToBackStack(null);
     transaction.commit();
     titleTxt.setVisibility(View.GONE);
@@ -178,4 +178,5 @@ public class MainActivity extends FragmentActivity
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
   }
+
 }

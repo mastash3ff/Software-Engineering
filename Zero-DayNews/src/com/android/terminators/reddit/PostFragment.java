@@ -22,130 +22,125 @@ import java.util.List;
  */
 public class PostFragment extends Fragment
 {
-	ListView postsList;
-	ArrayAdapter<Post> adapter;
-	Handler handler;
+  ListView postsList;
+  ArrayAdapter<Post> adapter;
+  Handler handler;
+  List<Post> posts;
+  PostHolder postsHolder;
 
-	String subreddit;
-	List<Post> posts;
-	PostHolder postsHolder;
-	
-	public PostFragment()
-	{
-		handler = new Handler();
-		posts = new ArrayList<Post>();
-	}
+  public PostFragment()
+  {
+    handler = new Handler();
+    posts = new ArrayList<Post>();
+  }
 
-	public static Fragment newInstance(String subreddit) 
-	{
-		PostFragment pf = new PostFragment();
-		pf.subreddit = subreddit;
-		pf.postsHolder = new PostHolder(pf.subreddit);
-		return pf;
-	}
+  public static Fragment newInstance() 
+  {
+    PostFragment pf = new PostFragment();
+    pf.postsHolder = new PostHolder();
+    return pf;
+  }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-	{
-		View v = inflater.inflate(R.layout.posts, container, false);
-		postsList = (ListView)v.findViewById(R.id.posts_list);
-		return v;
-	}
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+  {
+    View v = inflater.inflate(R.layout.posts, container, false);
+    postsList = (ListView)v.findViewById(R.id.posts_list);
+    return v;
+  }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.posts);
-		setRetainInstance(true);
-	}
-	 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
-	{   
-		super.onActivityCreated(savedInstanceState);
-		initialize();
-	}
+  @Override
+  public void onCreate(Bundle savedInstanceState)
+  {
+    super.onCreate(savedInstanceState);
+    //setContentView(R.layout.posts);
+    setRetainInstance(true);
+  }
 
-	private void initialize() 
-	{
-		// This should run only once for the fragment as the
-		// setRetainInstance(true) method has been called on
-		// this fragment
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState)
+  {   
+    super.onActivityCreated(savedInstanceState);
+    initialize();
+  }
 
-		if (posts.size() == 0)
-		{
-			// Must execute network tasks outside the UI
-			// thread. So create a new thread.
+  private void initialize() 
+  {
+    // This should run only once for the fragment as the
+    // setRetainInstance(true) method has been called on
+    // this fragment
 
-			new Thread()
-			{
-				public void run()
-				{
-				  Feed feed = new Feed();
-				  Iterator<String> itr = feed.getRedditFeed().listIterator();
-				  
-				  posts.addAll(postsHolder.fetchPosts());
-				  
-				  while (itr.hasNext())
-				  {
-				    postsHolder = new PostHolder(itr.next());
-					  posts.addAll(postsHolder.fetchPosts());
-				  }
+    if (posts.size() == 0)
+    {
+      // Must execute network tasks outside the UI
+      // thread. So create a new thread.
 
-					// UI elements should be accessed only in
-					// the primary thread, so we must use the
-					// handler here.
+      new Thread()
+      {
+        public void run()
+        {
+          Feed feed = new Feed();
+          Iterator<String> itr = feed.getRedditFeed().listIterator();
 
-					handler.post(new Runnable()
-					{
-						public void run()
-						{
-							createAdapter();
-						}
-					});
-				}
-			}.start();
-		}
-		else
-		{
-			createAdapter();
-		}
-	}
+          while (itr.hasNext())
+          {
+            postsHolder.setSubReddit(itr.next());
+            posts.addAll(postsHolder.fetchMorePosts());
+          }
 
-	/**
-	 * This method creates the adapter from the list of posts and assigns it to the list.
-	 */
-	private void createAdapter()
-	{
-		// Make sure this fragment is still a part of the activity.
-		if (getActivity() == null) 
-			return;
+          // UI elements should be accessed only in
+          // the primary thread, so we must use the
+          // handler here.
 
-		adapter = new ArrayAdapter<Post>(getActivity(), R.layout.post_item, posts)
-		{
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) 
-			{
-				if (convertView == null)
-				{
-					convertView = getActivity().getLayoutInflater().inflate(R.layout.post_item, null);
-				}
+          handler.post(new Runnable()
+          {
+            public void run()
+            {
+              createAdapter();
+            }
+          });
+        }
+      }.start();
+    }
+    else
+    {
+      createAdapter();
+    }
+  }
 
-				TextView postTitle;
-				//ID can be found in post_item.xml
-				postTitle = (TextView)convertView.findViewById(R.id.post_title);
+  /**
+   * This method creates the adapter from the list of posts and assigns it to the list.
+   */
+  private void createAdapter()
+  {
+    // Make sure this fragment is still a part of the activity.
+    if (getActivity() == null) 
+      return;
 
-				TextView postDetails;
-				postDetails = (TextView)convertView.findViewById(R.id.post_details);
+    adapter = new ArrayAdapter<Post>(getActivity(), R.layout.post_item, posts)
+        {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) 
+      {
+        if (convertView == null)
+        {
+          convertView = getActivity().getLayoutInflater().inflate(R.layout.post_item, null);
+        }
 
-				postTitle.setText(posts.get(position).getTitle());
-				postDetails.setText(posts.get(position).getDetails());
-				
-				return convertView;
-			}
-		};
-		postsList.setAdapter(adapter);
-	}
-	
+        TextView postTitle;
+        //ID can be found in post_item.xml
+        postTitle = (TextView)convertView.findViewById(R.id.post_title);
+
+        TextView postDetails;
+        postDetails = (TextView)convertView.findViewById(R.id.post_details);
+
+        postTitle.setText(posts.get(position).getTitle());
+        postDetails.setText(posts.get(position).getDetails());
+
+        return convertView;
+      }
+        };
+        postsList.setAdapter(adapter);
+  }
+
 }
