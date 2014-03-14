@@ -1,5 +1,6 @@
 package com.android.terminators.reddit;
 
+import com.android.terminators.Feed;
 import com.android.terminators.ZeroDayNews.R;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -80,7 +82,16 @@ public class PostFragment extends Fragment
 			{
 				public void run()
 				{
-					posts.addAll(postsHolder.fetchPosts());
+				  Feed feed = new Feed();
+				  Iterator<String> itr = feed.getRedditFeed().listIterator();
+				  
+				  posts.addAll(postsHolder.fetchPosts());
+				  
+				  while (itr.hasNext())
+				  {
+				    postsHolder = new PostHolder(itr.next());
+					  posts.addAll(postsHolder.fetchPosts());
+				  }
 
 					// UI elements should be accessed only in
 					// the primary thread, so we must use the
