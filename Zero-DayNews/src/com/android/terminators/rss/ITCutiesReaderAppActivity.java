@@ -1,5 +1,6 @@
 package com.android.terminators.rss;
 
+import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -81,7 +82,7 @@ public class ITCutiesReaderAppActivity extends Activity
       itcItems.setAdapter(adapter);
 
       // Set list view item click listener
-      itcItems.setOnItemClickListener(new ListListener(result, local));
+      itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
     }
   }
 }

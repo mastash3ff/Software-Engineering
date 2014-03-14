@@ -1,7 +1,9 @@
 package com.android.terminators.reddit;
 
 import com.android.terminators.Feed;
+import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -137,6 +139,7 @@ public class PostFragment extends Fragment
       }
     };
     postsList.setAdapter(adapter);
+    postsList.setOnItemClickListener(new ListListener<Post>(posts, getActivity()));
   }
 
 }

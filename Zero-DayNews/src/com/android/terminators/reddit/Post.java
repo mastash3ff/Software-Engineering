@@ -64,6 +64,11 @@ public class Post
     return url;
   }
   
+  public String getLink()
+  {
+    return url;
+  }
+  
   public void setUrl(String url)
   {
     this.url = url;

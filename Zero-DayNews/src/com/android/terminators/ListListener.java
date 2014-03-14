@@ -1,6 +1,10 @@
-package com.android.terminators.rss;
+package com.android.terminators;
 
 import java.util.List;
+
+import com.android.terminators.reddit.Post;
+import com.android.terminators.rss.RssItem;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,20 +19,20 @@ import android.widget.AdapterView.OnItemClickListener;
  *
  */
 
-public class ListListener implements OnItemClickListener
+public class ListListener<T> implements OnItemClickListener
 {
   // List item's reference
-  private List<RssItem> listItems;
+  private List<T> listItems;
   // Calling activity reference
   private Activity activity;
 
-  public ListListener(List<RssItem> aListItems, Activity anActivity)
+  public ListListener(List<T> aListItems, Activity anActivity)
   {
     listItems = aListItems;
     activity  = anActivity;
   }
   
-  public List<RssItem> getRssList()
+  public List<T> getList()
   {
     return listItems;
   }
@@ -39,7 +43,10 @@ public class ListListener implements OnItemClickListener
   public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
   {
     Intent i = new Intent(Intent.ACTION_VIEW);
-    i.setData(Uri.parse(getRssList().get(pos).getLink()));
+    if (getList().get(0) instanceof RssItem)
+      i.setData(Uri.parse(((RssItem)getList().get(pos)).getLink()));
+    else if (getList().get(0) instanceof Post)
+      i.setData(Uri.parse(((Post)getList().get(pos)).getLink()));
     activity.startActivity(i);
   }
   
