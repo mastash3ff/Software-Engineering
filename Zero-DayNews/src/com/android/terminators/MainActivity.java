@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -117,6 +116,7 @@ public class MainActivity extends FragmentActivity
     titleTxt.setVisibility(View.GONE);
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
+    adView.setVisibility(View.GONE);
   }
 
   @Override
@@ -126,6 +126,7 @@ public class MainActivity extends FragmentActivity
     titleTxt.setVisibility(View.VISIBLE);
     rssBtn.setVisibility(View.VISIBLE);
     redditBtn.setVisibility(View.VISIBLE);
+    adView.setVisibility(View.VISIBLE);
   }
 
   @Override
@@ -163,7 +164,7 @@ public class MainActivity extends FragmentActivity
 
     // Add the AdView to the view hierarchy. The view will have no size
     // until the ad is loaded.
-    RelativeLayout layout = (RelativeLayout) findViewById(R.id.fragment_holder);
+    RelativeLayout layout = (RelativeLayout)findViewById(R.id.fragment_holder);
     layout.addView(adView);
 
     // Create an ad request. Check logcat output for the hashed device ID to
