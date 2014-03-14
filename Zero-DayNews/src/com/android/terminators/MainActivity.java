@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -168,10 +169,10 @@ public class MainActivity extends FragmentActivity
     // Create an ad request. Check logcat output for the hashed device ID to
     // get test ads on a physical device.
     AdRequest adRequest = new AdRequest.Builder()
-    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+      .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
     //brandon's emulator test device might need to change to ** if you get problems
-    .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
-    .build();
+      .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+      .build();
 
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
