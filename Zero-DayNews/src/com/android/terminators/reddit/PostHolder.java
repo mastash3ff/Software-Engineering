@@ -19,9 +19,9 @@ public class PostHolder
   private final String URL_TEMPLATE = "http://www.reddit.com/r/SUBREDDIT_NAME/" +
       ".json" + "?after=AFTER";
 
-  String subreddit;
-  String url;
-  String after = "";
+  private String subreddit;
+  private String url;
+  private String after = "";
 
   public void setSubReddit(String sr)
   {
@@ -64,16 +64,16 @@ public class PostHolder
         JSONObject cur = children.getJSONObject(i).getJSONObject("data");
 
         Post p = new Post();
-        p.title = cur.optString("title");
-        p.url = cur.optString("url");
-        p.author = cur.optString("author");
-        p.subreddit = cur.optString("subreddit");
-        p.permalink = cur.optString("permalink");
-        p.domain = cur.optString("domain");
-        p.id = cur.optString("id");
-        p.body = cur.optString("body");
+        p.setTitle(cur.optString("title"));
+        p.setUrl(cur.optString("url"));
+        p.setAuthor(cur.optString("author"));
+        p.setSubreddit(cur.optString("subreddit"));
+        p.setPermalink(cur.optString("permalink"));
+        p.setDomain(cur.optString("domain"));
+        p.setId(cur.optString("id"));
+        p.setBodyText(cur.optString("body"));
 
-        if(p.title != null)
+        if(p.getTitle() != null)
           list.add(p);
       }
     }

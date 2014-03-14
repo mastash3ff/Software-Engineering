@@ -22,11 +22,11 @@ import java.util.List;
  */
 public class PostFragment extends Fragment
 {
-  ListView postsList;
-  ArrayAdapter<Post> adapter;
-  Handler handler;
-  List<Post> posts;
-  PostHolder postsHolder;
+  private ListView postsList;
+  private ArrayAdapter<Post> adapter;
+  private Handler handler;
+  private List<Post> posts;
+  private PostHolder postsHolder;
 
   public PostFragment()
   {
@@ -103,9 +103,7 @@ public class PostFragment extends Fragment
       }.start();
     }
     else
-    {
       createAdapter();
-    }
   }
 
   /**
@@ -123,9 +121,7 @@ public class PostFragment extends Fragment
       public View getView(int position, View convertView, ViewGroup parent) 
       {
         if (convertView == null)
-        {
           convertView = getActivity().getLayoutInflater().inflate(R.layout.post_item, null);
-        }
 
         TextView postTitle;
         //ID can be found in post_item.xml

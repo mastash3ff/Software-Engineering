@@ -18,14 +18,19 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ListListener implements OnItemClickListener
 {
   // List item's reference
-  List<RssItem> listItems;
+  private List<RssItem> listItems;
   // Calling activity reference
-  Activity activity;
+  private Activity activity;
 
   public ListListener(List<RssItem> aListItems, Activity anActivity)
   {
     listItems = aListItems;
     activity  = anActivity;
+  }
+  
+  public List<RssItem> getRssList()
+  {
+    return listItems;
   }
 
   /**
@@ -34,7 +39,7 @@ public class ListListener implements OnItemClickListener
   public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
   {
     Intent i = new Intent(Intent.ACTION_VIEW);
-    i.setData(Uri.parse(listItems.get(pos).getLink()));
+    i.setData(Uri.parse(getRssList().get(pos).getLink()));
     activity.startActivity(i);
   }
   
@@ -46,10 +51,5 @@ public class ListListener implements OnItemClickListener
     activity.startActivity(i);
   }
   */
-  
-  public List<RssItem> getRssList()
-  {
-    return listItems;
-  }
 
 }
