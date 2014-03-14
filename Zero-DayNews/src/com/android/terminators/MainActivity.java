@@ -12,11 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 /**
@@ -30,7 +27,6 @@ public class MainActivity extends FragmentActivity
   private TextView titleTxt;
   private Button rssBtn, redditBtn;
   private AdView adView;
-  private ShareActionProvider mShareActionProvider;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
 
   @Override
@@ -59,14 +55,21 @@ public class MainActivity extends FragmentActivity
     inflater.inflate(R.menu.activity_action_bar, menu);
     return super.onCreateOptionsMenu(menu);
   }
-
-  //used to update shareintent
-  private void setShareIntent (Intent shareIntent)
+  
+  public void hideElements()
   {
-    if (mShareActionProvider != null) 
-    {
-      mShareActionProvider.setShareIntent(shareIntent);
-    }
+    titleTxt.setVisibility(View.GONE);
+    rssBtn.setVisibility(View.GONE);
+    redditBtn.setVisibility(View.GONE);
+    adView.setVisibility(View.GONE);
+  }
+  
+  public void showElements()
+  {
+    titleTxt.setVisibility(View.VISIBLE);
+    rssBtn.setVisibility(View.VISIBLE);
+    redditBtn.setVisibility(View.VISIBLE);
+    adView.setVisibility(View.VISIBLE);
   }
 
   OnClickListener rssListener = new OnClickListener()
@@ -82,30 +85,19 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      addFragment();
+      FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+        .add(R.id.fragment_holder, PostFragment.newInstance());
+      transaction.addToBackStack(null);
+      transaction.commit();
+      hideElements();
     }
   };
-
-  void addFragment()
-  {
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-        .add(R.id.fragment_holder, PostFragment.newInstance());
-    transaction.addToBackStack(null);
-    transaction.commit();
-    titleTxt.setVisibility(View.GONE);
-    rssBtn.setVisibility(View.GONE);
-    redditBtn.setVisibility(View.GONE);
-    adView.setVisibility(View.GONE);
-  }
 
   @Override
   public void onBackPressed()
   {
     super.onBackPressed();
-    titleTxt.setVisibility(View.VISIBLE);
-    rssBtn.setVisibility(View.VISIBLE);
-    redditBtn.setVisibility(View.VISIBLE);
-    adView.setVisibility(View.VISIBLE);
+    showElements();
   }
 
   @Override
@@ -156,10 +148,9 @@ public class MainActivity extends FragmentActivity
     // Create an ad request. Check logcat output for the hashed device ID to
     // get test ads on a physical device.
     AdRequest adRequest = new AdRequest.Builder()
-    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-    //brandon's emulator test device might need to change to ** if you get problems
-    .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
-    .build();
+      .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+      .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+      .build();
 
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
