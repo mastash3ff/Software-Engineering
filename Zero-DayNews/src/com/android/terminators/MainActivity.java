@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,10 +36,10 @@ public class MainActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         addAd();
 
-    /*
+        /*
     TODO uncomment this for social share.  needs specific information.  need to work with later.
     Intent sendIntent = new Intent();
     sendIntent.setAction(Intent.ACTION_SEND);
@@ -66,7 +65,6 @@ public class MainActivity extends FragmentActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
-
         /* used for Share
     inflate menu resource file
     getMenuInflater().inflate(R.menu.activity_action_bar, menu);
@@ -135,18 +133,14 @@ public class MainActivity extends FragmentActivity
     {
         super.onResume();
         if (adView != null) 
-        {
             adView.resume();
-        }
     }
 
     @Override
     public void onPause() 
     {
         if (adView != null)
-        {
             adView.pause();
-        }
         super.onPause();
     }
 
@@ -156,9 +150,7 @@ public class MainActivity extends FragmentActivity
     {
         // Destroy the AdView.
         if (adView != null)
-        {
             adView.destroy();
-        }
         super.onDestroy();
     }
 
@@ -177,14 +169,12 @@ public class MainActivity extends FragmentActivity
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device.
         AdRequest adRequest = new AdRequest.Builder()
-            .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-            //brandon's emulator test device might need to change to ** if you get problems
-            .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
-            .build();
+        .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+        //brandon's emulator test device might need to change to ** if you get problems
+        .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+        .build();
 
         // Start loading the ad in the background.
         adView.loadAd(adRequest);
-        
-        
     }
 }
