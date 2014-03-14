@@ -165,7 +165,14 @@ public class MainActivity extends FragmentActivity
     // Add the AdView to the view hierarchy. The view will have no size
     // until the ad is loaded.
     RelativeLayout layout = (RelativeLayout)findViewById(R.id.fragment_holder);
-    layout.addView(adView);
+    
+    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+      RelativeLayout.LayoutParams.WRAP_CONTENT,
+      RelativeLayout.LayoutParams.WRAP_CONTENT);
+    
+    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+    params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+    layout.addView(adView, params);
 
     // Create an ad request. Check logcat output for the hashed device ID to
     // get test ads on a physical device.
