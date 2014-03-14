@@ -106,8 +106,7 @@ public class Post
   
   public String getDetails() 
   {
-    String details = author + "posted this";
-    return details;
+    return "Posted in /r/" + getSubreddit();
   }
 
 }

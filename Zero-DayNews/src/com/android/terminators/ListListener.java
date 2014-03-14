@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.android.terminators.reddit.Post;
 import com.android.terminators.rss.RssItem;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
