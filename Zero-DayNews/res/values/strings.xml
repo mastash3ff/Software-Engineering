@@ -4,10 +4,10 @@
     <string name="app_name">Zero Day News</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_activity_action_bar">Activity_action_bar</string>
-    <color name="Grey">#f7f9f6</color>
     <string name="displayRSS">Display RSS Feeds</string>
     <string name="displayReddit">Display Reddit Feeds</string>
     <string name="share">Share</string>
-    <string name="shareto">Share to...</string>
+    <string name="shareto">Share to…</string>
+    <string name="addNewFeed">Add New Feed</string>
 
 </resources>

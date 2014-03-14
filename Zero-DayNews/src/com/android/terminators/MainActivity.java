@@ -4,6 +4,9 @@ import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
 import com.google.android.gms.ads.*;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,7 +29,7 @@ import android.widget.TextView;
 public class MainActivity extends FragmentActivity
 {
   private TextView titleTxt;
-  private Button rssBtn, redditBtn;
+  private Button rssBtn, redditBtn, addFeedBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
 
@@ -44,6 +48,9 @@ public class MainActivity extends FragmentActivity
 
     redditBtn = (Button)findViewById(R.id.redditButton);
     redditBtn.setOnClickListener(redditListener);
+    
+    addFeedBtn = (Button)findViewById(R.id.addFeedButton);
+    addFeedBtn.setOnClickListener(addFeedListener);
   }
 
   //makes use of custom action bar
@@ -62,6 +69,7 @@ public class MainActivity extends FragmentActivity
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
     adView.setVisibility(View.GONE);
+    addFeedBtn.setVisibility(View.GONE);
   }
   
   public void showElements()
@@ -70,6 +78,7 @@ public class MainActivity extends FragmentActivity
     rssBtn.setVisibility(View.VISIBLE);
     redditBtn.setVisibility(View.VISIBLE);
     adView.setVisibility(View.VISIBLE);
+    addFeedBtn.setVisibility(View.VISIBLE);
   }
 
   OnClickListener rssListener = new OnClickListener()
@@ -90,6 +99,36 @@ public class MainActivity extends FragmentActivity
       transaction.addToBackStack(null);
       transaction.commit();
       hideElements();
+    }
+  };
+  
+  OnClickListener addFeedListener = new OnClickListener()
+  {
+    public void onClick(View v)
+    {
+      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+      builder.setTitle("Add New Feed");
+      builder.setMessage("Enter new feed and select type:");
+      final EditText input = new EditText(MainActivity.this);
+      builder.setView(input);
+      builder.setPositiveButton("Reddit Feed", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          String newFeed = input.getText().toString();
+          Feed.getFeed().addRedditFeed(newFeed);
+        }
+      });
+      builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          String newFeed = input.getText().toString();
+          Feed.getFeed().addRssFeed(newFeed);
+        }
+      });
+      AlertDialog dialog = builder.create();
+      dialog.show();
     }
   };
 

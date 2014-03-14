@@ -37,4 +37,13 @@
         android:layout_margin="10dip"
         android:text="@string/displayReddit" />
 
+     <Button
+         android:id="@+id/addFeedButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/redditButton"
+         android:layout_centerHorizontal="true"
+         android:layout_margin="10dip"
+         android:text="@string/addNewFeed" />
+
 </RelativeLayout>

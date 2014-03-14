@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Feed
 {
+  private static Feed feed = null;
   private ArrayList<String> rssFeedList;
   private ArrayList<String> redditFeedList;
   private String techCrunch = "http://feeds.feedburner.com/TechCrunch/";
@@ -25,6 +26,14 @@ public class Feed
     addRssFeed(wired);
     addRedditFeed(technology);
     addRedditFeed(science);
+  }
+  
+  public static Feed getFeed()
+  {
+    // Singleton pattern
+    if (feed == null)
+      feed = new Feed();
+    return feed;
   }
 
   public ArrayList<String> getRssFeed()

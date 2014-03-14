@@ -21,8 +21,7 @@ public class RssReader
    */
   public List<RssItem> getItems() throws Exception
   {
-    Feed feed = new Feed();
-    Iterator<String> itr = feed.getRssFeed().listIterator();
+    Iterator<String> itr = Feed.getFeed().getRssFeed().listIterator();
     
     // SAX parse RSS data
     SAXParserFactory factory = SAXParserFactory.newInstance();
