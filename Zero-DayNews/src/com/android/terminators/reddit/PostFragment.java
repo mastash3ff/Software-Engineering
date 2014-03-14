@@ -118,7 +118,7 @@ public class PostFragment extends Fragment
       return;
 
     adapter = new ArrayAdapter<Post>(getActivity(), R.layout.post_item, posts)
-        {
+    {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) 
       {
@@ -139,8 +139,8 @@ public class PostFragment extends Fragment
 
         return convertView;
       }
-        };
-        postsList.setAdapter(adapter);
+    };
+    postsList.setAdapter(adapter);
   }
 
 }

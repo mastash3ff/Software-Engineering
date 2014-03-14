@@ -59,7 +59,6 @@ public class PostHolder
       //posts from the same subreddit
       after = data.getString("after");
 
-      //TODO change 5 or 'children.length()' to display how many reddit posts are displayed
       for (int i = 0; i < children.length(); i++)
       {
         JSONObject cur = children.getJSONObject(i).getJSONObject("data");

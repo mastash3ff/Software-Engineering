@@ -37,14 +37,16 @@ public class ListListener implements OnItemClickListener
     i.setData(Uri.parse(listItems.get(pos).getLink()));
     activity.startActivity(i);
   }
-/*
+  
+  /*
   public void onItemLongClick(AdapterView<?> parent, View view, int pos, long id)
   {
     Intent i = new Intent(Intent.ACTION_SEND);
     i.setData(Uri.parse(listItems.get(pos).getLink()));
     activity.startActivity(i);
   }
-*/
+  */
+  
   public List<RssItem> getRssList()
   {
     return listItems;
