@@ -66,8 +66,6 @@ public class MainActivity extends FragmentActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
-        
-
 
         /* used for Share
     inflate menu resource file
@@ -119,6 +117,7 @@ public class MainActivity extends FragmentActivity
         titleTxt.setVisibility(View.GONE);
         rssBtn.setVisibility(View.GONE);
         redditBtn.setVisibility(View.GONE);
+        adView.setVisibility(View.GONE);
     }
 
     @Override
@@ -128,6 +127,7 @@ public class MainActivity extends FragmentActivity
         titleTxt.setVisibility(View.VISIBLE);
         rssBtn.setVisibility(View.VISIBLE);
         redditBtn.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.VISIBLE);
     }
 
     @Override
