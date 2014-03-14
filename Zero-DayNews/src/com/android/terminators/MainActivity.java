@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -42,15 +41,6 @@ public class MainActivity extends FragmentActivity
 
     addAd();
 
-    /*
-    TODO uncomment this for social share.  needs specific information.  need to work with later.
-    Intent sendIntent = new Intent();
-    sendIntent.setAction(Intent.ACTION_SEND);
-    sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-    sendIntent.setType("text/plain");
-    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.shareto)));
-     */
-
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
     rssBtn = (Button)findViewById(R.id.rssButton);
@@ -68,20 +58,6 @@ public class MainActivity extends FragmentActivity
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.activity_action_bar, menu);
     return super.onCreateOptionsMenu(menu);
-
-    /* used for Share
-    inflate menu resource file
-    getMenuInflater().inflate(R.menu.activity_action_bar, menu);
-
-    Locate MenuItem with ShareActionProvider
-    MenuItem item = menu.findItem(R.id.menu_item_share);
-
-    Fetch and store ShareActionProvider
-    mShareActionProvider = (ShareActionProvider) item.getActionProvider();
-
-    return true to display menu
-    return true;
-     */
   }
 
   //used to update shareintent
@@ -113,7 +89,7 @@ public class MainActivity extends FragmentActivity
   void addFragment()
   {
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-        .add(R.id.fragment_holder, PostFragment.newInstance("technology"));
+        .add(R.id.fragment_holder, PostFragment.newInstance());
     transaction.addToBackStack(null);
     transaction.commit();
     titleTxt.setVisibility(View.GONE);
@@ -188,4 +164,5 @@ public class MainActivity extends FragmentActivity
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
   }
+
 }
