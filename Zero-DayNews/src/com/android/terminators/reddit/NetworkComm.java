@@ -24,14 +24,13 @@ public class NetworkComm
 	 */
   public static HttpURLConnection getConnection(String url)
   {
-    //System.out.println("URL:" + url);
   	HttpURLConnection hcon = null;
 
 	  try
 		{
 			hcon = (HttpURLConnection) new URL(url).openConnection();
 			hcon.setReadTimeout(30000); //30 second time-out
-			hcon.setRequestProperty("User-Agent", "FSU SE Project 1.0");
+			hcon.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 4.4.2");
 		} 
 		catch (MalformedURLException e) 
 		{
