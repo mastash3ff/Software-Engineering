@@ -3,6 +3,9 @@ package com.android.terminators.reddit;
 import com.android.terminators.Feed;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -136,7 +139,11 @@ public class PostFragment extends Fragment
         return convertView;
       }
     };
-    postsList.setAdapter(adapter);
+    //postsList.setAdapter(adapter);
+    AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(adapter);
+    animationAdapter.setAbsListView(postsList);
+    postsList.setAdapter(animationAdapter);
+    
     postsList.setOnItemClickListener(new ListListener<Post>(posts, getActivity()));
     postsList.setOnItemLongClickListener(new ListListener<Post>(posts, getActivity()));
   }
