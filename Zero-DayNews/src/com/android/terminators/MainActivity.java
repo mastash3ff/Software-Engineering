@@ -1,5 +1,6 @@
 package com.android.terminators;
 
+import java.util.Iterator;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
@@ -28,7 +29,7 @@ import android.widget.TextView;
 public class MainActivity extends FragmentActivity
 {
   private TextView titleTxt;
-  private Button rssBtn, redditBtn, addFeedBtn;
+  private Button rssBtn, redditBtn, addFeedBtn, configureFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
 
@@ -50,6 +51,9 @@ public class MainActivity extends FragmentActivity
     
     addFeedBtn = (Button)findViewById(R.id.addFeedButton);
     addFeedBtn.setOnClickListener(addFeedListener);
+    
+    configureFeedsBtn = (Button)findViewById(R.id.configureFeedsButton);
+    configureFeedsBtn.setOnClickListener(configureFeedsListener);
   }
 
   //makes use of custom action bar
@@ -69,6 +73,7 @@ public class MainActivity extends FragmentActivity
     redditBtn.setVisibility(View.GONE);
     adView.setVisibility(View.GONE);
     addFeedBtn.setVisibility(View.GONE);
+    configureFeedsBtn.setVisibility(View.GONE);
   }
   
   public void showElements()
@@ -78,6 +83,7 @@ public class MainActivity extends FragmentActivity
     redditBtn.setVisibility(View.VISIBLE);
     adView.setVisibility(View.VISIBLE);
     addFeedBtn.setVisibility(View.VISIBLE);
+    configureFeedsBtn.setVisibility(View.VISIBLE);
   }
 
   OnClickListener rssListener = new OnClickListener()
@@ -122,6 +128,45 @@ public class MainActivity extends FragmentActivity
         public void onClick(DialogInterface dialog, int id)
         {
           FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
+        }
+      });
+      AlertDialog dialog = builder.create();
+      dialog.show();
+    }
+  };
+  
+  OnClickListener configureFeedsListener = new OnClickListener()
+  {
+    public void onClick(View v)
+    {
+      //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
+      CharSequence[] items = new CharSequence[FeedManager.getFeed().getRedditFeedList().size()];
+      Iterator<Feed> itr = FeedManager.getFeed().getRedditFeedList().listIterator();
+      Feed feed = null;
+      boolean[] checkedItems = new boolean[FeedManager.getFeed().getRedditFeedList().size()];
+      for (int i = 0; itr.hasNext(); ++i)
+      {
+        feed = itr.next();
+        items[i] = feed.toString();
+        checkedItems[i] = feed.isEnabled();
+      }
+      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+      builder.setTitle("Configure Feeds:");
+      builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id, boolean isChecked)
+        {
+          if (isChecked)
+            FeedManager.getFeed().getRedditFeed(id).enableFeed();
+          else if (!isChecked)
+            FeedManager.getFeed().getRedditFeed(id).disableFeed();
+        }
+      })
+      .setPositiveButton("OK", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          dialog.dismiss();
         }
       });
       AlertDialog dialog = builder.create();

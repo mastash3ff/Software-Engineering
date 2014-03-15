@@ -82,12 +82,17 @@ public class PostFragment extends Fragment
       {
         public void run()
         {
-          Iterator<Feed> itr = FeedManager.getFeed().getRedditFeed().listIterator();
+          // Iterator<Feed> itr = FeedManager.getFeed().getRedditFeedList().listIterator();
+          FeedManager feedManager = FeedManager.getFeed();
 
-          while (itr.hasNext())
+          //TODO: current ugly.  might need to add a custom iterator function for type List<Post>
+          for (int i = 0; i < feedManager.getRedditFeedList().size(); ++i)
           {
-            postsHolder.setSubReddit(itr.next().toString());
-            posts.addAll(postsHolder.fetchMorePosts());
+            if (feedManager.getRedditFeed(i).isEnabled())
+            {
+              postsHolder.setSubReddit(feedManager.getRedditFeed(i).toString());
+              posts.addAll(postsHolder.fetchMorePosts());
+            }
           }
 
           // UI elements should be accessed only in

@@ -60,7 +60,7 @@ public class PostHolder
       after = data.getString("after");
 
       for (int i = 0; i < children.length(); i++)
-      {
+      {        
         JSONObject cur = children.getJSONObject(i).getJSONObject("data");
 
         Post p = new Post();
