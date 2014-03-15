@@ -3,6 +3,7 @@
     android:id="@+id/fragment_holder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightblue"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -21,6 +22,7 @@
 
     <Button
         android:id="@+id/rssButton"
+        style="@style/lightboxButton.Blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appTitle"
@@ -28,22 +30,27 @@
         android:layout_marginTop="20dip"
         android:text="@string/displayRSS" />
 
-    <Button
-        android:id="@+id/redditButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rssButton"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dip"
-        android:text="@string/displayReddit" />
-
      <Button
          android:id="@+id/addFeedButton"
+         style="@style/lightboxButton.Blue"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/redditButton"
          android:layout_below="@+id/redditButton"
-         android:layout_centerHorizontal="true"
          android:layout_margin="10dip"
+         android:layout_marginTop="54dp"
          android:text="@string/addNewFeed" />
+
+     <Button
+         android:id="@+id/redditButton"
+         style="@style/lightboxButton.Blue"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/rssButton"
+         android:layout_alignRight="@+id/rssButton"
+         android:layout_below="@+id/rssButton"
+         android:layout_margin="10dip"
+         android:layout_marginTop="15dp"
+         android:text="@string/displayReddit" />
 
 </RelativeLayout>
