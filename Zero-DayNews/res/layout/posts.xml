@@ -5,18 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-     <!--  
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-5178282085023497/1033225563" 
-        >
-    </com.google.android.gms.ads.AdView>
-   -->  
-    
-    
     <ListView
         android:id="@+id/posts_list"
         android:layout_width="match_parent"
