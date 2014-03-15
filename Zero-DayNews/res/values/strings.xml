@@ -7,6 +7,6 @@
     <string name="displayRSS">Display RSS Feeds</string>
     <string name="displayReddit">Display Reddit Feeds</string>
     <string name="addNewFeed">Add New Feed</string>
-    <string name="lightblue">#009dde</string>
+    <color name="lightblue">#009dde</color>
 
 </resources>
