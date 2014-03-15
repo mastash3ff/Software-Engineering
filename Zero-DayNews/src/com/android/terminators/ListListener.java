@@ -62,7 +62,7 @@ public class ListListener<T> implements OnItemClickListener, OnItemLongClickList
     if (getList().get(0) instanceof RssItem)
       shareIntent.putExtra(Intent.EXTRA_TEXT, ((RssItem)getList().get(pos)).getLink());
     else if (getList().get(0) instanceof Post)
-      shareIntent.putExtra(Intent.EXTRA_TEXT, ((Post)getList().get(pos)).getLink());
+      shareIntent.putExtra(Intent.EXTRA_TEXT, ((Post)getList().get(pos)).getBodyText());
     getActivity().startActivity(shareIntent);
     return true;
   }

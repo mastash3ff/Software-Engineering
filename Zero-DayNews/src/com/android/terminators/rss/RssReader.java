@@ -5,6 +5,7 @@ import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import com.android.terminators.Feed;
+import com.android.terminators.FeedManager;
 
 /**
  * Class reads RSS data.
@@ -21,7 +22,7 @@ public class RssReader
    */
   public List<RssItem> getItems() throws Exception
   {
-    Iterator<String> itr = Feed.getFeed().getRssFeed().listIterator();
+    Iterator<Feed> itr = FeedManager.getFeed().getRssFeed().listIterator();
     
     // SAX parse RSS data
     SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -30,7 +31,7 @@ public class RssReader
     RssParseHandler handler = new RssParseHandler();
     
     while (itr.hasNext())
-      saxParser.parse(itr.next(), handler);
+      saxParser.parse(itr.next().toString(), handler);
 
     return handler.getItems();
   }

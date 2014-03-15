@@ -1,59 +1,48 @@
 package com.android.terminators;
 
-import java.util.ArrayList;
-
 /**
  * Feed class
  * @author Derrick
  */
 public class Feed
 {
-  private static Feed feed = null;
-  private ArrayList<String> rssFeedList;
-  private ArrayList<String> redditFeedList;
-  private String techCrunch = "http://feeds.feedburner.com/TechCrunch/";
-  private String slashDot = "http://rss.slashdot.org/Slashdot/slashdot/";
-  private String wired = "http://feeds.wired.com/wired27b/";
-  private String technology = "technology";
-  private String science = "science";
-
-  public Feed()
+  private String feedSite = "";
+  private boolean enabled = true;
+  
+  public Feed(String feedSite)
   {
-    rssFeedList = new ArrayList<String>();
-    redditFeedList = new ArrayList<String>();
-    addRssFeed(techCrunch);
-    addRssFeed(slashDot);
-    addRssFeed(wired);
-    addRedditFeed(technology);
-    addRedditFeed(science);
+    this.setFeedSite(feedSite);
   }
   
-  public static Feed getFeed()
+  public String getFeedSite()
   {
-    // Singleton pattern
-    if (feed == null)
-      feed = new Feed();
-    return feed;
+    return feedSite;
   }
 
-  public ArrayList<String> getRssFeed()
+  public void setFeedSite(String feedSite)
   {
-    return rssFeedList;
+    this.feedSite = feedSite;
   }
 
-  public ArrayList<String> getRedditFeed()
+  public Boolean isEnabled()
   {
-    return redditFeedList;
+    return enabled;
   }
-
-  public void addRssFeed(String feed)
+  
+  public void enableFeed()
   {
-    rssFeedList.add(feed);
+    enabled = true;
   }
-
-  public void addRedditFeed(String feed)
+  
+  public void disableFeed()
   {
-    redditFeedList.add(feed);
+    enabled = false;
+  }
+  
+  @Override
+  public String toString()
+  {
+    return feedSite;
   }
 
 }

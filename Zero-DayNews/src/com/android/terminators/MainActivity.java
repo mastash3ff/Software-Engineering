@@ -4,7 +4,6 @@ import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
 import com.google.android.gms.ads.*;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,7 +38,7 @@ public class MainActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    addAd();
+    // addAd();
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -68,7 +67,7 @@ public class MainActivity extends FragmentActivity
     titleTxt.setVisibility(View.GONE);
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
-    adView.setVisibility(View.GONE);
+    // adView.setVisibility(View.GONE);
     addFeedBtn.setVisibility(View.GONE);
   }
   
@@ -77,7 +76,7 @@ public class MainActivity extends FragmentActivity
     titleTxt.setVisibility(View.VISIBLE);
     rssBtn.setVisibility(View.VISIBLE);
     redditBtn.setVisibility(View.VISIBLE);
-    adView.setVisibility(View.VISIBLE);
+    // adView.setVisibility(View.VISIBLE);
     addFeedBtn.setVisibility(View.VISIBLE);
   }
 
@@ -115,16 +114,14 @@ public class MainActivity extends FragmentActivity
       {
         public void onClick(DialogInterface dialog, int id)
         {
-          String newFeed = input.getText().toString();
-          Feed.getFeed().addRedditFeed(newFeed);
+          FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
         }
       });
       builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface dialog, int id)
         {
-          String newFeed = input.getText().toString();
-          Feed.getFeed().addRssFeed(newFeed);
+          FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
         }
       });
       AlertDialog dialog = builder.create();
