@@ -2,6 +2,9 @@ package com.android.terminators.rss;
 
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -79,7 +82,11 @@ public class ITCutiesReaderAppActivity extends Activity
       ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
 
       // Set list adapter for the ListView
-      itcItems.setAdapter(adapter);
+      //itcItems.setAdapter(adapter);
+      
+      SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(adapter);
+      animationAdapter.setAbsListView(itcItems);
+      itcItems.setAdapter(animationAdapter);
 
       // Set list view item click listener
       itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
