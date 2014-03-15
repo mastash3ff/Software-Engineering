@@ -7,8 +7,12 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.List;
 
 /**
@@ -71,13 +75,34 @@ public class ITCutiesReaderAppActivity extends Activity
     }
 
     @Override
-    protected void onPostExecute(List<RssItem> result)
+    protected void onPostExecute(final List<RssItem> result)
     {
       // Get a ListView from main view
       ListView itcItems = (ListView)findViewById(R.id.listMainView);
 
       // Create a list adapter
-      ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
+      // ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
+      ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), R.layout.post_item, result)
+          {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) 
+            {
+              if (convertView == null)
+                convertView = getLayoutInflater().inflate(R.layout.post_item, null);
+
+              TextView postTitle;
+              //ID can be found in post_item.xml
+              postTitle = (TextView)convertView.findViewById(R.id.post_title);
+
+              TextView postDetails;
+              postDetails = (TextView)convertView.findViewById(R.id.post_details);
+
+              postTitle.setText(result.get(position).getTitle());
+              postDetails.setText(result.get(position).getDetails());
+
+              return convertView;
+            }
+          };
 
       // Set list adapter for the ListView
       //itcItems.setAdapter(adapter);

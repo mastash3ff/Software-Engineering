@@ -1,43 +1,28 @@
 package com.android.terminators.rss;
 
+import com.android.terminators.Article;
+
 /**
  * This code encapsulates RSS item data.
  * Our application needs title and link data.
  * 
  * @author ITCuties
  *
+ * Moved most of this class to Article.
+ * @author Derrick
  */
-public class RssItem 
+public class RssItem extends Article
 {
-  // item title
-  private String title;
-  // item link
-  private String link;
-
-  public String getTitle() 
-  {
-    return title;
-  }
-
-  public void setTitle(String title)
-  {
-    this.title = title;
-  }
-
-  public String getLink()
-  {
-    return link;
-  }
-
-  public void setLink(String link)
-  {
-    this.link = link;
-  }
-
   @Override
   public String toString() 
   {
-    return title;
+    return super.getTitle();
+  }
+  
+  @Override
+  public String getDetails()
+  {
+    return super.getLink();
   }
 
 }

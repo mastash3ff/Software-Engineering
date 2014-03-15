@@ -1,5 +1,7 @@
 package com.android.terminators.reddit;
 
+import com.android.terminators.Article;
+
 /**
  * Class that holds data for JSON objects returned by Reddit API.
  * @author Hathy
@@ -8,13 +10,11 @@ package com.android.terminators.reddit;
 
 //represents data structure of JSON
 //https://github.com/reddit/reddit/wiki/JSON
-public class Post
+public class Post extends Article
 {
   private String subreddit;
-  private String title;
   private String author;
   private String permalink;
-  private String url;
   private String domain;
   private String id;
   private String body;
@@ -27,16 +27,6 @@ public class Post
   public void setSubreddit(String subreddit)
   {
     this.subreddit = subreddit;
-  }
-
-  public String getTitle()
-  {
-    return title;
-  }
-  
-  public void setTitle(String title)
-  {
-    this.title = title;
   }
 
   public String getAuthor()
@@ -57,21 +47,6 @@ public class Post
   public void setPermalink(String permalink)
   {
     this.permalink = permalink;
-  }
-
-  public String getUrl()
-  {
-    return url;
-  }
-  
-  public String getLink()
-  {
-    return url;
-  }
-  
-  public void setUrl(String url)
-  {
-    this.url = url;
   }
   
   public String getDomain()
@@ -104,9 +79,10 @@ public class Post
     this.body = body;
   }
   
+  @Override
   public String getDetails() 
   {
-    return "Posted in /r/" + getSubreddit();
+    return "Posted in /r/" + this.getSubreddit();
   }
 
 }

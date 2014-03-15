@@ -1,9 +1,6 @@
 package com.android.terminators;
 
 import java.util.List;
-
-import com.android.terminators.reddit.Post;
-import com.android.terminators.rss.RssItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -48,10 +45,7 @@ public class ListListener<T> implements OnItemClickListener, OnItemLongClickList
   public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
   {
     Intent intent = new Intent(Intent.ACTION_VIEW);
-    if (getList().get(0) instanceof RssItem)
-      intent.setData(Uri.parse(((RssItem)getList().get(pos)).getLink()));
-    else if (getList().get(0) instanceof Post)
-      intent.setData(Uri.parse(((Post)getList().get(pos)).getLink()));
+    intent.setData(Uri.parse(((Article)(getList().get(pos))).getLink()));
     getActivity().startActivity(intent);
   }
   
@@ -59,10 +53,7 @@ public class ListListener<T> implements OnItemClickListener, OnItemLongClickList
   {
     Intent shareIntent = new Intent(Intent.ACTION_SEND);
     shareIntent.setType("text/plain");
-    if (getList().get(0) instanceof RssItem)
-      shareIntent.putExtra(Intent.EXTRA_TEXT, ((RssItem)getList().get(pos)).getLink());
-    else if (getList().get(0) instanceof Post)
-      shareIntent.putExtra(Intent.EXTRA_TEXT, ((Post)getList().get(pos)).getBodyText());
+    shareIntent.putExtra(Intent.EXTRA_TEXT, ((Article)getList().get(pos)).getLink());
     getActivity().startActivity(shareIntent);
     return true;
   }

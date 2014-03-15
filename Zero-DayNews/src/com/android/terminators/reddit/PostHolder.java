@@ -65,7 +65,7 @@ public class PostHolder
 
         Post p = new Post();
         p.setTitle(cur.optString("title"));
-        p.setUrl(cur.optString("url"));
+        p.setLink(cur.optString("url"));
         p.setAuthor(cur.optString("author"));
         p.setSubreddit(cur.optString("subreddit"));
         p.setPermalink(cur.optString("permalink"));
