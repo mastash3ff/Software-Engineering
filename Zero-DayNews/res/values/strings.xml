@@ -6,8 +6,7 @@
     <string name="title_activity_activity_action_bar">Activity_action_bar</string>
     <string name="displayRSS">Display RSS Feeds</string>
     <string name="displayReddit">Display Reddit Feeds</string>
-    <string name="share">Share</string>
-    <string name="shareto">Share to…</string>
     <string name="addNewFeed">Add New Feed</string>
+    <string name="lightblue">#009dde</string>
 
 </resources>
