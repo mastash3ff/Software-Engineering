@@ -2,10 +2,7 @@ package com.android.terminators.rss;
 
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
