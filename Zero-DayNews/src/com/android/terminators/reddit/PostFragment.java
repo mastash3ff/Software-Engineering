@@ -4,9 +4,7 @@ import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
-
+import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -141,7 +139,7 @@ public class PostFragment extends Fragment
       }
     };
     //postsList.setAdapter(adapter);
-    AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(adapter);
+    ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
     animationAdapter.setAbsListView(postsList);
     postsList.setAdapter(animationAdapter);
     
