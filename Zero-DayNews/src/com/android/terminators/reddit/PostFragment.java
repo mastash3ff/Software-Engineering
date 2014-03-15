@@ -1,6 +1,7 @@
 package com.android.terminators.reddit;
 
 import com.android.terminators.Feed;
+import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
 import android.os.Bundle;
@@ -80,11 +81,11 @@ public class PostFragment extends Fragment
       {
         public void run()
         {
-          Iterator<String> itr = Feed.getFeed().getRedditFeed().listIterator();
+          Iterator<Feed> itr = FeedManager.getFeed().getRedditFeed().listIterator();
 
           while (itr.hasNext())
           {
-            postsHolder.setSubReddit(itr.next());
+            postsHolder.setSubReddit(itr.next().toString());
             posts.addAll(postsHolder.fetchMorePosts());
           }
 
