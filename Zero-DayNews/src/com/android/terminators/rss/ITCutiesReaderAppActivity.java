@@ -3,6 +3,7 @@ package com.android.terminators.rss;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 
 import android.app.Activity;
@@ -83,8 +84,8 @@ public class ITCutiesReaderAppActivity extends Activity
 
       // Set list adapter for the ListView
       //itcItems.setAdapter(adapter);
-      
-      SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(adapter);
+
+      ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
       animationAdapter.setAbsListView(itcItems);
       itcItems.setAdapter(animationAdapter);
 
