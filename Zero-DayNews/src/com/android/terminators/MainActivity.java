@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    // addAd();
+    addAd();
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity
     titleTxt.setVisibility(View.GONE);
     rssBtn.setVisibility(View.GONE);
     redditBtn.setVisibility(View.GONE);
-    // adView.setVisibility(View.GONE);
+    adView.setVisibility(View.GONE);
     addFeedBtn.setVisibility(View.GONE);
   }
   
@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity
     titleTxt.setVisibility(View.VISIBLE);
     rssBtn.setVisibility(View.VISIBLE);
     redditBtn.setVisibility(View.VISIBLE);
-    // adView.setVisibility(View.VISIBLE);
+    adView.setVisibility(View.VISIBLE);
     addFeedBtn.setVisibility(View.VISIBLE);
   }
 
