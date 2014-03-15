@@ -138,6 +138,7 @@ public class PostFragment extends Fragment
     };
     postsList.setAdapter(adapter);
     postsList.setOnItemClickListener(new ListListener<Post>(posts, getActivity()));
+    postsList.setOnItemLongClickListener(new ListListener<Post>(posts, getActivity()));
   }
 
 }

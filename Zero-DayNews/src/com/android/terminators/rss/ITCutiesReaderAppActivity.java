@@ -83,6 +83,7 @@ public class ITCutiesReaderAppActivity extends Activity
 
       // Set list view item click listener
       itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
+      itcItems.setOnItemLongClickListener(new ListListener<RssItem>(result, local));
     }
   }
 }

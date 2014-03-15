@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 /**
  * Class implements a list listener
@@ -18,7 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
  *
  */
 
-public class ListListener<T> implements OnItemClickListener
+public class ListListener<T> implements OnItemClickListener, OnItemLongClickListener
 {
   // List item's reference
   private List<T> listItems;
@@ -35,27 +36,35 @@ public class ListListener<T> implements OnItemClickListener
   {
     return listItems;
   }
+  
+  public Activity getActivity()
+  {
+    return activity;
+  }
 
   /**
    * Start a browser with url from the rss item.
    */
   public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
   {
-    Intent i = new Intent(Intent.ACTION_VIEW);
+    Intent intent = new Intent(Intent.ACTION_VIEW);
     if (getList().get(0) instanceof RssItem)
-      i.setData(Uri.parse(((RssItem)getList().get(pos)).getLink()));
+      intent.setData(Uri.parse(((RssItem)getList().get(pos)).getLink()));
     else if (getList().get(0) instanceof Post)
-      i.setData(Uri.parse(((Post)getList().get(pos)).getLink()));
-    activity.startActivity(i);
+      intent.setData(Uri.parse(((Post)getList().get(pos)).getLink()));
+    getActivity().startActivity(intent);
   }
   
-  /*
-  public void onItemLongClick(AdapterView<?> parent, View view, int pos, long id)
+  public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id)
   {
-    Intent i = new Intent(Intent.ACTION_SEND);
-    i.setData(Uri.parse(listItems.get(pos).getLink()));
-    activity.startActivity(i);
+    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    shareIntent.setType("text/plain");
+    if (getList().get(0) instanceof RssItem)
+      shareIntent.putExtra(Intent.EXTRA_TEXT, ((RssItem)getList().get(pos)).getLink());
+    else if (getList().get(0) instanceof Post)
+      shareIntent.putExtra(Intent.EXTRA_TEXT, ((Post)getList().get(pos)).getLink());
+    getActivity().startActivity(shareIntent);
+    return true;
   }
-  */
 
 }
