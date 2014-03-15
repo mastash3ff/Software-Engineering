@@ -19,6 +19,7 @@ public class FeedManager
     addRssFeed(new Feed("http://feeds.feedburner.com/TechCrunch/"));
     addRssFeed(new Feed("http://rss.slashdot.org/Slashdot/slashdot/"));
     addRssFeed(new Feed("http://feeds.wired.com/wired27b/"));
+    addRssFeed(new Feed("http://feeds.feedburner.com/cnet/tcoc/"));
     addRedditFeed(new Feed("technology"));
     addRedditFeed(new Feed("science"));
     addRedditFeed(new Feed("privacy"));
