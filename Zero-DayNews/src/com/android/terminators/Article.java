@@ -2,13 +2,21 @@ package com.android.terminators;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Article
+/**
+ * Article class
+ * Abstract class for use in RssItem and Post classes.
+ * @author Derrick
+ * @author Brian
+ */
+
+public abstract class Article
 {
 	static AtomicInteger nextId = new AtomicInteger();
 	
 	private int id;
 	private String title;
 	private String description;
+	private String link;
 	
 	public Article ()
 	{
@@ -17,21 +25,26 @@ public class Article
 		description = "";
 	}
 	
-	public Article (String t, String d)
+	public Article (String title, String description)
 	{
 		id = nextId.incrementAndGet();
-		title = t;
-		description = d;
+		this.title = title;
+		this.description = description;
 	}
 	
-	public void setTitle(String t)
+	public void setTitle(String title)
 	{
-		title = t;
+		this.title = title;
 	}
 	
-	public void setDescription(String d)
+	public void setDescription(String description)
 	{
-		description = d;
+		this.description = description;
+	}
+	
+	public void setLink(String link)
+	{
+		this.link = link;
 	}
 	
 	public String getTitle()
@@ -48,5 +61,12 @@ public class Article
 	{
 		return id;
 	}
+	
+	public String getLink()
+	{
+		return link;
+	}
+
+	public abstract String getDetails();
 }
 
