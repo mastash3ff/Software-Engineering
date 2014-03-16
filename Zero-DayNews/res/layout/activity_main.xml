@@ -53,13 +53,23 @@
         android:text="@string/addNewFeed" />
 
     <Button
-        android:id="@+id/configureFeedsButton"
+        android:id="@+id/configureRssFeedsButton"
         style="@style/lightboxButton.Blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addFeedButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dip"
-        android:text="@string/configureFeeds" />
+        android:text="@string/configureRssFeeds" />
+    
+     <Button
+        android:id="@+id/configureRedditFeedsButton"
+        style="@style/lightboxButton.Blue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/configureRssFeedsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
+        android:text="@string/configureRedditFeeds" />
 
 </RelativeLayout>

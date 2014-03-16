@@ -22,7 +22,7 @@ public class RssReader
    */
   public List<RssItem> getItems() throws Exception
   {
-    Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
+    //Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
     
     // SAX parse RSS data
     SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -30,8 +30,17 @@ public class RssReader
 
     RssParseHandler handler = new RssParseHandler();
     
+    FeedManager feedManager = FeedManager.getFeed();
+
+    //TODO: current ugly.  might need to add a custom iterator function for type List<Post>
+    for (int i = 0; i < feedManager.getRssFeedList().size(); ++i)
+      if (feedManager.getRssFeed(i).isEnabled())
+        saxParser.parse(feedManager.getRssFeed(i).toString(), handler);
+    
+    /*
     while (itr.hasNext())
       saxParser.parse(itr.next().toString(), handler);
+    */
 
     return handler.getItems();
   }

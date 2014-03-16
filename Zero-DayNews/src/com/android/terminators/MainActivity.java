@@ -30,9 +30,10 @@ import android.widget.Toast;
 public class MainActivity extends FragmentActivity
 {
   private TextView titleTxt;
-  private Button rssBtn, redditBtn, addFeedBtn, configureFeedsBtn;
+  private Button rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
+  private String storedContents;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -56,8 +57,11 @@ public class MainActivity extends FragmentActivity
     addFeedBtn = (Button)findViewById(R.id.addFeedButton);
     addFeedBtn.setOnClickListener(addFeedListener);
 
-    configureFeedsBtn = (Button)findViewById(R.id.configureFeedsButton);
-    configureFeedsBtn.setOnClickListener(configureFeedsListener);
+    configureRssFeedsBtn = (Button)findViewById(R.id.configureRssFeedsButton);
+    configureRssFeedsBtn.setOnClickListener(configureRssFeedsListener);
+    
+    configureRedditFeedsBtn = (Button)findViewById(R.id.configureRedditFeedsButton);
+    configureRedditFeedsBtn.setOnClickListener(configureRedditFeedsListener);
   }
 
   //makes use of custom action bar
@@ -77,7 +81,8 @@ public class MainActivity extends FragmentActivity
     redditBtn.setVisibility(View.GONE);
     adView.setVisibility(View.GONE);
     addFeedBtn.setVisibility(View.GONE);
-    configureFeedsBtn.setVisibility(View.GONE);
+    configureRssFeedsBtn.setVisibility(View.GONE);
+    configureRedditFeedsBtn.setVisibility(View.GONE);
   }
 
   public void showElements()
@@ -87,7 +92,8 @@ public class MainActivity extends FragmentActivity
     redditBtn.setVisibility(View.VISIBLE);
     adView.setVisibility(View.VISIBLE);
     addFeedBtn.setVisibility(View.VISIBLE);
-    configureFeedsBtn.setVisibility(View.VISIBLE);
+    configureRssFeedsBtn.setVisibility(View.VISIBLE);
+    configureRedditFeedsBtn.setVisibility(View.VISIBLE);
   }
 
   OnClickListener rssListener = new OnClickListener()
@@ -115,6 +121,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
+      //TODO: input validation
       //storedNotfication();
       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
       builder.setTitle("Add New Feed");
@@ -141,7 +148,47 @@ public class MainActivity extends FragmentActivity
     }
   };
 
-  OnClickListener configureFeedsListener = new OnClickListener()
+  OnClickListener configureRssFeedsListener = new OnClickListener()
+  {
+    public void onClick(View v)
+    {
+      //TODO: move this code to utility function for Rss and Reddit configure button listeners
+      //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
+      CharSequence[] items = new CharSequence[FeedManager.getFeed().getRssFeedList().size()];
+      Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
+      Feed feed = null;
+      boolean[] checkedItems = new boolean[FeedManager.getFeed().getRssFeedList().size()];
+      for (int i = 0; itr.hasNext(); ++i)
+      {
+        feed = itr.next();
+        items[i] = feed.toString();
+        checkedItems[i] = feed.isEnabled();
+      }
+      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+      builder.setTitle("Configure RSS Feeds:");
+      builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id, boolean isChecked)
+        {
+          if (isChecked)
+            FeedManager.getFeed().getRssFeed(id).enableFeed();
+          else if (!isChecked)
+            FeedManager.getFeed().getRssFeed(id).disableFeed();
+        }
+      })
+      .setPositiveButton("Done", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          dialog.dismiss();
+        }
+      });
+      AlertDialog dialog = builder.create();
+      dialog.show();
+    }
+  };
+  
+  OnClickListener configureRedditFeedsListener = new OnClickListener()
   {
     public void onClick(View v)
     {
@@ -157,7 +204,7 @@ public class MainActivity extends FragmentActivity
         checkedItems[i] = feed.isEnabled();
       }
       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-      builder.setTitle("Configure Feeds:");
+      builder.setTitle("Configure Reddit Feeds:");
       builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
       {
         public void onClick(DialogInterface dialog, int id, boolean isChecked)
@@ -168,7 +215,7 @@ public class MainActivity extends FragmentActivity
             FeedManager.getFeed().getRedditFeed(id).disableFeed();
         }
       })
-      .setPositiveButton("OK", new DialogInterface.OnClickListener()
+      .setPositiveButton("Done", new DialogInterface.OnClickListener()
       {
         public void onClick(DialogInterface dialog, int id)
         {
@@ -179,7 +226,6 @@ public class MainActivity extends FragmentActivity
       dialog.show();
     }
   };
-  private String storedContents;
 
   @Override
   public void onBackPressed()

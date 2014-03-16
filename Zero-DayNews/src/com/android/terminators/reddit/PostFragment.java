@@ -1,6 +1,5 @@
 package com.android.terminators.reddit;
 
-import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
