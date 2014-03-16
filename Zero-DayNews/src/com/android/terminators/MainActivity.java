@@ -1,9 +1,11 @@
 package com.android.terminators;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
+import com.android.terminators.storage.StorageLinks;
 import com.google.android.gms.ads.*;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,6 +35,7 @@ public class MainActivity extends FragmentActivity
   private Button rssBtn, redditBtn, addFeedBtn, configureFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
+  private LinkedList<String> linkListOfStrings;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -41,9 +44,7 @@ public class MainActivity extends FragmentActivity
     setContentView(R.layout.activity_main);
 
     addAd();
-    
-    //fetch stored contends cached on phone storage
-    //TODO initializeStorage();
+    initializeStorage();
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -115,7 +116,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      //storedNotfication();
+      storageNotification();
       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
       builder.setTitle("Add New Feed");
       builder.setMessage("Enter new feed and select type:");
@@ -126,7 +127,7 @@ public class MainActivity extends FragmentActivity
         public void onClick(DialogInterface dialog, int id)
         {
           FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-         //TODO Cache.writeStoredFeeds(input.getText().toString());
+          StorageLinks.writeStoredFeeds(input.getText().toString() );
         }
       });
       builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
@@ -134,6 +135,7 @@ public class MainActivity extends FragmentActivity
         public void onClick(DialogInterface dialog, int id)
         {
           FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
+          StorageLinks.writeStoredFeeds(input.getText().toString() );
         }
       });
       AlertDialog dialog = builder.create();
@@ -179,7 +181,6 @@ public class MainActivity extends FragmentActivity
       dialog.show();
     }
   };
-  private String storedContents;
 
   @Override
   public void onBackPressed()
@@ -213,7 +214,9 @@ public class MainActivity extends FragmentActivity
       adView.destroy();
     super.onDestroy();
   }
-
+  /**
+   * Ads an ad to  fragment_holder
+   */
   public void addAd()
   {
     // Create an ad.
@@ -244,35 +247,83 @@ public class MainActivity extends FragmentActivity
     adView.loadAd(adRequest);
   }
 
-  private void initializeStorage()
+  /** Checks to see if file exists with Feed links if not creates a file called 
+   * StoredLinks.txt on storage
+   */
+  public void initializeStorage()
   {
-    storedContents = Cache.readStoredFeeds();
-
-    String list[] = storedContents.split("\\n");
-
-    for ( int i = 0; i < list.length; i++ )
+    //if file not found, create a file called StoredLinks.txt
+    if ( StorageLinks.checkIfFileExists() == false ) 
     {
-      //FeedManager.getFeed().addRedditFeed(new Feed(list[i]));
-      Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
-    }
-  }
-
-  private void storedNotfication()
-  {
-    storedContents = Cache.readStoredFeeds();
-    String list[] = storedContents.split("\\n");
-
-    if ( storedContents != null )
-    {
-      while ( true )
-      {
-        int i = 0;
-        Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
-        ++i;
-      }
+      StorageLinks.createFile();
+      return;
     }
     else
-      Toast.makeText(MainActivity.this, "No stored Feeds detected", Toast.LENGTH_LONG).show();
+    {
+      linkListOfStrings = StorageLinks.readStoredFeeds();
+      for ( int i = 0; i < linkListOfStrings.size(); ++i)
+      {
+        //on startup displays what links are already stored and adds them to feed
+        Toast.makeText(MainActivity.this, "Saved Feed: " + linkListOfStrings.get(i), Toast.LENGTH_SHORT).show();
+        FeedManager.getFeed().addRedditFeed(new Feed( onlyRedditFeeds(linkListOfStrings).get(i)));
+        FeedManager.getFeed().addRssFeed(new Feed( onlyRSSFeeds(linkListOfStrings).get(i)));
+      }
+    }
   }
 
+  /**
+   *  Reminder message of what is already stored on file when user presses one of the Add Feed Buttons 
+   * */
+  public void storageNotification()
+  {
+    linkListOfStrings = StorageLinks.readStoredFeeds();
+
+    //notify user if no feeds are detected upon pressing an enter feed button
+    if ( linkListOfStrings.isEmpty() )
+    {
+      Toast.makeText(MainActivity.this, "Zero Feeds Detected on Device" , Toast.LENGTH_LONG).show();
+    }
+    else
+    {
+      //notifies user of what is already stored
+      for ( int i = 0; i < linkListOfStrings.size(); ++i )
+      {
+        Toast.makeText(MainActivity.this, "Already Stored: " + linkListOfStrings.get(i), Toast.LENGTH_SHORT).show();
+      }   
+    }
+  }
+
+  /**
+   * Helper function to remove 'http' links from RSS and return only Reddit links
+   * @param list
+   * @return
+   */
+  public LinkedList<String> onlyRedditFeeds( LinkedList<String> list )
+  {
+    String tmp;
+    for ( int i = 0; i < list.size(); ++i)
+    {
+      tmp = list.get(i);
+      boolean hazTroof = tmp.startsWith("http");
+      if (hazTroof == true)
+        list.remove(i);
+    }
+    return list;
+  }
+
+  /**
+   * Helper function to remove reddits and only contain RSS links
+   * @param list
+   * @return
+   */
+  public LinkedList<String> onlyRSSFeeds( LinkedList<String> list )
+  {
+    String tmp;
+    for ( int i = 0; i < list.size(); ++i)
+    {
+      tmp = list.get(i);
+      if (tmp.startsWith("http")) list.remove(i);
+    }
+    return list;
+  }
 }

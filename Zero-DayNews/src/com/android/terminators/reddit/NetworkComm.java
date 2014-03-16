@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import com.android.terminators.MyCache;
+import com.android.terminators.storage.StorageCache;
 
 import android.util.Log;
 
@@ -48,37 +48,6 @@ public class NetworkComm
   }
 
   /**
-   * Reads contents of a URL and returns as a string.  Used for interacting with JSON API.
-   * Also, handles cache using Cache.java
-   * @param url
-   * @return
-   */
-  /*
-	public static String readContents (String url)
-	{
-		HttpURLConnection hcon = getConnection(url);
-		if (hcon == null) return null;
-		try
-		{
-			StringBuffer sb = new StringBuffer(8192);
-			String tmp = "";
-			BufferedReader br = new BufferedReader(new InputStreamReader(hcon.getInputStream()));
-
-			while ((tmp = br.readLine()) != null)
-				sb.append(tmp).append("\n");
-
-			br.close();                       
-			return sb.toString();
-		}
-		catch (IOException e)
-		{
-			Log.d("READ FAILED", e.toString());
-			return null;
-		}
-	} //end readContents
-   */
-
-  /**
    * A very handy utility method that reads the contents of a URL
    * and returns them as a String.
    * 
@@ -89,7 +58,7 @@ public class NetworkComm
 
     //Check if the cache contains data for this URL
 
-    byte[] t=MyCache.read(url);
+    byte[] t=StorageCache.read(url);
     String cached=null;
     if(t!=null) {
       cached=new String(t);
@@ -118,7 +87,7 @@ public class NetworkComm
       br.close();    
 
       // We now add this data to the cache
-      MyCache.write(url, sb.toString());
+      StorageCache.write(url, sb.toString());
       System.out.println(sb.toString());
       return sb.toString();
     }catch(IOException e){

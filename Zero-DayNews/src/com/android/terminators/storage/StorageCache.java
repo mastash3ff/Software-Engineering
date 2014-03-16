@@ -1,4 +1,4 @@
-package com.android.terminators;
+package com.android.terminators.storage;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -16,7 +16,7 @@ import android.util.Log;
  *
  * author Hathy
  */
-public class MyCache {
+public class StorageCache implements Storage {
 
   static private String cacheDirectory = 
       "/Android/data/com.android.terminators/cache/"; 
@@ -90,5 +90,13 @@ public class MyCache {
       pw.print(data);
       pw.close();
     }catch(Exception e) { }
+  }
+
+  @Override
+  public void clear()
+  {
+    File directory = new File(cacheDirectory);
+    if ( directory.isDirectory() )
+      for ( File files: directory.listFiles() ) files.delete();
   }
 }
