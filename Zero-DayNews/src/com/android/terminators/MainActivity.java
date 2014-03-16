@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Zero Day News
@@ -30,6 +31,7 @@ public class MainActivity extends FragmentActivity
   private TextView titleTxt;
   private Button rssBtn, redditBtn, addFeedBtn;
   private AdView adView;
+  private String storedContents;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
 
   @Override
@@ -38,7 +40,10 @@ public class MainActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    addAd();
+    //addAd();
+
+    //fetch stored contends cached on phone storage
+    //initializeStorage();
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -47,7 +52,7 @@ public class MainActivity extends FragmentActivity
 
     redditBtn = (Button)findViewById(R.id.redditButton);
     redditBtn.setOnClickListener(redditListener);
-    
+
     addFeedBtn = (Button)findViewById(R.id.addFeedButton);
     addFeedBtn.setOnClickListener(addFeedListener);
   }
@@ -61,7 +66,7 @@ public class MainActivity extends FragmentActivity
     inflater.inflate(R.menu.activity_action_bar, menu);
     return super.onCreateOptionsMenu(menu);
   }
-  
+
   public void hideElements()
   {
     titleTxt.setVisibility(View.GONE);
@@ -70,7 +75,7 @@ public class MainActivity extends FragmentActivity
     adView.setVisibility(View.GONE);
     addFeedBtn.setVisibility(View.GONE);
   }
-  
+
   public void showElements()
   {
     titleTxt.setVisibility(View.VISIBLE);
@@ -94,17 +99,18 @@ public class MainActivity extends FragmentActivity
     public void onClick(View v)
     {
       FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-        .add(R.id.fragment_holder, PostFragment.newInstance());
+          .add(R.id.fragment_holder, PostFragment.newInstance());
       transaction.addToBackStack(null);
       transaction.commit();
       hideElements();
     }
   };
-  
+
   OnClickListener addFeedListener = new OnClickListener()
   {
     public void onClick(View v)
     {
+      //TODO storedNotfication(); 
       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
       builder.setTitle("Add New Feed");
       builder.setMessage("Enter new feed and select type:");
@@ -115,6 +121,7 @@ public class MainActivity extends FragmentActivity
         public void onClick(DialogInterface dialog, int id)
         {
           FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
+          Cache.writeStoredFeeds(input.getText().toString());
         }
       });
       builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
@@ -134,6 +141,37 @@ public class MainActivity extends FragmentActivity
   {
     super.onBackPressed();
     showElements();
+  }
+
+  private void initializeStorage()
+  {
+    storedContents = Cache.readStoredFeeds();
+
+    String list[] = storedContents.split("\\n");
+
+    for ( int i = 0; i < list.length; i++ )
+    {
+      //FeedManager.getFeed().addRedditFeed(new Feed(list[i]));
+      Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
+    }
+  }
+
+  private void storedNotfication()
+  {
+    storedContents = Cache.readStoredFeeds();
+    String list[] = storedContents.split("\\n");
+    
+    if ( storedContents != null )
+    {
+      while ( true )
+      {
+        int i = 0;
+        Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
+        ++i;
+      }
+    }
+    else
+      Toast.makeText(MainActivity.this, "No stored Feeds detected", Toast.LENGTH_LONG).show();
   }
 
   @Override
@@ -184,9 +222,9 @@ public class MainActivity extends FragmentActivity
     // Create an ad request. Check logcat output for the hashed device ID to
     // get test ads on a physical device.
     AdRequest adRequest = new AdRequest.Builder()
-      .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-      .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
-      .build();
+    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+    .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+    .build();
 
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
