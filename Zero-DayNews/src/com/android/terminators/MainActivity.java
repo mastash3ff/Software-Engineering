@@ -32,7 +32,6 @@ public class MainActivity extends FragmentActivity
   private TextView titleTxt;
   private Button rssBtn, redditBtn, addFeedBtn, configureFeedsBtn;
   private AdView adView;
-  private String storedContents;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
 
   @Override
@@ -41,10 +40,10 @@ public class MainActivity extends FragmentActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    //addAd();
-
+    addAd();
+    
     //fetch stored contends cached on phone storage
-    //initializeStorage();
+    //TODO initializeStorage();
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -56,7 +55,7 @@ public class MainActivity extends FragmentActivity
 
     addFeedBtn = (Button)findViewById(R.id.addFeedButton);
     addFeedBtn.setOnClickListener(addFeedListener);
-    
+
     configureFeedsBtn = (Button)findViewById(R.id.configureFeedsButton);
     configureFeedsBtn.setOnClickListener(configureFeedsListener);
   }
@@ -116,7 +115,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      //TODO storedNotfication(); 
+      //storedNotfication();
       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
       builder.setTitle("Add New Feed");
       builder.setMessage("Enter new feed and select type:");
@@ -127,7 +126,7 @@ public class MainActivity extends FragmentActivity
         public void onClick(DialogInterface dialog, int id)
         {
           FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-          //TODO Cache.writeStoredFeeds(input.getText().toString());
+         //TODO Cache.writeStoredFeeds(input.getText().toString());
         }
       });
       builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
@@ -141,7 +140,7 @@ public class MainActivity extends FragmentActivity
       dialog.show();
     }
   };
-  
+
   OnClickListener configureFeedsListener = new OnClickListener()
   {
     public void onClick(View v)
@@ -180,43 +179,13 @@ public class MainActivity extends FragmentActivity
       dialog.show();
     }
   };
+  private String storedContents;
 
   @Override
   public void onBackPressed()
   {
     super.onBackPressed();
     showElements();
-  }
-
-  private void initializeStorage()
-  {
-    storedContents = Cache.readStoredFeeds();
-
-    String list[] = storedContents.split("\\n");
-
-    for ( int i = 0; i < list.length; i++ )
-    {
-      //FeedManager.getFeed().addRedditFeed(new Feed(list[i]));
-      Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
-    }
-  }
-
-  private void storedNotfication()
-  {
-    storedContents = Cache.readStoredFeeds();
-    String list[] = storedContents.split("\\n");
-    
-    if ( storedContents != null )
-    {
-      while ( true )
-      {
-        int i = 0;
-        Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
-        ++i;
-      }
-    }
-    else
-      Toast.makeText(MainActivity.this, "No stored Feeds detected", Toast.LENGTH_LONG).show();
   }
 
   @Override
@@ -273,6 +242,37 @@ public class MainActivity extends FragmentActivity
 
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
+  }
+
+  private void initializeStorage()
+  {
+    storedContents = Cache.readStoredFeeds();
+
+    String list[] = storedContents.split("\\n");
+
+    for ( int i = 0; i < list.length; i++ )
+    {
+      //FeedManager.getFeed().addRedditFeed(new Feed(list[i]));
+      Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
+    }
+  }
+
+  private void storedNotfication()
+  {
+    storedContents = Cache.readStoredFeeds();
+    String list[] = storedContents.split("\\n");
+
+    if ( storedContents != null )
+    {
+      while ( true )
+      {
+        int i = 0;
+        Toast.makeText(MainActivity.this, "Already Stored: " + list[i], Toast.LENGTH_LONG).show();
+        ++i;
+      }
+    }
+    else
+      Toast.makeText(MainActivity.this, "No stored Feeds detected", Toast.LENGTH_LONG).show();
   }
 
 }
