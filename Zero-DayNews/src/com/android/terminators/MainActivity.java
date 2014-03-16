@@ -1,7 +1,6 @@
 package com.android.terminators;
 
 import java.util.Iterator;
-
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
@@ -128,7 +127,7 @@ public class MainActivity extends FragmentActivity
         public void onClick(DialogInterface dialog, int id)
         {
           FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-          Cache.writeStoredFeeds(input.getText().toString());
+          //TODO Cache.writeStoredFeeds(input.getText().toString());
         }
       });
       builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()

@@ -18,8 +18,6 @@ import android.util.Log;
  */
 public class MyCache {
 
-  // The cache directory should look something like this
-  // Replace com.jdepths.alien with your own package name
   static private String cacheDirectory = 
       "/Android/data/com.android.terminators/cache/"; 
 

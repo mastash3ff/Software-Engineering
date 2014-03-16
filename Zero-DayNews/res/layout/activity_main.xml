@@ -11,62 +11,55 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/rssButton"
-        style="@style/lightboxButton.Blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/redditButton"
-        android:layout_alignRight="@+id/redditButton"
-        android:layout_below="@+id/appTitle"
-        android:minHeight="60dp"
-        android:minWidth="64dp"
-        android:text="@string/displayRSS" />
-
-    <Button
-        android:id="@+id/redditButton"
-        style="@style/lightboxButton.Blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rssButton"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dip"
-        android:layout_marginTop="14dp"
-        android:minHeight="60dp"
-        android:minWidth="64dp"
-        android:text="@string/displayReddit" />
-
-    <Button
-        android:id="@+id/addFeedButton"
-        style="@style/lightboxButton.Blue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/redditButton"
-        android:layout_alignRight="@+id/redditButton"
-        android:layout_below="@+id/redditButton"
-        android:layout_margin="10dip"
-        android:maxWidth="80dp"
-        android:minHeight="60dp"
-        android:text="@string/addNewFeed" />
-
     <TextView
         android:id="@+id/appTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/rssButton"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="64dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
         android:text="@string/app_name"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace" />
 
     <Button
-        android:id="@+id/configureFeedsButton"
+        android:id="@+id/rssButton"
         style="@style/lightboxButton.Blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/addFeedButton"
+        android:layout_below="@+id/appTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dip"
-        android:text="@string/configureFeeds" />
+        android:text="@string/displayRSS" />
+
+     <Button
+         android:id="@+id/redditButton"
+         style="@style/lightboxButton.Blue"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/rssButton"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="20dip"
+         android:text="@string/displayReddit" />
+     
+      <Button
+         android:id="@+id/addFeedButton"
+         style="@style/lightboxButton.Blue"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/redditButton"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="20dip"
+         android:text="@string/addNewFeed" />
+      
+       <Button
+         android:id="@+id/configureFeedsButton"
+         style="@style/lightboxButton.Blue"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/addFeedButton"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="20dip"
+         android:text="@string/configureFeeds" />
 
 </RelativeLayout>

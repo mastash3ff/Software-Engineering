@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import android.os.Environment;
 /**
  * Used to Store and Retrieve Added Feeds through Android Storage
  * @author Brandon
@@ -14,7 +13,6 @@ import android.os.Environment;
 
 public class Cache
 {
-
   static private String cacheDirectory = 
       "/Android/data/com.android.terminators/cache/"; 
   static private String filename = "storedlinks.txt";
@@ -24,17 +22,6 @@ public class Cache
    * Once confirmed, create the cache directory if it does not
    * exist yet
    */
-  static 
-  {
-    if(Environment.getExternalStorageState()
-        .equals(Environment.MEDIA_MOUNTED))
-    {
-      cacheDirectory=Environment.getExternalStorageDirectory()
-          +cacheDirectory;
-      File f=new File(cacheDirectory);
-      f.mkdirs();
-    }
-  }    
 
   public static String readStoredFeeds()
   {
