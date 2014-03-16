@@ -32,27 +32,35 @@ public class FeedManager
       feedManager = new FeedManager();
     return feedManager;
   }
-
-  public ArrayList<Feed> getRssFeed()
+  
+  public ArrayList<Feed> getRssFeedList()
   {
     return rssFeedList;
   }
 
-  public ArrayList<Feed> getRedditFeed()
+  public ArrayList<Feed> getRedditFeedList()
   {
     return redditFeedList;
   }
 
+  public Feed getRssFeed(Integer i)
+  {
+    return rssFeedList.get(i);
+  }
+
+  public Feed getRedditFeed(Integer i)
+  {
+    return redditFeedList.get(i);
+  }
+
   public void addRssFeed(Feed feed)
   {
-    if (feed.isEnabled())
-      rssFeedList.add(feed);
+    rssFeedList.add(feed);
   }
 
   public void addRedditFeed(Feed feed)
   {
-    if (feed.isEnabled())
-      redditFeedList.add(feed);
+    redditFeedList.add(feed);
   }
 
 }

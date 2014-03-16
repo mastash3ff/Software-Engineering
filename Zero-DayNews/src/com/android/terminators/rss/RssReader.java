@@ -22,7 +22,7 @@ public class RssReader
    */
   public List<RssItem> getItems() throws Exception
   {
-    Iterator<Feed> itr = FeedManager.getFeed().getRssFeed().listIterator();
+    Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
     
     // SAX parse RSS data
     SAXParserFactory factory = SAXParserFactory.newInstance();

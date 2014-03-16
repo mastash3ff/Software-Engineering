@@ -8,5 +8,6 @@
     <string name="displayReddit">Display Reddit Feeds</string>
     <string name="addNewFeed">Add New Feed</string>
     <color name="lightblue">#009dde</color>
+    <string name="configureFeeds">Configure Feeds</string>
 
 </resources>
