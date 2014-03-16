@@ -1,10 +1,12 @@
 package com.android.terminators;
 
 import java.util.Iterator;
+
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
 import com.google.android.gms.ads.*;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -73,6 +76,23 @@ public class MainActivity extends FragmentActivity
     inflater.inflate(R.menu.activity_action_bar, menu);
     return super.onCreateOptionsMenu(menu);
   }
+  
+  //opens the appropriate dialogs when option items are selected
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case R.id.action_configureFeeds:
+      configureRssFeeds();
+      break;
+    case R.id.action_addFeed:
+      addFeed();
+      break;
+    default:
+      break;
+    }
+
+    return true;
+  }
 
   public void hideElements()
   {
@@ -121,30 +141,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      //TODO: input validation
-      //storedNotfication();
-      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-      builder.setTitle("Add New Feed");
-      builder.setMessage("Enter new feed and select type:");
-      final EditText input = new EditText(MainActivity.this);
-      builder.setView(input);
-      builder.setPositiveButton("Reddit Feed", new DialogInterface.OnClickListener()
-      {
-        public void onClick(DialogInterface dialog, int id)
-        {
-          FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-         //TODO Cache.writeStoredFeeds(input.getText().toString());
-        }
-      });
-      builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
-      {
-        public void onClick(DialogInterface dialog, int id)
-        {
-          FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
-        }
-      });
-      AlertDialog dialog = builder.create();
-      dialog.show();
+    	addFeed();
     }
   };
 
@@ -152,39 +149,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      //TODO: move this code to utility function for Rss and Reddit configure button listeners
-      //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
-      CharSequence[] items = new CharSequence[FeedManager.getFeed().getRssFeedList().size()];
-      Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
-      Feed feed = null;
-      boolean[] checkedItems = new boolean[FeedManager.getFeed().getRssFeedList().size()];
-      for (int i = 0; itr.hasNext(); ++i)
-      {
-        feed = itr.next();
-        items[i] = feed.toString();
-        checkedItems[i] = feed.isEnabled();
-      }
-      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-      builder.setTitle("Configure RSS Feeds:");
-      builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
-      {
-        public void onClick(DialogInterface dialog, int id, boolean isChecked)
-        {
-          if (isChecked)
-            FeedManager.getFeed().getRssFeed(id).enableFeed();
-          else if (!isChecked)
-            FeedManager.getFeed().getRssFeed(id).disableFeed();
-        }
-      })
-      .setPositiveButton("Done", new DialogInterface.OnClickListener()
-      {
-        public void onClick(DialogInterface dialog, int id)
-        {
-          dialog.dismiss();
-        }
-      });
-      AlertDialog dialog = builder.create();
-      dialog.show();
+      configureRssFeeds();
     }
   };
   
@@ -258,6 +223,71 @@ public class MainActivity extends FragmentActivity
     if (adView != null)
       adView.destroy();
     super.onDestroy();
+  }
+  
+  public void addFeed()
+  {
+	//TODO: input validation
+      //storedNotfication();
+      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+      builder.setTitle("Add New Feed");
+      builder.setMessage("Enter new feed and select type:");
+      final EditText input = new EditText(MainActivity.this);
+      builder.setView(input);
+      builder.setPositiveButton("Reddit Feed", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
+         //TODO Cache.writeStoredFeeds(input.getText().toString());
+        }
+      });
+      builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
+        }
+      });
+      AlertDialog dialog = builder.create();
+      dialog.show();
+  }
+  
+  public void configureRssFeeds()
+  {
+      //TODO: move this code to utility function for Rss and Reddit configure button listeners
+      //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
+      CharSequence[] items = new CharSequence[FeedManager.getFeed().getRssFeedList().size()];
+      Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
+      Feed feed = null;
+      boolean[] checkedItems = new boolean[FeedManager.getFeed().getRssFeedList().size()];
+      for (int i = 0; itr.hasNext(); ++i)
+      {
+        feed = itr.next();
+        items[i] = feed.toString();
+        checkedItems[i] = feed.isEnabled();
+      }
+      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+      builder.setTitle("Configure RSS Feeds:");
+      builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id, boolean isChecked)
+        {
+          if (isChecked)
+            FeedManager.getFeed().getRssFeed(id).enableFeed();
+          else if (!isChecked)
+            FeedManager.getFeed().getRssFeed(id).disableFeed();
+        }
+      })
+      .setPositiveButton("Done", new DialogInterface.OnClickListener()
+      {
+        public void onClick(DialogInterface dialog, int id)
+        {
+          dialog.dismiss();
+        }
+      });
+      AlertDialog dialog = builder.create();
+      dialog.show();
   }
 
   public void addAd()
