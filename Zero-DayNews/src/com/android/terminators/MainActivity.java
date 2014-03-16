@@ -141,30 +141,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      storageNotification();
-      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-      builder.setTitle("Add New Feed");
-      builder.setMessage("Enter new feed and select type:");
-      final EditText input = new EditText(MainActivity.this);
-      builder.setView(input);
-      builder.setPositiveButton("Reddit Feed", new DialogInterface.OnClickListener()
-      {
-        public void onClick(DialogInterface dialog, int id)
-        {
-          FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-          StorageLinks.writeStoredFeeds(input.getText().toString() );
-        }
-      });
-      builder.setNegativeButton("RSS Feed", new DialogInterface.OnClickListener()
-      {
-        public void onClick(DialogInterface dialog, int id)
-        {
-          FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
-          StorageLinks.writeStoredFeeds(input.getText().toString() );
-        }
-      });
-      AlertDialog dialog = builder.create();
-      dialog.show();
+      addFeed();
     }
   };
 
@@ -219,8 +196,7 @@ public class MainActivity extends FragmentActivity
 
   public void addFeed()
   {
-    //TODO: input validation
-    //storedNotfication();
+    storageNotification();
     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Add New Feed");
     builder.setMessage("Enter new feed:");
@@ -231,7 +207,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-        //TODO Cache.writeStoredFeeds(input.getText().toString());
+        StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
     builder.setNeutralButton("Add as RSS Feed", new DialogInterface.OnClickListener()
@@ -239,6 +215,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
+        StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
