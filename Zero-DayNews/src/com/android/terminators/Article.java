@@ -1,34 +1,71 @@
 package com.android.terminators;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
- * Feed class
- * Abstracted RssItem and Post classes.
+ * Article class
+ * Abstract class for use in RssItem and Post classes.
  * @author Derrick
+ * @author Brian
  */
+
 public abstract class Article
-{  
-  private String title;
-  private String link;
+{
+	static AtomicInteger nextId = new AtomicInteger();
 
-  public String getTitle() 
-  {
-    return title;
-  }
+	private int id;
+	private String title;
+	private String description;
+	private String link;
 
-  public void setTitle(String title)
-  {
-    this.title = title;
-  }
+	public Article ()
+	{
+		id = nextId.incrementAndGet();
+		title = "";
+		description = "";
+	}
 
-  public String getLink()
-  {
-    return link;
-  }
+	public Article (String title, String description)
+	{
+		id = nextId.incrementAndGet();
+		this.title = title;
+		this.description = description;
+	}
 
-  public void setLink(String link)
-  {
-    this.link = link;
-  }
-  
-  public abstract String getDetails();
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
+
+	public void setLink(String link)
+	{
+		this.link = link;
+	}
+
+	public String getTitle()
+	{
+		return title;
+	}
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public int getID()
+	{
+		return id;
+	}
+
+	public String getLink()
+	{
+		return link;
+	}
+
+	public abstract String getDetails();
 }
