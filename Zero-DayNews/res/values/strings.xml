@@ -8,6 +8,11 @@
     <string name="displayReddit">Display Reddit Feeds</string>
     <string name="addNewFeed">Add New Feed</string>
     <color name="lightblue">#009dde</color>
-    <string name="configureFeeds">Configure Feeds</string>
+    <string name="configureRssFeeds">Configure RSS Feeds</string>
+    <string name="configureRedditFeeds">Configure Reddit Feeds</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_addFeed">Add Feed</string>
+    <string name="action_configureFeeds">Configure Feeds</string>
+    <string name="action_help">Help</string>
 
 </resources>
