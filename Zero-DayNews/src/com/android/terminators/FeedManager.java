@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class FeedManager
 {
   private static FeedManager feedManager = null;
-  private ArrayList<Feed> rssFeedList;
-  private ArrayList<Feed> redditFeedList;
+  private ArrayList<Feed> rssFeedList = null;
+  private ArrayList<Feed> redditFeedList = null;
   
   public FeedManager()
   {
@@ -41,6 +41,16 @@ public class FeedManager
   public ArrayList<Feed> getRedditFeedList()
   {
     return redditFeedList;
+  }
+  
+  public void setRssFeed(ArrayList<Feed> rssFeedList)
+  {
+    this.rssFeedList = rssFeedList;
+  }
+  
+  public void setRedditFeed(ArrayList<Feed> redditFeedList)
+  {
+    this.redditFeedList = redditFeedList;
   }
 
   public Feed getRssFeed(Integer i)
