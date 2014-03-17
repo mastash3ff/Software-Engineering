@@ -45,12 +45,12 @@ public class FeedManager
   
   public void setRssFeedList(ArrayList<Feed> rssFeedList)
   {
-    this.rssFeedList = rssFeedList;
+    this.rssFeedList.addAll(rssFeedList);
   }
   
   public void setRedditFeedList(ArrayList<Feed> redditFeedList)
   {
-    this.redditFeedList = redditFeedList;
+    this.redditFeedList.addAll(redditFeedList);
   }
 
   public Feed getRssFeed(Integer i)
