@@ -46,7 +46,7 @@ public class MainActivity extends FragmentActivity
     setContentView(R.layout.activity_main);
 
     addAd();
-    initializeStorage();
+    //initializeStorage();
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -196,7 +196,7 @@ public class MainActivity extends FragmentActivity
 
   public void addFeed()
   {
-    storageNotification();
+    //storageNotification();
     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Add New Feed");
     builder.setMessage("Enter new feed:");
@@ -207,7 +207,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-        StorageLinks.writeStoredFeeds(input.getText().toString());
+        //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
     builder.setNeutralButton("Add as RSS Feed", new DialogInterface.OnClickListener()
@@ -215,7 +215,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
-        StorageLinks.writeStoredFeeds(input.getText().toString());
+        //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
