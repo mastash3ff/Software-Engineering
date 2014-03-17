@@ -88,7 +88,6 @@ public class NetworkComm
 
       // We now add this data to the cache
       StorageCache.write(url, sb.toString());
-      System.out.println(sb.toString());
       return sb.toString();
     }catch(IOException e){
       Log.d("READ FAILED", e.toString());
