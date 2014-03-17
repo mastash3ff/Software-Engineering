@@ -43,12 +43,12 @@ public class FeedManager
     return redditFeedList;
   }
   
-  public void setRssFeed(ArrayList<Feed> rssFeedList)
+  public void setRssFeedList(ArrayList<Feed> rssFeedList)
   {
     this.rssFeedList = rssFeedList;
   }
   
-  public void setRedditFeed(ArrayList<Feed> redditFeedList)
+  public void setRedditFeedList(ArrayList<Feed> redditFeedList)
   {
     this.redditFeedList = redditFeedList;
   }
