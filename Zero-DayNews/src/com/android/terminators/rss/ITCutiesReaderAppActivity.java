@@ -106,10 +106,18 @@ public class ITCutiesReaderAppActivity extends Activity
 
       // Set list adapter for the ListView
       //itcItems.setAdapter(adapter);
-
-      ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-      animationAdapter.setAbsListView(itcItems);
-      itcItems.setAdapter(animationAdapter);
+      
+      try
+      {
+        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
+        animationAdapter.setAbsListView(itcItems);
+        itcItems.setAdapter(animationAdapter);
+      }
+      catch (Exception e)
+      {
+        //TODO: alert the user that their data connection may have failed
+        e.printStackTrace();
+      }
 
       // Set list view item click listener
       itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
