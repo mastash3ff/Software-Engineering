@@ -1,7 +1,6 @@
 package com.android.terminators.rss;
 
 import com.android.terminators.ListListener;
-import com.android.terminators.MainActivity;
 import com.android.terminators.ZeroDayNews.R;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 import android.app.Activity;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -71,7 +71,7 @@ public class ITCutiesReaderAppActivity extends Activity
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        // MainActivity.configureRssFeeds();
+        //nconfigureRssFeeds();
         break;
       case R.id.action_addFeed:
         // addFeed();
@@ -141,8 +141,9 @@ public class ITCutiesReaderAppActivity extends Activity
           };
 
       // Set list adapter for the ListView
-      //itcItems.setAdapter(adapter);
+      itcItems.setAdapter(adapter);
       
+      /*
       try
       {
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
@@ -152,8 +153,10 @@ public class ITCutiesReaderAppActivity extends Activity
       catch (Exception e)
       {
         //TODO: alert the user that their data connection may have failed
+        Toast.makeText(getBaseContext(), "An error has occurred..." , Toast.LENGTH_SHORT).show();
         e.printStackTrace();
       }
+      */
 
       // Set list view item click listener
       itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));

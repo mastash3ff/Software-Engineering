@@ -170,7 +170,6 @@ public class MainActivity extends FragmentActivity
     }
   };
 
-
   @Override
   public void onBackPressed()
   {
@@ -224,7 +223,7 @@ public class MainActivity extends FragmentActivity
     {
       public void onClick(DialogInterface dialog, int id)
       {
-        FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
+        FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), Feed.REDDIT_FEED));
         Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
         //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
@@ -233,7 +232,7 @@ public class MainActivity extends FragmentActivity
     {
       public void onClick(DialogInterface dialog, int id)
       {
-        FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
+        FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), Feed.RSS_FEED));
         Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
         //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
@@ -253,8 +252,8 @@ public class MainActivity extends FragmentActivity
   public void configureRssFeeds()
   {
     //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
-    CharSequence[] items = new CharSequence[FeedManager.getFeed().getRssFeedList().size()];
-    Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
+    CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.RSS_FEED).size()];
+    Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.RSS_FEED).listIterator();
     Feed feed = null;
     boolean[] checkedItems = new boolean[items.length];
     for (int i = 0; itr.hasNext(); ++i)
@@ -270,9 +269,9 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id, boolean isChecked)
       {
         if (isChecked)
-          FeedManager.getFeed().getRssFeed(id).enableFeed();
-        else if (!isChecked)
-          FeedManager.getFeed().getRssFeed(id).disableFeed();
+          FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).enableFeed();
+        if (!isChecked)
+          FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).disableFeed();
       }
     });
     builder.setPositiveButton("Done", new DialogInterface.OnClickListener()
@@ -289,8 +288,8 @@ public class MainActivity extends FragmentActivity
   public void configureRedditFeeds()
   {
     //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
-    CharSequence[] items = new CharSequence[FeedManager.getFeed().getRedditFeedList().size()];
-    Iterator<Feed> itr = FeedManager.getFeed().getRedditFeedList().listIterator();
+    CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).size()];
+    Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).listIterator();
     Feed feed = null;
     boolean[] checkedItems = new boolean[items.length];
     for (int i = 0; itr.hasNext(); ++i)
@@ -306,9 +305,9 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id, boolean isChecked)
       {
         if (isChecked)
-          FeedManager.getFeed().getRedditFeed(id).enableFeed();
-        else if (!isChecked)
-          FeedManager.getFeed().getRedditFeed(id).disableFeed();
+          FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).enableFeed();
+        if (!isChecked)
+          FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).disableFeed();
       }
     });
     builder.setPositiveButton("Done", new DialogInterface.OnClickListener()
@@ -379,19 +378,19 @@ public class MainActivity extends FragmentActivity
       for ( int i = 0; i < redditListOfStrings.size(); ++i )
       {
         //on startup displays what links are already stored and adds them to feed
-        arrayList.add( new Feed( redditListOfStrings.get(i) ) );
+        arrayList.add( new Feed( redditListOfStrings.get(i), Feed.REDDIT_FEED ) );
       }
 
-      FeedManager.getFeed().setRedditFeedList( arrayList );
+      FeedManager.getInstance().setRedditFeedList( arrayList );
       arrayList.clear();
 
       for ( int i = 0; i < rssListOfStrings.size(); ++i )
       {
         //on startup displays what links are already stored and adds them to feed
-        arrayList.add( new Feed( rssListOfStrings.get(i) ) );
+        arrayList.add( new Feed( rssListOfStrings.get(i), Feed.RSS_FEED ) );
       }
       
-      FeedManager.getFeed().setRssFeedList( arrayList );
+      FeedManager.getInstance().setRssFeedList( arrayList );
       
       Toast.makeText( MainActivity.this, "Loaded Saved Feeds" , Toast.LENGTH_SHORT).show();
     }

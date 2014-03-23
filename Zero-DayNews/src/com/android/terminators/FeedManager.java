@@ -17,16 +17,16 @@ public class FeedManager
   {
     rssFeedList = new ArrayList<Feed>();
     redditFeedList = new ArrayList<Feed>();
-    addRssFeed(new Feed("http://feeds.feedburner.com/TechCrunch/"));
-    addRssFeed(new Feed("http://rss.slashdot.org/Slashdot/slashdot/"));
-    addRssFeed(new Feed("http://feeds.wired.com/wired27b/"));
-    addRssFeed(new Feed("http://feeds.feedburner.com/cnet/tcoc/"));
-    addRedditFeed(new Feed("technology"));
-    addRedditFeed(new Feed("science"));
-    addRedditFeed(new Feed("privacy"));
+    addRssFeed(new Feed("http://feeds.feedburner.com/TechCrunch/", Feed.RSS_FEED));
+    addRssFeed(new Feed("http://rss.slashdot.org/Slashdot/slashdot/", Feed.RSS_FEED));
+    addRssFeed(new Feed("http://feeds.wired.com/wired27b/", Feed.RSS_FEED));
+    addRssFeed(new Feed("http://feeds.feedburner.com/cnet/tcoc/", Feed.RSS_FEED));
+    addRedditFeed(new Feed("technology", Feed.REDDIT_FEED));
+    addRedditFeed(new Feed("science", Feed.REDDIT_FEED));
+    addRedditFeed(new Feed("privacy", Feed.REDDIT_FEED));
   }
 
-  public static FeedManager getFeed()
+  public static FeedManager getInstance()
   {
     // Singleton pattern
     if (feedManager == null)
@@ -44,6 +44,16 @@ public class FeedManager
     return redditFeedList;
   }
   
+  public ArrayList<Feed> getFeedList(int feedType)
+  {
+    if (feedType == Feed.RSS_FEED)
+      return rssFeedList;
+    if (feedType == Feed.REDDIT_FEED)
+      return redditFeedList;
+    //TODO: error checking
+    return null;
+  }
+  
   public void setRssFeedList(ArrayList<Feed> rssFeedList)
   {
     this.rssFeedList.addAll(rssFeedList);
@@ -54,32 +64,61 @@ public class FeedManager
     this.redditFeedList.addAll(redditFeedList);
   }
 
-  public Feed getRssFeed(Integer i)
+  public Feed getRssFeed(int i)
   {
     return rssFeedList.get(i);
   }
 
-  public Feed getRedditFeed(Integer i)
+  public Feed getRedditFeed(int i)
   {
     return redditFeedList.get(i);
+  }
+  
+  public Feed getFeed(int i, int feedType)
+  {
+    if (feedType == Feed.RSS_FEED)
+      return rssFeedList.get(i);
+    if (feedType == Feed.REDDIT_FEED)
+      return redditFeedList.get(i);
+    //TODO: error checking
+    return null;
   }
 
   public void addRssFeed(Feed feed)
   {
-	//input validation for feeds; checks for duplicates and exits if one is found
-	for (int i = 0; i < rssFeedList.size(); ++i)
-	  if (rssFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
-	    return;
+  	//input validation for feeds; checks for duplicates and exits if one is found
+	  for (int i = 0; i < rssFeedList.size(); ++i)
+	    if (rssFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+	      return;
     rssFeedList.add(feed);
   }
 
   public void addRedditFeed(Feed feed)
   {
-	//input validation for feeds; checks for duplicates and exits if one is found
-	for (int i = 0; i < redditFeedList.size(); ++i)
-	  if (redditFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
-		return;
+  	//input validation for feeds; checks for duplicates and exits if one is found
+	  for (int i = 0; i < redditFeedList.size(); ++i)
+	    if (redditFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+	  	  return;
     redditFeedList.add(feed);
+  }
+  
+  public void addFeed(Feed feed)
+  {
+    //input validation for feeds; checks for duplicates and exits if one is found
+    if (feed.getFeedType() == Feed.REDDIT_FEED)
+    {
+      for (int i = 0; i < redditFeedList.size(); ++i)
+        if (redditFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+          return;
+      redditFeedList.add(feed);
+    }
+    if (feed.getFeedType() == Feed.RSS_FEED)
+    {
+      for (int i = 0; i < rssFeedList.size(); ++i)
+        if (rssFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+          return;
+      rssFeedList.add(feed);
+    }
   }
 
 }
