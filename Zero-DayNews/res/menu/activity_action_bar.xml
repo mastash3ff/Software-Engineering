@@ -4,8 +4,7 @@
         android:id="@+id/action_refresh"
         android:showAsAction="ifRoom"
         android:title="@string/action_refresh"
-        android:icon="@drawable/ic_action_refresh"
-        />
+        android:icon="@drawable/ic_action_refresh" />
     
     <item
         android:id="@+id/action_addFeed"
@@ -24,5 +23,17 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_help"/>
+        
+    <item
+        android:id="@+id/action_saveFeed"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_saveFeed"/>
+        
+    <item
+        android:id="@+id/action_loadFeed"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_loadFeed"/>
 
 </menu>

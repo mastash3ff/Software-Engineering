@@ -1,5 +1,6 @@
 package com.android.terminators;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.PostFragment;
@@ -80,6 +81,18 @@ public class MainActivity extends Activity
       case R.id.action_addFeed:
         addFeed();
         break;
+      case R.id.action_loadFeed:
+        StorageLinks.initializeStorage(getApplicationContext());
+        Toast.makeText(getApplicationContext(), "Feeds Loaded" , Toast.LENGTH_SHORT).show();
+        break;
+      case R.id.action_saveFeed:
+        ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
+        feedList.addAll( FeedManager.getInstance().getFeedList(Feed.RSS_FEED) );
+
+        for ( int i = 4; i < feedList.size(); ++i)
+          StorageLinks.writeStoredFeeds( feedList.get(i).getFeedSite() );
+        Toast.makeText(getApplicationContext(), "Feeds Saved" , Toast.LENGTH_SHORT).show();
+        break;
       default:
         break;
     }
@@ -156,7 +169,6 @@ public class MainActivity extends Activity
 
   public void addFeed()
   {
-    StorageLinks.storageNotification( getApplicationContext() );
     feedType = -1;
     final CharSequence[] items = {"RSS Feed", "Reddit Feed"};
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -183,8 +195,8 @@ public class MainActivity extends Activity
           Toast.makeText(getApplicationContext(), "Error: Feed type required" , Toast.LENGTH_SHORT).show();
         else
         {
-          FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));
-          Toast.makeText(getApplicationContext(), "Feed added" , Toast.LENGTH_SHORT).show();      
+          FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));  
+          Toast.makeText(getApplicationContext(), "Feed Added" , Toast.LENGTH_SHORT).show();      
         }
       }
     });
