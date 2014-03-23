@@ -219,7 +219,7 @@ public class MainActivity extends FragmentActivity
     builder.setMessage("Enter new feed:");
     final EditText input = new EditText(MainActivity.this);
     builder.setView(input);
-    builder.setPositiveButton("Add as Reddit Feed", new DialogInterface.OnClickListener()
+    builder.setPositiveButton("Add Reddit Feed", new DialogInterface.OnClickListener()
     {
       public void onClick(DialogInterface dialog, int id)
       {
@@ -228,7 +228,7 @@ public class MainActivity extends FragmentActivity
         //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
-    builder.setNeutralButton("Add as RSS Feed", new DialogInterface.OnClickListener()
+    builder.setNeutralButton("Add RSS Feed", new DialogInterface.OnClickListener()
     {
       public void onClick(DialogInterface dialog, int id)
       {
@@ -381,7 +381,7 @@ public class MainActivity extends FragmentActivity
         arrayList.add( new Feed( redditListOfStrings.get(i), Feed.REDDIT_FEED ) );
       }
 
-      FeedManager.getInstance().setRedditFeedList( arrayList );
+      FeedManager.getInstance().setFeedList( arrayList, Feed.REDDIT_FEED );
       arrayList.clear();
 
       for ( int i = 0; i < rssListOfStrings.size(); ++i )
@@ -390,7 +390,7 @@ public class MainActivity extends FragmentActivity
         arrayList.add( new Feed( rssListOfStrings.get(i), Feed.RSS_FEED ) );
       }
       
-      FeedManager.getInstance().setRssFeedList( arrayList );
+      FeedManager.getInstance().setFeedList( arrayList, Feed.RSS_FEED );
       
       Toast.makeText( MainActivity.this, "Loaded Saved Feeds" , Toast.LENGTH_SHORT).show();
     }
