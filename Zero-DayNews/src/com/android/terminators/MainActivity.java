@@ -39,10 +39,9 @@ public class MainActivity extends FragmentActivity
   private Button rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
-  private ArrayList<String> rssListOfStrings;
-  private ArrayList<String> redditListOfStrings;
   private FragmentManager fragManager = null;
   private FragmentTransaction fragTransaction = null;
+  private int feedType = -1;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -224,24 +223,36 @@ public class MainActivity extends FragmentActivity
   public void addFeed()
   {
     StorageLinks.storageNotification( getApplicationContext() );
-    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    feedType = -1;
+    final CharSequence[] items = {"RSS Feed", "Reddit Feed"};
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("Add New Feed");
-    builder.setMessage("Enter new feed:");
-    final EditText input = new EditText(MainActivity.this);
+    //builder.setMessage("Enter new feed:");
+    final EditText input = new EditText(this);
     builder.setView(input);
-    builder.setPositiveButton("Add as Reddit Feed", new DialogInterface.OnClickListener()
+    builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener()
     {
+      @Override
       public void onClick(DialogInterface dialog, int id)
-      {
-        FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), Feed.REDDIT_FEED));
+      {       
+        //TODO: add bounds/error checking
+        if (id == 0)
+          feedType = Feed.RSS_FEED;
+        if (id == 1)
+          feedType = Feed.REDDIT_FEED;
       }
     });
-    builder.setNeutralButton("Add as RSS Feed", new DialogInterface.OnClickListener()
+    builder.setPositiveButton("Add Feed", new DialogInterface.OnClickListener()
     {
       public void onClick(DialogInterface dialog, int id)
       {
-        FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), Feed.RSS_FEED));
-        Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
+        if (feedType == -1)
+          Toast.makeText(getApplicationContext(), "Error: Feed type required..." , Toast.LENGTH_SHORT).show();
+        else
+        {
+          FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));
+          Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();      
+        }
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()

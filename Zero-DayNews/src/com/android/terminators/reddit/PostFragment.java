@@ -84,7 +84,7 @@ public class PostFragment extends Fragment
           FeedManager feedManager = FeedManager.getInstance();
           for (int i = 0; i < feedManager.getFeedList(Feed.REDDIT_FEED).size(); ++i)
           {
-            if (feedManager.getRedditFeed(i).isEnabled())
+            if (feedManager.getFeed(i, Feed.REDDIT_FEED).isEnabled())
             {
               postsHolder.setSubReddit(feedManager.getFeed(i, Feed.REDDIT_FEED).toString());
               posts.addAll(postsHolder.fetchMorePosts());
