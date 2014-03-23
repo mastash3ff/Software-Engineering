@@ -9,11 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
 import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
-import com.android.terminators.MainActivity;
-
 import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
@@ -144,41 +141,26 @@ public class StorageLinks implements Storage
   {
     //reads text file to see what links are saved and returns as a list
     ArrayList<String> listOfStrings = readStoredFeeds();
-    ArrayList<Feed> arrayList = new ArrayList<Feed>();
 
     //file checks
-    if ( StorageLinks.checkIfStorageFileExists() == false ) 
+    if ( !StorageLinks.checkIfStorageFileExists() ) 
     {
       StorageLinks.createFile();
     }
-    
-    String feedName;
-    String feedType;
-    String feedEnabled;
+
     String[] feedData;
 
-    /*
     for ( int i = 0; i < listOfStrings.size(); ++i )
     {
       //on startup displays what links are already stored and adds them to feed
       feedData = listOfStrings.get(i).split("\\s+");
-      
-      arrayList.add( new Feed( feedData[0], Integer.parseInt(feedData[1]), Boolean.parseBoolean( feedData[2]) ) );
+
+      FeedManager.getInstance().addFeed( new Feed( feedData[0], Integer.parseInt(feedData[1]), 
+          Boolean.parseBoolean( feedData[2])));
     }
-
-    FeedManager.getInstance().setRedditFeedList( arrayList );
-    arrayList.clear();
-
-    for ( int i = 0; i < rssListOfStrings.size(); ++i )
-    {
-      //on startup displays what links are already stored and adds them to feed
-      arrayList.add( new Feed( rssListOfStrings.get(i) ) );
-    }
-
-    FeedManager.getInstance().setRssFeedList( arrayList );
 
     Toast.makeText( context, "Saved Feeds Loaded" , Toast.LENGTH_SHORT).show();
-    */
+
   }
 
   /**Writes to storagelinks.txt
