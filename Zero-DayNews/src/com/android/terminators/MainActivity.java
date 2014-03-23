@@ -7,12 +7,14 @@ import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
 import com.android.terminators.storage.StorageLinks;
 import com.google.android.gms.ads.*;
-
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +40,8 @@ public class MainActivity extends FragmentActivity
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
   private LinkedList<String> linkListOfStrings;
+  private FragmentManager fragManager = null;
+  private FragmentTransaction fragTransaction = null;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -77,16 +81,23 @@ public class MainActivity extends FragmentActivity
   }
 
   //opens the appropriate dialogs when option items are selected
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        configureRssFeeds();
+        configureRedditFeeds();
         break;
       case R.id.action_addFeed:
         addFeed();
+        break;
+      case R.id.action_refresh:
+        //TODO: this currently only works for API >= 11 and results in extra items on back stack
+        getFragmentManager().popBackStack("reddit", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        addFragment();
+        Toast.makeText(getApplicationContext(), "Feed refreshed..." , Toast.LENGTH_SHORT).show();
         break;
       default:
         break;
@@ -129,10 +140,7 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-          .add(R.id.fragment_holder, PostFragment.newInstance());
-      transaction.addToBackStack("reddit");
-      transaction.commit();
+      addFragment();
       hideElements();
     }
   };
@@ -193,6 +201,14 @@ public class MainActivity extends FragmentActivity
       adView.destroy();
     super.onDestroy();
   }
+  
+  public void addFragment()
+  {
+    fragTransaction = getSupportFragmentManager().beginTransaction();
+    fragTransaction.add(R.id.fragment_holder, PostFragment.newInstance());
+    fragTransaction.addToBackStack("reddit");
+    fragTransaction.commit();
+  }
 
   public void addFeed()
   {
@@ -207,6 +223,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
+        Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
         //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
@@ -215,6 +232,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
+        Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
         //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
@@ -223,6 +241,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         dialog.dismiss();
+        Toast.makeText(getApplicationContext(), "Action canceled..." , Toast.LENGTH_SHORT).show();
       }
     });
     AlertDialog dialog = builder.create();
