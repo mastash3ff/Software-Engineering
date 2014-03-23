@@ -10,11 +10,19 @@ public class Feed
   private boolean enabled = true;
   private int feedType = -1;
   public final static int RSS_FEED = 0, REDDIT_FEED = 1;
+  public final static int DISABLED_FEED = 0, ENABLED_FEED = 1;
   
   public Feed(String feedSite, int feedType)
   {
     setFeedSite(feedSite);
     setFeedType(feedType);
+  }
+  
+  public Feed(String feedSite, int feedType, boolean enabled)
+  {
+    setFeedSite(feedSite);
+    setFeedType(feedType);
+    this.enabled = enabled;
   }
   
   public String getFeedSite()
