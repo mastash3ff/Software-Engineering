@@ -9,7 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import com.android.terminators.Feed;
+import com.android.terminators.FeedManager;
+import com.android.terminators.MainActivity;
+
+import android.content.Context;
 import android.os.Environment;
+import android.widget.Toast;
 
 /**
  * Custom Storage class that has methods pertaining to Creation, Retrieval, and Storage of Feed
@@ -31,7 +38,7 @@ public class StorageLinks implements Storage
    * Once confirmed, create the cache directory if it does not
    * exist yet
    */
-  
+
   static 
   {
     if(Environment.getExternalStorageState()
@@ -44,16 +51,29 @@ public class StorageLinks implements Storage
     }
   }
 
-/**
- * Utility method to determine if links.txt exists on Android Storage
- * @return
- */
-  public static Boolean checkIfFilesExists()
+  /**
+   * Utility method to determine if links.txt exists on Android Storage
+   * @return
+   */
+  public static Boolean checkIfRSSFileExists()
   {
     File myRSSFile = new File ( getRssFilePath() );
+
+    if ( myRSSFile.exists() ) 
+      return true;
+    else
+      return false;
+  }
+
+  /**
+   * Utility method to determine if links.txt exists on Android Storage
+   * @return
+   */
+  public static Boolean checkIfRedditFileExists()
+  {
     File myRedditFile = new File ( getRedditFilePath() );
 
-    if (myRSSFile.exists() && myRedditFile.exists() ) 
+    if ( myRedditFile.exists() ) 
       return true;
     else
       return false;
@@ -62,14 +82,28 @@ public class StorageLinks implements Storage
   /**
    * Creates a blank links.txt file if it is non-existent.
    */
-  public static void createFile()
+  public static void createRedditFile()
   {
     File myRedditFile = new File( getRedditFilePath() );
-    File myRSSFile = new File( getRssFilePath() );
 
     try
     {
       myRedditFile.createNewFile();
+    } catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Creates a blank links.txt file if it is non-existent.
+   */
+  public static void createRSSFile()
+  {
+    File myRSSFile = new File( getRssFilePath() );
+
+    try
+    {
       myRSSFile.createNewFile();
     } catch (IOException e)
     {
@@ -89,127 +123,194 @@ public class StorageLinks implements Storage
     File f = new File( filePath );
     String contents = null;
     BufferedReader br = null;
-    ArrayList<String> ArrayList = new ArrayList<String>();
+    ArrayList<String> arrayList = new ArrayList<String>();
 
-    //if file does not exist, create a file and exit function
-    if ( !f.exists()  )
-      createFile();
-    else
-    {
-      //read contents of file if it does exist and return a list of links
-      try
-      {
-        br = new BufferedReader(new FileReader(f));
-
-        while ( (contents = br.readLine() ) != null) 
-        {
-          ArrayList.add(contents);
-        }
-
-      } 
-      catch (FileNotFoundException e)
-      {
-        e.printStackTrace();
-      }
-      catch (IOException e)
-      {
-        e.printStackTrace();
-      } 
-      finally 
-      {
-        try
-        {
-          if (br != null)br.close();
-        } catch (IOException ex) 
-        {
-          ex.printStackTrace();
-        }
-      }
-    }
-    return ArrayList;
-  }
-
-  /**Writes to links.txt
-   * @param link
-   * */
-  public static void writeStoredFeeds( String fileName )
-  {
+    //read contents of file if it does exist and return a list of links
     try
     {
-      String file= getCacheDirectory() + fileName;
-      File f = new File(file);
-      PrintWriter pw=new PrintWriter( new BufferedWriter(new FileWriter(f, true)));
-      pw.println( fileName );
-      pw.close();
-    }
-    catch(Exception e) 
+      br = new BufferedReader(new FileReader(f));
+
+      while ( (contents = br.readLine() ) != null) 
+      {
+        arrayList.add(contents);
+      }
+    } 
+    catch (FileNotFoundException e)
     {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Deletes file and recreates a blank one with filename links.txt
-   * 
-   */
-  @Override
-  public void clear()
-  {
-    File myRSSFile = new File ( getRssFilePath() );
-    File myRedditFile = new File ( getRedditFilePath() );
-
-    if ( myRSSFile.isDirectory() ) 
-      myRSSFile.delete();
-
-    if ( myRedditFile.isDirectory() )
-      myRedditFile.delete();
-    
-    createFile();
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    } 
+    finally 
+    {
+      try
+      {
+        if (br != null)br.close();
+      } catch (IOException ex) 
+      {
+        ex.printStackTrace();
+      }
+    }
+    return arrayList;
   }
   
-  /**
-   * Fetches the Cache Directory which is the system's file path to the applications folder.
-   * @return
-   */
-  public static String getCacheDirectory()
+/**Writes to redditlinks.txt
+ * @param link
+ * */
+public static void writeRedditFeed( String feedName )
+{
+  try
   {
-    return cacheDirectory;
+    File f = new File( getRedditFilePath() );
+    PrintWriter pw = new PrintWriter( new BufferedWriter(new FileWriter(f, true)));
+    pw.println( feedName );
+    pw.close();
   }
-  
-  /**
-   * Returns a static string of the filename + extension.
-   * @return
-   */
-  public static String getRedditFileName()
+  catch(Exception e) 
   {
-    return redditFileName;
+    e.printStackTrace();
+  }
+}
+
+/**Writes to  rsslinks.txt
+ * @param link
+ * */
+public static void writeRSSFeed( String feedName )
+{
+  try
+  {
+    File f = new File( getRssFilePath());
+    PrintWriter pw = new PrintWriter( new BufferedWriter(new FileWriter(f, true)));
+    pw.println( feedName );
+    pw.close();
+  }
+  catch(Exception e) 
+  {
+    e.printStackTrace();
+  }
+}
+
+/**
+ *  Checks to see if there is any feeds on storage and notifies 
+ * */
+public static void storageNotification(Context context)
+{
+  ArrayList<String > redditListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRedditFileName() );
+  ArrayList<String> rssListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRssFileName() );
+
+  //notify user if no feeds are detected upon pressing an enter feed button
+  if ( !(redditListOfStrings.isEmpty() && rssListOfStrings.isEmpty()) )
+  {
+    Toast.makeText(context, "Zero Feeds Detected on Device" , Toast.LENGTH_SHORT).show();
+  }
+}
+
+/** Checks to see if file exists with Feed links if not creates a file called 
+ * StoredLinks.txt on storage
+ */
+public static void initializeStorage( Context context )
+{
+  //reads text file to see what links are saved and returns as a list
+  ArrayList<String > redditListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRedditFileName() );
+  ArrayList<String> rssListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRssFileName() );
+
+  ArrayList<Feed> arrayList = new ArrayList<Feed>();
+
+  //file checks
+  if ( StorageLinks.checkIfRSSFileExists() == false ) 
+  {
+    StorageLinks.createRSSFile();
   }
 
-  /**
-   * Returns the name of the RSS text file.
-   * @return
-   */
-  public static String getRssFileName()
+  if ( StorageLinks.checkIfRedditFileExists() == false ) 
   {
-    return rssFileName;
+    StorageLinks.createRedditFile();
   }
+
+  for ( int i = 0; i < redditListOfStrings.size(); ++i )
+  {
+    //on startup displays what links are already stored and adds them to feed
+    arrayList.add( new Feed( redditListOfStrings.get(i) ) );
+  }
+
+  FeedManager.getFeed().setRedditFeedList( arrayList );
+  arrayList.clear();
+
+  for ( int i = 0; i < rssListOfStrings.size(); ++i )
+  {
+    //on startup displays what links are already stored and adds them to feed
+    arrayList.add( new Feed( rssListOfStrings.get(i) ) );
+  }
+
+  FeedManager.getFeed().setRssFeedList( arrayList );
+
+  Toast.makeText( context, "Saved Feeds Loaded" , Toast.LENGTH_SHORT).show();
+}
+
+
+/**
+ * Brandon's lazy way of deleting the contents of a file.
+ */
+@Override
+public void clear()
+{
+  File myRSSFile = new File ( getRssFilePath() );
+  File myRedditFile = new File ( getRedditFilePath() );
+
+  if ( myRSSFile.isDirectory() ) 
+    myRSSFile.delete();
+
+  if ( myRedditFile.isDirectory() )
+    myRedditFile.delete();
+
+  createRedditFile();
+  createRSSFile();
+}
+
+/**
+ * Fetches the Cache Directory which is the system's file path to the applications folder.
+ * @return
+ */
+public static String getCacheDirectory()
+{
+  return cacheDirectory;
+}
+
+/**
+ * Returns a static string of the filename + extension.
+ * @return
+ */
+public static String getRedditFileName()
+{
+  return redditFileName;
+}
+
+/**
+ * Returns the name of the RSS text file.
+ * @return
+ */
+public static String getRssFileName()
+{
+  return rssFileName;
+}
 
 /**
  * Returns the entire system path to applications folder with the RSS file name appended.
  * @return
  */
-  public static String getRssFilePath()
-  {
-    return rssFilePath;
-  }
+public static String getRssFilePath()
+{
+  return rssFilePath;
+}
 
-  /**
-   * Returns the entire system path to applications folder with the Reddit file name appended.
-   * @return
-   */
-  public static String getRedditFilePath()
-  {
-    return redditFilePath;
-  }
-  
+/**
+ * Returns the entire system path to applications folder with the Reddit file name appended.
+ * @return
+ */
+public static String getRedditFilePath()
+{
+  return redditFilePath;
+}
 }  

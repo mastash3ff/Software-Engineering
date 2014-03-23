@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity
     setContentView(R.layout.activity_main);
 
     addAd();
-    //initializeStorage();
+    StorageLinks.initializeStorage(getApplicationContext());
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -191,6 +191,11 @@ public class MainActivity extends FragmentActivity
   {
     if (adView != null)
       adView.pause();
+    
+    //when application is sent to background or closed, write to disk
+    ArrayList<Feed> redditFeedList = FeedManager.getFeed().getRedditFeedList();
+    ArrayList<Feed> rssFeedList = FeedManager.getFeed().getRssFeedList();
+    
     super.onPause();
   }
 
@@ -203,7 +208,7 @@ public class MainActivity extends FragmentActivity
       adView.destroy();
     super.onDestroy();
   }
-  
+
   public void addFragment()
   {
     fragTransaction = getSupportFragmentManager().beginTransaction();
@@ -214,7 +219,7 @@ public class MainActivity extends FragmentActivity
 
   public void addFeed()
   {
-    //storageNotification();
+    StorageLinks.storageNotification( getApplicationContext() );
     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Add New Feed");
     builder.setMessage("Enter new feed:");
@@ -225,17 +230,13 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
-        Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
-        //StorageLinks.writeStoredFeeds(input.getText().toString());
       }
     });
     builder.setNeutralButton("Add as RSS Feed", new DialogInterface.OnClickListener()
     {
       public void onClick(DialogInterface dialog, int id)
       {
-        FeedManager.getFeed().addRssFeed(new Feed(input.getText().toString()));
-        Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
-        //StorageLinks.writeStoredFeeds(input.getText().toString());
+        FeedManager.getFeed().addRssFeed(new Feed( input.getText().toString()));
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
@@ -352,63 +353,5 @@ public class MainActivity extends FragmentActivity
 
     // Start loading the ad in the background.
     adView.loadAd(adRequest);
-  }
-
-  /** Checks to see if file exists with Feed links if not creates a file called 
-   * StoredLinks.txt on storage
-   */
-  public void initializeStorage()
-  {
-    //reads text file to see what links are saved and returns as a list
-    redditListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRedditFileName() );
-    rssListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRssFileName() );
-
-    ArrayList<Feed> arrayList = new ArrayList<Feed>();
-
-    //notify user if no feeds are detected upon pressing an enter feed button
-    if ( !( redditListOfStrings.isEmpty() && rssListOfStrings.isEmpty()) )
-      Toast.makeText(MainActivity.this, "Loading Saved Feeds..." , Toast.LENGTH_SHORT).show();
-
-    //if file not found, create a file called StoredLinks.txt
-    if ( StorageLinks.checkIfFilesExists() == false ) 
-    {
-      StorageLinks.createFile();
-    }
-    else
-    {
-      for ( int i = 0; i < redditListOfStrings.size(); ++i )
-      {
-        //on startup displays what links are already stored and adds them to feed
-        arrayList.add( new Feed( redditListOfStrings.get(i) ) );
-      }
-
-      FeedManager.getFeed().setRedditFeedList( arrayList );
-      arrayList.clear();
-
-      for ( int i = 0; i < rssListOfStrings.size(); ++i )
-      {
-        //on startup displays what links are already stored and adds them to feed
-        arrayList.add( new Feed( rssListOfStrings.get(i) ) );
-      }
-      
-      FeedManager.getFeed().setRssFeedList( arrayList );
-      
-      Toast.makeText( MainActivity.this, "Loaded Saved Feeds" , Toast.LENGTH_SHORT).show();
-    }
-  }
-
-  /**
-   *  Reminder message of what is already stored on file when user presses one of the Add Feed Buttons 
-   * */
-  public void storageNotification()
-  {
-    redditListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRedditFileName() );
-    rssListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRssFileName() );
-
-    //notify user if no feeds are detected upon pressing an enter feed button
-    if ( !(redditListOfStrings.isEmpty() && rssListOfStrings.isEmpty()) )
-    {
-      Toast.makeText(MainActivity.this, "Zero Feeds Detected on Device" , Toast.LENGTH_SHORT).show();
-    }
   }
 }
