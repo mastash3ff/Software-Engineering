@@ -8,10 +8,13 @@ public class Feed
 {
   private String feedSite = "";
   private boolean enabled = true;
+  private int feedType = -1;
+  public final static int RSS_FEED = 0, REDDIT_FEED = 1;
   
-  public Feed(String feedSite)
+  public Feed(String feedSite, int feedType)
   {
-    this.setFeedSite(feedSite);
+    setFeedSite(feedSite);
+    setFeedType(feedType);
   }
   
   public String getFeedSite()
@@ -22,6 +25,16 @@ public class Feed
   public void setFeedSite(String feedSite)
   {
     this.feedSite = feedSite;
+  }
+  
+  public int getFeedType()
+  {
+    return feedType;
+  }
+  
+  public void setFeedType(int feedType)
+  {
+    this.feedType = feedType;
   }
 
   public Boolean isEnabled()

@@ -170,7 +170,6 @@ public class MainActivity extends FragmentActivity
     }
   };
 
-
   @Override
   public void onBackPressed()
   {
@@ -193,8 +192,13 @@ public class MainActivity extends FragmentActivity
       adView.pause();
     
     //when application is sent to background or closed, write to disk
-    ArrayList<Feed> redditFeedList = FeedManager.getFeed().getRedditFeedList();
-    ArrayList<Feed> rssFeedList = FeedManager.getFeed().getRssFeedList();
+    ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
+    feedList.addAll( FeedManager.getInstance().getFeedList(Feed.RSS_FEED) );
+    
+    for ( int i=0; i < feedList.size(); ++i)
+    {
+      StorageLinks.writeStoredFeeds( feedList.get(i).getFeedSite() );
+    }
     
     super.onPause();
   }
@@ -229,14 +233,15 @@ public class MainActivity extends FragmentActivity
     {
       public void onClick(DialogInterface dialog, int id)
       {
-        FeedManager.getFeed().addRedditFeed(new Feed(input.getText().toString()));
+        FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), Feed.REDDIT_FEED));
       }
     });
     builder.setNeutralButton("Add as RSS Feed", new DialogInterface.OnClickListener()
     {
       public void onClick(DialogInterface dialog, int id)
       {
-        FeedManager.getFeed().addRssFeed(new Feed( input.getText().toString()));
+        FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), Feed.RSS_FEED));
+        Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
@@ -254,8 +259,8 @@ public class MainActivity extends FragmentActivity
   public void configureRssFeeds()
   {
     //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
-    CharSequence[] items = new CharSequence[FeedManager.getFeed().getRssFeedList().size()];
-    Iterator<Feed> itr = FeedManager.getFeed().getRssFeedList().listIterator();
+    CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.RSS_FEED).size()];
+    Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.RSS_FEED).listIterator();
     Feed feed = null;
     boolean[] checkedItems = new boolean[items.length];
     for (int i = 0; itr.hasNext(); ++i)
@@ -271,9 +276,9 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id, boolean isChecked)
       {
         if (isChecked)
-          FeedManager.getFeed().getRssFeed(id).enableFeed();
-        else if (!isChecked)
-          FeedManager.getFeed().getRssFeed(id).disableFeed();
+          FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).enableFeed();
+        if (!isChecked)
+          FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).disableFeed();
       }
     });
     builder.setPositiveButton("Done", new DialogInterface.OnClickListener()
@@ -290,8 +295,8 @@ public class MainActivity extends FragmentActivity
   public void configureRedditFeeds()
   {
     //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
-    CharSequence[] items = new CharSequence[FeedManager.getFeed().getRedditFeedList().size()];
-    Iterator<Feed> itr = FeedManager.getFeed().getRedditFeedList().listIterator();
+    CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).size()];
+    Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).listIterator();
     Feed feed = null;
     boolean[] checkedItems = new boolean[items.length];
     for (int i = 0; itr.hasNext(); ++i)
@@ -307,9 +312,9 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id, boolean isChecked)
       {
         if (isChecked)
-          FeedManager.getFeed().getRedditFeed(id).enableFeed();
-        else if (!isChecked)
-          FeedManager.getFeed().getRedditFeed(id).disableFeed();
+          FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).enableFeed();
+        if (!isChecked)
+          FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).disableFeed();
       }
     });
     builder.setPositiveButton("Done", new DialogInterface.OnClickListener()

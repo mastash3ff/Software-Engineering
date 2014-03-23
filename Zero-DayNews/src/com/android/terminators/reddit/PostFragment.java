@@ -1,5 +1,6 @@
 package com.android.terminators.reddit;
 
+import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
@@ -80,15 +81,12 @@ public class PostFragment extends Fragment
       {
         public void run()
         {
-          // Iterator<Feed> itr = FeedManager.getFeed().getRedditFeedList().listIterator();
-          FeedManager feedManager = FeedManager.getFeed();
-
-          //TODO: current ugly.  might need to add a custom iterator function for type List<Post>
-          for (int i = 0; i < feedManager.getRedditFeedList().size(); ++i)
+          FeedManager feedManager = FeedManager.getInstance();
+          for (int i = 0; i < feedManager.getFeedList(Feed.REDDIT_FEED).size(); ++i)
           {
             if (feedManager.getRedditFeed(i).isEnabled())
             {
-              postsHolder.setSubReddit(feedManager.getRedditFeed(i).toString());
+              postsHolder.setSubReddit(feedManager.getFeed(i, Feed.REDDIT_FEED).toString());
               posts.addAll(postsHolder.fetchMorePosts());
             }
           }
@@ -141,10 +139,12 @@ public class PostFragment extends Fragment
         return convertView;
       }
     };
-    //postsList.setAdapter(adapter);
+    postsList.setAdapter(adapter);
+    /*
     ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
     animationAdapter.setAbsListView(postsList);
     postsList.setAdapter(animationAdapter);
+    */
     
     postsList.setOnItemClickListener(new ListListener<Post>(posts, getActivity()));
     postsList.setOnItemLongClickListener(new ListListener<Post>(posts, getActivity()));
