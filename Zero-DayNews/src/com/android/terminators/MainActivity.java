@@ -1,13 +1,12 @@
 package com.android.terminators;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.*;
 import com.android.terminators.rss.*;
 import com.android.terminators.storage.StorageLinks;
 import com.google.android.gms.ads.*;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,7 +36,8 @@ public class MainActivity extends FragmentActivity
   private Button rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
-  private LinkedList<String> linkListOfStrings;
+  private ArrayList<String> rssLinkListOfStrings;
+  private ArrayList<String> redditLinkListOfStrings;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -160,6 +160,7 @@ public class MainActivity extends FragmentActivity
       configureRedditFeeds();
     }
   };
+
 
   @Override
   public void onBackPressed()
@@ -338,22 +339,41 @@ public class MainActivity extends FragmentActivity
    */
   public void initializeStorage()
   {
+    //reads text file to see what links are saved and returns as a list
+    redditLinkListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRedditFileName() );
+    rssLinkListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRssFileName() );
+
+    ArrayList<Feed> arrayList = new ArrayList<Feed>();
+
+    //notify user if no feeds are detected upon pressing an enter feed button
+    if ( !( redditLinkListOfStrings.isEmpty() && rssLinkListOfStrings.isEmpty()) )
+      Toast.makeText(MainActivity.this, "Loading Saved Feeds..." , Toast.LENGTH_SHORT).show();
+
     //if file not found, create a file called StoredLinks.txt
-    if ( StorageLinks.checkIfFileExists() == false ) 
+    if ( StorageLinks.checkIfFilesExists() == false ) 
     {
       StorageLinks.createFile();
-      return;
     }
     else
     {
-      linkListOfStrings = StorageLinks.readStoredFeeds();
-      for ( int i = 0; i < linkListOfStrings.size(); ++i)
+      for ( int i = 0; i < redditLinkListOfStrings.size(); ++i )
       {
         //on startup displays what links are already stored and adds them to feed
-        Toast.makeText(MainActivity.this, "Saved Feed: " + linkListOfStrings.get(i), Toast.LENGTH_SHORT).show();
-        FeedManager.getFeed().addRedditFeed(new Feed( onlyRedditFeeds(linkListOfStrings).get(i)));
-        FeedManager.getFeed().addRssFeed(new Feed( onlyRSSFeeds(linkListOfStrings).get(i)));
+        arrayList.add( new Feed( redditLinkListOfStrings.get(i) ) );
       }
+
+      FeedManager.getFeed().setRedditFeedList( arrayList );
+      arrayList.clear();
+
+      for ( int i = 0; i < rssLinkListOfStrings.size(); ++i )
+      {
+        //on startup displays what links are already stored and adds them to feed
+        arrayList.add( new Feed( rssLinkListOfStrings.get(i) ) );
+      }
+      
+      FeedManager.getFeed().setRssFeedList( arrayList );
+      
+      Toast.makeText( MainActivity.this, "Loaded Saved Feeds" , Toast.LENGTH_SHORT).show();
     }
   }
 
@@ -362,54 +382,13 @@ public class MainActivity extends FragmentActivity
    * */
   public void storageNotification()
   {
-    linkListOfStrings = StorageLinks.readStoredFeeds();
+    redditLinkListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRedditFileName() );
+    rssLinkListOfStrings = StorageLinks.readStoredFeeds( StorageLinks.getRssFileName() );
 
     //notify user if no feeds are detected upon pressing an enter feed button
-    if ( linkListOfStrings.isEmpty() )
+    if ( !(redditLinkListOfStrings.isEmpty() && rssLinkListOfStrings.isEmpty()) )
     {
       Toast.makeText(MainActivity.this, "Zero Feeds Detected on Device" , Toast.LENGTH_SHORT).show();
     }
-    else
-    {
-      //notifies user of what is already stored
-      for ( int i = 0; i < linkListOfStrings.size(); ++i )
-      {
-        Toast.makeText(MainActivity.this, "Already Stored: " + linkListOfStrings.get(i), Toast.LENGTH_SHORT).show();
-      }   
-    }
-  }
-
-  /**
-   * Helper function to remove 'http' links from RSS and return only Reddit links
-   * @param list
-   * @return
-   */
-  public LinkedList<String> onlyRedditFeeds( LinkedList<String> list )
-  {
-    String tmp;
-    for ( int i = 0; i < list.size(); ++i)
-    {
-      tmp = list.get(i);
-      boolean hazTroof = tmp.startsWith("http");
-      if (hazTroof == true)
-        list.remove(i);
-    }
-    return list;
-  }
-
-  /**
-   * Helper function to remove reddits and only contain RSS links
-   * @param list
-   * @return
-   */
-  public LinkedList<String> onlyRSSFeeds( LinkedList<String> list )
-  {
-    String tmp;
-    for ( int i = 0; i < list.size(); ++i)
-    {
-      tmp = list.get(i);
-      if (tmp.startsWith("http")) list.remove(i);
-    }
-    return list;
   }
 }
