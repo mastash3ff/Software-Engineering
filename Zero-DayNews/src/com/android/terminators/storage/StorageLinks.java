@@ -87,7 +87,7 @@ public class StorageLinks implements Storage
     File f = new File( getFilepath() );
     String contents = null;
     BufferedReader br = null;
-    ArrayList<String> arrayList = new ArrayList<String>();
+    ArrayList<String> list = new ArrayList<String>();
 
     //read contents of file if it does exist and return a list of links
     try
@@ -96,7 +96,7 @@ public class StorageLinks implements Storage
 
       while ( (contents = br.readLine() ) != null) 
       {
-        arrayList.add(contents);
+        list.add(contents);
       }
     } 
     catch (FileNotFoundException e)
@@ -117,21 +117,7 @@ public class StorageLinks implements Storage
         ex.printStackTrace();
       }
     }
-    return arrayList;
-  }
-
-  /**
-   *  Checks to see if there is any feeds on storage and notifies 
-   * */
-  public static void storageNotification(Context context)
-  {
-    ArrayList<String > listOfStrings = StorageLinks.readStoredFeeds();
-
-    //notify user if no feeds are detected upon pressing an enter feed button
-    if ( !listOfStrings.isEmpty() )
-    {
-      Toast.makeText(context, "Zero Feeds Detected on Device" , Toast.LENGTH_SHORT).show();
-    }
+    return list;
   }
 
   /** Checks to see if file exists with Feed links if not creates a file called 
@@ -147,20 +133,25 @@ public class StorageLinks implements Storage
     {
       StorageLinks.createFile();
     }
-
-    String[] feedData;
-
-    for ( int i = 0; i < listOfStrings.size(); ++i )
+    else
     {
-      //on startup displays what links are already stored and adds them to feed
-      feedData = listOfStrings.get(i).split("\\s+");
+      String[] feedData;
 
-      FeedManager.getInstance().addFeed( new Feed( feedData[0], Integer.parseInt(feedData[1]), 
-          Boolean.parseBoolean( feedData[2])));
+      for ( int i = 0; i < listOfStrings.size(); ++i )
+      {
+        //on startup displays what links are already stored and adds them to feed
+        //feedData = listOfStrings.get(i).split("\\s+");
+        feedData = listOfStrings.get(i).split(" ");
+        Toast.makeText(context, feedData[0], Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, feedData[2], Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, feedData[1], Toast.LENGTH_SHORT).show();
+
+        FeedManager.getInstance().addFeed( new Feed( feedData[0], Integer.parseInt(feedData[1]), 
+            Boolean.parseBoolean( feedData[2])));
+      }
+
+      Toast.makeText( context, "Saved Feeds Loaded" , Toast.LENGTH_SHORT).show();
     }
-
-    Toast.makeText( context, "Saved Feeds Loaded" , Toast.LENGTH_SHORT).show();
-
   }
 
   /**Writes to storagelinks.txt

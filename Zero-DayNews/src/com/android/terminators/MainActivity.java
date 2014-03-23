@@ -50,7 +50,6 @@ public class MainActivity extends FragmentActivity
     setContentView(R.layout.activity_main);
 
     addAd();
-    StorageLinks.initializeStorage(getApplicationContext());
 
     titleTxt = (TextView)findViewById(R.id.appTitle);
 
@@ -97,7 +96,22 @@ public class MainActivity extends FragmentActivity
         //TODO: this currently only works for API >= 11 and results in extra items on back stack
         getFragmentManager().popBackStack("reddit", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         addFragment();
-        Toast.makeText(getApplicationContext(), "Feed refreshed..." , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Feeds Refreshed" , Toast.LENGTH_SHORT).show();
+        break;
+      case R.id.action_loadFeed:
+        StorageLinks.initializeStorage(getApplicationContext());
+        Toast.makeText(getApplicationContext(), "Feeds Loaded" , Toast.LENGTH_SHORT).show();
+        break;
+      case R.id.action_saveFeed:
+        //stuff
+        ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
+        feedList.addAll( FeedManager.getInstance().getFeedList(Feed.RSS_FEED) );
+
+        for ( int i=4; i < feedList.size(); ++i)
+        {
+          StorageLinks.writeStoredFeeds( feedList.get(i).getFeedSite() );
+        }
+        Toast.makeText(getApplicationContext(), "Feeds Saved" , Toast.LENGTH_SHORT).show();
         break;
       default:
         break;
@@ -189,16 +203,7 @@ public class MainActivity extends FragmentActivity
   {
     if (adView != null)
       adView.pause();
-    
-    //when application is sent to background or closed, write to disk
-    ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
-    feedList.addAll( FeedManager.getInstance().getFeedList(Feed.RSS_FEED) );
-    
-    for ( int i=0; i < feedList.size(); ++i)
-    {
-      StorageLinks.writeStoredFeeds( feedList.get(i).getFeedSite() );
-    }
-    
+
     super.onPause();
   }
 
@@ -222,7 +227,6 @@ public class MainActivity extends FragmentActivity
 
   public void addFeed()
   {
-    StorageLinks.storageNotification( getApplicationContext() );
     feedType = -1;
     final CharSequence[] items = {"RSS Feed", "Reddit Feed"};
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -251,7 +255,7 @@ public class MainActivity extends FragmentActivity
         else
         {
           FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));
-          Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();      
+          Toast.makeText(getApplicationContext(), "Feed Added" , Toast.LENGTH_SHORT).show();      
         }
       }
     });
