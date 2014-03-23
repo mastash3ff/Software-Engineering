@@ -1,21 +1,16 @@
 package com.android.terminators;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import com.android.terminators.ZeroDayNews.R;
-import com.android.terminators.reddit.*;
-import com.android.terminators.rss.*;
+import com.android.terminators.reddit.PostFragment;
+import com.android.terminators.rss.ITCutiesReaderAppActivity;
 import com.android.terminators.storage.StorageLinks;
 import com.google.android.gms.ads.*;
-import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +19,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -33,14 +27,11 @@ import android.widget.Toast;
  * @author Brian
  * @author Derrick
  */
-public class MainActivity extends FragmentActivity
+public class MainActivity extends Activity
 {
-  private TextView titleTxt;
   private Button rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
-  private FragmentManager fragManager = null;
-  private FragmentTransaction fragTransaction = null;
   private int feedType = -1;
 
   @Override
@@ -50,9 +41,6 @@ public class MainActivity extends FragmentActivity
     setContentView(R.layout.activity_main);
 
     addAd();
-    StorageLinks.initializeStorage(getApplicationContext());
-
-    titleTxt = (TextView)findViewById(R.id.appTitle);
 
     rssBtn = (Button)findViewById(R.id.rssButton);
     rssBtn.setOnClickListener(rssListener);
@@ -81,7 +69,6 @@ public class MainActivity extends FragmentActivity
   }
 
   //opens the appropriate dialogs when option items are selected
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {
@@ -93,38 +80,10 @@ public class MainActivity extends FragmentActivity
       case R.id.action_addFeed:
         addFeed();
         break;
-      case R.id.action_refresh:
-        //TODO: this currently only works for API >= 11 and results in extra items on back stack
-        getFragmentManager().popBackStack("reddit", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        addFragment();
-        Toast.makeText(getApplicationContext(), "Feed refreshed..." , Toast.LENGTH_SHORT).show();
-        break;
       default:
         break;
     }
     return true;
-  }
-
-  public void hideElements()
-  {
-    titleTxt.setVisibility(View.GONE);
-    rssBtn.setVisibility(View.GONE);
-    redditBtn.setVisibility(View.GONE);
-    adView.setVisibility(View.GONE);
-    addFeedBtn.setVisibility(View.GONE);
-    configureRssFeedsBtn.setVisibility(View.GONE);
-    configureRedditFeedsBtn.setVisibility(View.GONE);
-  }
-
-  public void showElements()
-  {
-    titleTxt.setVisibility(View.VISIBLE);
-    rssBtn.setVisibility(View.VISIBLE);
-    redditBtn.setVisibility(View.VISIBLE);
-    adView.setVisibility(View.VISIBLE);
-    addFeedBtn.setVisibility(View.VISIBLE);
-    configureRssFeedsBtn.setVisibility(View.VISIBLE);
-    configureRedditFeedsBtn.setVisibility(View.VISIBLE);
   }
 
   OnClickListener rssListener = new OnClickListener()
@@ -140,8 +99,8 @@ public class MainActivity extends FragmentActivity
   {
     public void onClick(View v)
     {
-      addFragment();
-      hideElements();
+      Intent intent = new Intent(getApplicationContext(), PostFragment.class);
+      startActivity(intent);
     }
   };
 
@@ -170,13 +129,6 @@ public class MainActivity extends FragmentActivity
   };
 
   @Override
-  public void onBackPressed()
-  {
-    super.onBackPressed();
-    showElements();
-  }
-
-  @Override
   public void onResume() 
   {
     super.onResume();
@@ -189,16 +141,6 @@ public class MainActivity extends FragmentActivity
   {
     if (adView != null)
       adView.pause();
-    
-    //when application is sent to background or closed, write to disk
-    ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
-    feedList.addAll( FeedManager.getInstance().getFeedList(Feed.RSS_FEED) );
-    
-    for ( int i=0; i < feedList.size(); ++i)
-    {
-      StorageLinks.writeStoredFeeds( feedList.get(i).getFeedSite() );
-    }
-    
     super.onPause();
   }
 
@@ -212,14 +154,6 @@ public class MainActivity extends FragmentActivity
     super.onDestroy();
   }
 
-  public void addFragment()
-  {
-    fragTransaction = getSupportFragmentManager().beginTransaction();
-    fragTransaction.add(R.id.fragment_holder, PostFragment.newInstance());
-    fragTransaction.addToBackStack("reddit");
-    fragTransaction.commit();
-  }
-
   public void addFeed()
   {
     StorageLinks.storageNotification( getApplicationContext() );
@@ -227,7 +161,6 @@ public class MainActivity extends FragmentActivity
     final CharSequence[] items = {"RSS Feed", "Reddit Feed"};
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("Add New Feed");
-    //builder.setMessage("Enter new feed:");
     final EditText input = new EditText(this);
     builder.setView(input);
     builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener()
@@ -247,11 +180,11 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         if (feedType == -1)
-          Toast.makeText(getApplicationContext(), "Error: Feed type required..." , Toast.LENGTH_SHORT).show();
+          Toast.makeText(getApplicationContext(), "Error: Feed type required" , Toast.LENGTH_SHORT).show();
         else
         {
           FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));
-          Toast.makeText(getApplicationContext(), "Feed added..." , Toast.LENGTH_SHORT).show();      
+          Toast.makeText(getApplicationContext(), "Feed added" , Toast.LENGTH_SHORT).show();      
         }
       }
     });
@@ -260,7 +193,7 @@ public class MainActivity extends FragmentActivity
       public void onClick(DialogInterface dialog, int id)
       {
         dialog.dismiss();
-        Toast.makeText(getApplicationContext(), "Action canceled..." , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Action canceled" , Toast.LENGTH_SHORT).show();
       }
     });
     AlertDialog dialog = builder.create();
@@ -269,7 +202,6 @@ public class MainActivity extends FragmentActivity
 
   public void configureRssFeeds()
   {
-    //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
     CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.RSS_FEED).size()];
     Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.RSS_FEED).listIterator();
     Feed feed = null;
@@ -280,7 +212,7 @@ public class MainActivity extends FragmentActivity
       items[i] = feed.toString();
       checkedItems[i] = feed.isEnabled();
     }
-    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("Configure RSS Feeds");
     builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
     {
@@ -305,7 +237,6 @@ public class MainActivity extends FragmentActivity
 
   public void configureRedditFeeds()
   {
-    //TODO: this can likely be cleaned up some.  might need to implement a custom iterator function
     CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).size()];
     Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).listIterator();
     Feed feed = null;
@@ -316,7 +247,7 @@ public class MainActivity extends FragmentActivity
       items[i] = feed.toString();
       checkedItems[i] = feed.isEnabled();
     }
-    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle("Configure Reddit Feeds");
     builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
     {
@@ -338,6 +269,7 @@ public class MainActivity extends FragmentActivity
     AlertDialog dialog = builder.create();
     dialog.show();
   }
+  
   /**
    * Ads an ad to  fragment_holder
    */
@@ -353,8 +285,8 @@ public class MainActivity extends FragmentActivity
     RelativeLayout layout = (RelativeLayout)findViewById(R.id.fragment_holder);
 
     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-        RelativeLayout.LayoutParams.WRAP_CONTENT,
-        RelativeLayout.LayoutParams.WRAP_CONTENT);
+      RelativeLayout.LayoutParams.WRAP_CONTENT,
+      RelativeLayout.LayoutParams.WRAP_CONTENT);
 
     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
     params.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -363,9 +295,9 @@ public class MainActivity extends FragmentActivity
     // Create an ad request. Check logcat output for the hashed device ID to
     // get test ads on a physical device.
     AdRequest adRequest = new AdRequest.Builder()
-    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-    .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
-    .build();
+      .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+      .addTestDevice("B3EEABB8EE11C2BE770B684D95219ECB")
+      .build();
 
     // Start loading the ad in the background.
     adView.loadAd(adRequest);

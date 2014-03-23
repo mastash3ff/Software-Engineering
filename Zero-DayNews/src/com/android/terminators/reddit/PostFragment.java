@@ -4,16 +4,18 @@ import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ import java.util.List;
  * @author Hathy
  *
  */
-public class PostFragment extends Fragment
+public class PostFragment extends Activity
 {
   private ListView postsList;
   private ArrayAdapter<Post> adapter;
@@ -34,36 +36,49 @@ public class PostFragment extends Fragment
   {
     handler = new Handler();
     posts = new ArrayList<Post>();
-  }
-
-  public static Fragment newInstance() 
-  {
-    PostFragment pf = new PostFragment();
-    pf.postsHolder = new PostHolder();
-    return pf;
-  }
-
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-  {
-    View v = inflater.inflate(R.layout.posts, container, false);
-    postsList = (ListView)v.findViewById(R.id.posts_list);
-    return v;
+    postsHolder = new PostHolder();
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-    //setContentView(R.layout.posts);
-    setRetainInstance(true);
+    setContentView(R.layout.posts);
+    postsList = (ListView)findViewById(R.id.posts_list);
+    initialize();
+  }
+  
+  //makes use of custom action bar
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu)
+  {
+    // Inflate the menu items for use in the action bar
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.activity_action_bar, menu);
+    return super.onCreateOptionsMenu(menu);
   }
 
+  //opens the appropriate dialogs when option items are selected
   @Override
-  public void onActivityCreated(Bundle savedInstanceState)
-  {   
-    super.onActivityCreated(savedInstanceState);
-    initialize();
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    switch (item.getItemId())
+    {
+      case R.id.action_configureFeeds:
+        // configureRedditFeeds();
+        break;
+      case R.id.action_addFeed:
+        // addFeed();
+        break;
+      case R.id.action_refresh:
+        finish();
+        startActivity(getIntent());
+        Toast.makeText(getApplicationContext(), "Feed refreshed" , Toast.LENGTH_SHORT).show();
+        break;
+      default:
+        break;
+    }
+    return true;
   }
 
   private void initialize() 
@@ -114,17 +129,13 @@ public class PostFragment extends Fragment
    */
   private void createAdapter()
   {
-    // Make sure this fragment is still a part of the activity.
-    if (getActivity() == null) 
-      return;
-
-    adapter = new ArrayAdapter<Post>(getActivity(), R.layout.post_item, posts)
+    adapter = new ArrayAdapter<Post>(getBaseContext(), R.layout.post_item, posts)
     {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) 
       {
         if (convertView == null)
-          convertView = getActivity().getLayoutInflater().inflate(R.layout.post_item, null);
+          convertView = getLayoutInflater().inflate(R.layout.post_item, null);
 
         TextView postTitle;
         //ID can be found in post_item.xml
@@ -139,15 +150,16 @@ public class PostFragment extends Fragment
         return convertView;
       }
     };
-    postsList.setAdapter(adapter);
+    
     /*
     ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
     animationAdapter.setAbsListView(postsList);
     postsList.setAdapter(animationAdapter);
     */
     
-    postsList.setOnItemClickListener(new ListListener<Post>(posts, getActivity()));
-    postsList.setOnItemLongClickListener(new ListListener<Post>(posts, getActivity()));
+    postsList.setAdapter(adapter);
+    postsList.setOnItemClickListener(new ListListener<Post>(posts, this));
+    postsList.setOnItemLongClickListener(new ListListener<Post>(posts, this));
   }
 
 }

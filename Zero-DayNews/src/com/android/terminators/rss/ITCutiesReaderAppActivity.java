@@ -2,7 +2,6 @@ package com.android.terminators.rss;
 
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
-import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.List;
 
 /**
@@ -53,7 +51,7 @@ public class ITCutiesReaderAppActivity extends Activity
     // Debug the thread name
     Log.d("ITCRssReader", Thread.currentThread().getName());
   }
-  
+
   //makes use of custom action bar
   @Override
   public boolean onCreateOptionsMenu(Menu menu)
@@ -63,7 +61,7 @@ public class ITCutiesReaderAppActivity extends Activity
     inflater.inflate(R.menu.activity_action_bar, menu);
     return super.onCreateOptionsMenu(menu);
   }
-  
+
   //opens the appropriate dialogs when option items are selected
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
@@ -79,6 +77,7 @@ public class ITCutiesReaderAppActivity extends Activity
       case R.id.action_refresh:
         finish();
         startActivity(getIntent());
+        Toast.makeText(getApplicationContext(), "Feed refreshed" , Toast.LENGTH_SHORT).show();
         break;
       default:
         break;
@@ -119,31 +118,28 @@ public class ITCutiesReaderAppActivity extends Activity
       // Create a list adapter
       // ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
       ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), R.layout.post_item, result)
-          {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) 
-            {
-              if (convertView == null)
-                convertView = getLayoutInflater().inflate(R.layout.post_item, null);
+      {
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) 
+        {
+          if (convertView == null)
+            convertView = getLayoutInflater().inflate(R.layout.post_item, null);
 
-              TextView postTitle;
-              //ID can be found in post_item.xml
-              postTitle = (TextView)convertView.findViewById(R.id.post_title);
+          TextView postTitle;
+          //ID can be found in post_item.xml
+          postTitle = (TextView)convertView.findViewById(R.id.post_title);
 
-              TextView postDetails;
-              postDetails = (TextView)convertView.findViewById(R.id.post_details);
+          TextView postDetails;
+          postDetails = (TextView)convertView.findViewById(R.id.post_details);
 
-              postTitle.setText(result.get(position).getTitle());
-              postDetails.setText(result.get(position).getDetails());
+          postTitle.setText(result.get(position).getTitle());
+          postDetails.setText(result.get(position).getDetails());
 
-              return convertView;
-            }
-          };
+          return convertView;
+        }
+      };
 
-      // Set list adapter for the ListView
-      itcItems.setAdapter(adapter);
-      
-      /*
+          /*
       try
       {
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
@@ -152,15 +148,17 @@ public class ITCutiesReaderAppActivity extends Activity
       }
       catch (Exception e)
       {
-        //TODO: alert the user that their data connection may have failed
-        Toast.makeText(getBaseContext(), "An error has occurred..." , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "An error has occurred" , Toast.LENGTH_SHORT).show();
         e.printStackTrace();
       }
-      */
+           */
 
-      // Set list view item click listener
-      itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
-      itcItems.setOnItemLongClickListener(new ListListener<RssItem>(result, local));
+          // Set list adapter for the ListView
+          itcItems.setAdapter(adapter);
+
+          // Set list view item click listener
+          itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
+          itcItems.setOnItemLongClickListener(new ListListener<RssItem>(result, local));
     }
   }
 }

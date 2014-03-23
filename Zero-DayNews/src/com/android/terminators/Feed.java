@@ -6,9 +6,9 @@ package com.android.terminators;
  */
 public class Feed
 {
-  private String feedSite = "";
-  private boolean enabled = true;
+  private String feedSite = null;
   private int feedType = -1;
+  private boolean enabled = true;
   public final static int RSS_FEED = 0, REDDIT_FEED = 1;
   public final static int DISABLED_FEED = 0, ENABLED_FEED = 1;
   

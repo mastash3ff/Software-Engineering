@@ -65,19 +65,19 @@ public class FeedManager
   public void addFeed(Feed feed)
   {
     //input validation for feeds; checks for duplicates and exits if one is found
-    if (feed.getFeedType() == Feed.REDDIT_FEED)
-    {
-      for (int i = 0; i < redditFeedList.size(); ++i)
-        if (redditFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
-          return;
-      redditFeedList.add(feed);
-    }
     if (feed.getFeedType() == Feed.RSS_FEED)
     {
       for (int i = 0; i < rssFeedList.size(); ++i)
         if (rssFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
           return;
       rssFeedList.add(feed);
+    }
+    if (feed.getFeedType() == Feed.REDDIT_FEED)
+    {
+      for (int i = 0; i < redditFeedList.size(); ++i)
+        if (redditFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+          return;
+      redditFeedList.add(feed);
     }
   }
 
