@@ -1,12 +1,16 @@
 package com.android.terminators.rss;
 
 import com.android.terminators.ListListener;
+import com.android.terminators.MainActivity;
 import com.android.terminators.ZeroDayNews.R;
 import com.nhaarman.listviewanimations.swinginadapters.prepared.ScaleInAnimationAdapter;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -48,6 +52,38 @@ public class ITCutiesReaderAppActivity extends Activity
 
     // Debug the thread name
     Log.d("ITCRssReader", Thread.currentThread().getName());
+  }
+  
+  //makes use of custom action bar
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu)
+  {
+    // Inflate the menu items for use in the action bar
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.activity_action_bar, menu);
+    return super.onCreateOptionsMenu(menu);
+  }
+  
+  //opens the appropriate dialogs when option items are selected
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    switch (item.getItemId())
+    {
+      case R.id.action_configureFeeds:
+        // MainActivity.configureRssFeeds();
+        break;
+      case R.id.action_addFeed:
+        // addFeed();
+        break;
+      case R.id.action_refresh:
+        finish();
+        startActivity(getIntent());
+        break;
+      default:
+        break;
+    }
+    return true;
   }
 
   private class GetRSSDataTask extends AsyncTask<String, Void, List<RssItem> > 
@@ -106,10 +142,18 @@ public class ITCutiesReaderAppActivity extends Activity
 
       // Set list adapter for the ListView
       //itcItems.setAdapter(adapter);
-
-      ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-      animationAdapter.setAbsListView(itcItems);
-      itcItems.setAdapter(animationAdapter);
+      
+      try
+      {
+        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
+        animationAdapter.setAbsListView(itcItems);
+        itcItems.setAdapter(animationAdapter);
+      }
+      catch (Exception e)
+      {
+        //TODO: alert the user that their data connection may have failed
+        e.printStackTrace();
+      }
 
       // Set list view item click listener
       itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
