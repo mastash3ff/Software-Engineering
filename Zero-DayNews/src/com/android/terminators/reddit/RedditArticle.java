@@ -1,27 +1,22 @@
-package com.android.terminators;
+package com.android.terminators.reddit;
+
+import com.android.terminators.Article;
 
 /**
  * RedditArticle class
  * Derived class of Article for all Reddit posts
  * @author Brian
+ * @author Derrick
  */
 
-public class RedditArticle extends Article {
-
+public class RedditArticle extends Article
+{
 	private String subreddit;
 	private String author;
 	private String permalink;
 	private String domain;
-
-	/*
-	 * Function that returns data to be displayed. To be implemented..
-	 * @see com.android.terminators.Article#getDetails()
-	 */
-	public String getDetails()
-	{
-		return "";
-	}
-
+  private String bodyText;
+  private String redditId;
 
 	/*
 	 * Getters and setters
@@ -45,6 +40,16 @@ public class RedditArticle extends Article {
 	{
 		return permalink;
 	}
+	
+  public String getBodyText()
+  {
+    return bodyText;
+  }
+  
+  public String getRedditId()
+  {
+    return redditId;
+  }
 
 	public void setSubreddit(String subreddit)
 	{
@@ -65,4 +70,21 @@ public class RedditArticle extends Article {
 	{
 		this.permalink = permalink;
 	}
+	
+  public void setBodyText(String bodyText)
+  {
+    this.bodyText = bodyText;
+  }
+
+  public void setId(String redditId)
+  {
+    this.redditId = redditId;
+  }
+  
+  @Override
+  public String getDetails() 
+  {
+    return "Posted in /r/" + this.getSubreddit();
+  }
+  
 }

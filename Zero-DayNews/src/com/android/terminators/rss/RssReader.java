@@ -3,6 +3,7 @@ package com.android.terminators.rss;
 import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import com.android.terminators.Article;
 import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
 
@@ -10,7 +11,10 @@ import com.android.terminators.FeedManager;
  * Class reads RSS data.
  * 
  * @author ITCuties
- *
+ * 
+ * Modified by:
+ * @author Derrick
+ * Modified class to use FeedManager public interface
  */
 public class RssReader 
 {
@@ -19,7 +23,7 @@ public class RssReader
    * 
    * @return
    */
-  public List<RssItem> getItems() throws Exception
+  public List<Article> getItems() throws Exception
   {    
     // SAX parse RSS data
     SAXParserFactory factory = SAXParserFactory.newInstance();

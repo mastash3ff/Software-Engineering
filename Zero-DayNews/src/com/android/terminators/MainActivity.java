@@ -3,8 +3,8 @@ package com.android.terminators;
 import java.util.ArrayList;
 import java.util.Iterator;
 import com.android.terminators.ZeroDayNews.R;
-import com.android.terminators.reddit.PostFragment;
-import com.android.terminators.rss.ITCutiesReaderAppActivity;
+import com.android.terminators.reddit.RedditBuilder;
+import com.android.terminators.rss.RssBuilder;
 import com.android.terminators.storage.StorageLinks;
 import com.google.android.gms.ads.*;
 import android.app.Activity;
@@ -41,8 +41,6 @@ public class MainActivity extends Activity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    addAd();
-
     rssBtn = (Button)findViewById(R.id.rssButton);
     rssBtn.setOnClickListener(rssListener);
 
@@ -57,6 +55,8 @@ public class MainActivity extends Activity
 
     configureRedditFeedsBtn = (Button)findViewById(R.id.configureRedditFeedsButton);
     configureRedditFeedsBtn.setOnClickListener(configureRedditFeedsListener);
+    
+    addAd();
   }
 
   //makes use of custom action bar
@@ -65,7 +65,7 @@ public class MainActivity extends Activity
   {
     // Inflate the menu items for use in the action bar
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.activity_action_bar, menu);
+    inflater.inflate(R.menu.main, menu);
     return super.onCreateOptionsMenu(menu);
   }
 
@@ -76,7 +76,7 @@ public class MainActivity extends Activity
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        configureRedditFeeds();
+        configureFeeds();
         break;
       case R.id.action_addFeed:
         addFeed();
@@ -86,6 +86,7 @@ public class MainActivity extends Activity
         Toast.makeText(getApplicationContext(), "Feeds Loaded" , Toast.LENGTH_SHORT).show();
         break;
       case R.id.action_saveFeed:
+        //TODO: this still needs work
         ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.RSS_FEED);
         for (int i = 4; i < feedList.size(); ++i)
           StorageLinks.writeStoredFeeds(feedList.get(i).getFeedSite() + " "
@@ -108,7 +109,7 @@ public class MainActivity extends Activity
   {
     public void onClick(View v)
     {
-      Intent intent = new Intent(getApplicationContext(), ITCutiesReaderAppActivity.class);
+      Intent intent = new Intent(getApplicationContext(), RssBuilder.class);
       startActivity(intent);
     }
   };
@@ -117,7 +118,7 @@ public class MainActivity extends Activity
   {
     public void onClick(View v)
     {
-      Intent intent = new Intent(getApplicationContext(), PostFragment.class);
+      Intent intent = new Intent(getApplicationContext(), RedditBuilder.class);
       startActivity(intent);
     }
   };
@@ -201,8 +202,38 @@ public class MainActivity extends Activity
         else
         {
           FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));  
-          Toast.makeText(getApplicationContext(), "Feed Added" , Toast.LENGTH_SHORT).show();      
+          Toast.makeText(getApplicationContext(), "Feed added" , Toast.LENGTH_SHORT).show();      
         }
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+    {
+      public void onClick(DialogInterface dialog, int id)
+      {
+        dialog.dismiss();
+        Toast.makeText(getApplicationContext(), "Action canceled" , Toast.LENGTH_SHORT).show();
+      }
+    });
+    AlertDialog dialog = builder.create();
+    dialog.show();
+  }
+  
+  public void configureFeeds()
+  {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Select feed type to configure:");
+    builder.setPositiveButton("Configure RSS Feeds", new DialogInterface.OnClickListener()
+    {
+      public void onClick(DialogInterface dialog, int id)
+      {
+        configureRssFeeds();
+      }
+    });
+    builder.setNeutralButton("Configure Reddit Feeds", new DialogInterface.OnClickListener()
+    {
+      public void onClick(DialogInterface dialog, int id)
+      {
+        configureRedditFeeds();
       }
     });
     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
@@ -299,7 +330,7 @@ public class MainActivity extends Activity
 
     // Add the AdView to the view hierarchy. The view will have no size
     // until the ad is loaded.
-    RelativeLayout layout = (RelativeLayout)findViewById(R.id.fragment_holder);
+    RelativeLayout layout = (RelativeLayout)findViewById(R.id.activity_main);
 
     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
       RelativeLayout.LayoutParams.WRAP_CONTENT,

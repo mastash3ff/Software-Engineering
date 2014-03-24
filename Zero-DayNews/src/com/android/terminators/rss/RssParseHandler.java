@@ -5,19 +5,23 @@ import java.util.List;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import com.android.terminators.Article;
 
 /**
  * SAX tag handler
  * 
  * @author ITCuties
- *
+ * 
+ * Modified by:
+ * @author Derrick
+ * Made slight modifications for use with class Article
  */
 public class RssParseHandler extends DefaultHandler 
 {
-  private List<RssItem> rssItems;
+  private List<Article> rssItems;
 
   // Used to reference item while parsing
-  private RssItem currentItem;
+  private Article currentItem;
 
   // Parsing title indicator
   private boolean parsingTitle;
@@ -26,10 +30,10 @@ public class RssParseHandler extends DefaultHandler
 
   public RssParseHandler()
   {
-    rssItems = new ArrayList<RssItem>();
+    rssItems = new ArrayList<Article>();
   }
 
-  public List<RssItem> getItems()
+  public List<Article> getItems()
   {
     return rssItems;
   }
@@ -39,7 +43,7 @@ public class RssParseHandler extends DefaultHandler
   {
     if ("item".equals(qName))
     {
-      currentItem = new RssItem();
+      currentItem = new Article();
     }
     else if ("title".equals(qName))
     {

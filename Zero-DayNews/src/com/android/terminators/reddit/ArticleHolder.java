@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+
 import android.util.Log;
 
 /** Class that creates Post objects out of the Reddit API and stores a list of these posts for other classes
@@ -11,7 +13,7 @@ import android.util.Log;
  * @author Hathy
  *
  */
-public class PostHolder
+public class ArticleHolder
 {
   /**
    * We will be fetching JSON data from the API.
@@ -23,9 +25,9 @@ public class PostHolder
   private String url;
   private String after = "";
 
-  public void setSubReddit(String sr)
+  public void setSubReddit(String subreddit)
   {
-    subreddit = sr;
+    this.subreddit = subreddit;
     after = "";
   }
 
@@ -45,10 +47,10 @@ public class PostHolder
    * 
    * @return
    */
-  public List<Post> fetchPosts()
+  public List<RedditArticle> fetchArticles()
   {
     String raw = NetworkComm.readContents(url);
-    List<Post> list = new ArrayList<Post>();
+    List<RedditArticle> list = new ArrayList<RedditArticle>();
 
     try
     {
@@ -63,18 +65,18 @@ public class PostHolder
       {        
         JSONObject cur = children.getJSONObject(i).getJSONObject("data");
 
-        Post p = new Post();
-        p.setTitle(cur.optString("title"));
-        p.setLink(cur.optString("url"));
-        p.setAuthor(cur.optString("author"));
-        p.setSubreddit(cur.optString("subreddit"));
-        p.setPermalink(cur.optString("permalink"));
-        p.setDomain(cur.optString("domain"));
-        p.setId(cur.optString("id"));
-        p.setBodyText(cur.optString("body"));
+        RedditArticle ra = new RedditArticle();
+        ra.setTitle(cur.optString("title"));
+        ra.setLink(cur.optString("url"));
+        ra.setAuthor(cur.optString("author"));
+        ra.setSubreddit(cur.optString("subreddit"));
+        ra.setPermalink(cur.optString("permalink"));
+        ra.setDomain(cur.optString("domain"));
+        ra.setId(cur.optString("id"));
+        ra.setBodyText(cur.optString("body"));
 
-        if(p.getTitle() != null)
-          list.add(p);
+        if(ra.getTitle() != null)
+          list.add(ra);
       }
     }
     catch(Exception e)
@@ -89,10 +91,10 @@ public class PostHolder
    * using the 'after' property
    * @return
    */
-  public List<Post> fetchMorePosts()
+  public List<RedditArticle> fetchMoreArticles()
   {
     generateURL();
-    return fetchPosts();
+    return fetchArticles();
   }
 
 }

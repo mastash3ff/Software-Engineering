@@ -20,31 +20,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Loads posts into a listview
+ * Loads articles into a listview
  * @author Hathy
- *
+ * 
+ * Modified by:
+ * @author Derrick
+ * Made extensive changes
+ * See git history
  */
-public class PostFragment extends Activity
+public class RedditBuilder extends Activity
 {
-  private ListView postsList;
-  private ArrayAdapter<Post> adapter;
+  private ListView articleList;
+  private ArrayAdapter<RedditArticle> adapter;
   private Handler handler;
-  private List<Post> posts;
-  private PostHolder postsHolder;
+  private List<RedditArticle> articles;
+  private ArticleHolder articleHolder;
 
-  public PostFragment()
+  public RedditBuilder()
   {
     handler = new Handler();
-    posts = new ArrayList<Post>();
-    postsHolder = new PostHolder();
+    articles = new ArrayList<RedditArticle>();
+    articleHolder = new ArticleHolder();
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.posts);
-    postsList = (ListView)findViewById(R.id.posts_list);
+    setContentView(R.layout.article_list);
+    articleList = (ListView)findViewById(R.id.article_list);
     initialize();
   }
   
@@ -87,7 +91,7 @@ public class PostFragment extends Activity
     // setRetainInstance(true) method has been called on
     // this fragment
 
-    if (posts.size() == 0)
+    if (articles.size() == 0)
     {
       // Must execute network tasks outside the UI
       // thread. So create a new thread.
@@ -101,8 +105,8 @@ public class PostFragment extends Activity
           {
             if (feedManager.getFeed(i, Feed.REDDIT_FEED).isEnabled())
             {
-              postsHolder.setSubReddit(feedManager.getFeed(i, Feed.REDDIT_FEED).toString());
-              posts.addAll(postsHolder.fetchMorePosts());
+              articleHolder.setSubReddit(feedManager.getFeed(i, Feed.REDDIT_FEED).toString());
+              articles.addAll(articleHolder.fetchMoreArticles());
             }
           }
 
@@ -125,27 +129,27 @@ public class PostFragment extends Activity
   }
 
   /**
-   * This method creates the adapter from the list of posts and assigns it to the list.
+   * This method creates the adapter from the list of articles and assigns it to the list.
    */
   private void createAdapter()
   {
-    adapter = new ArrayAdapter<Post>(getBaseContext(), R.layout.post_item, posts)
+    adapter = new ArrayAdapter<RedditArticle>(getBaseContext(), R.layout.article, articles)
     {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) 
       {
         if (convertView == null)
-          convertView = getLayoutInflater().inflate(R.layout.post_item, null);
+          convertView = getLayoutInflater().inflate(R.layout.article, null);
 
-        TextView postTitle;
+        TextView articleTitle;
         //ID can be found in post_item.xml
-        postTitle = (TextView)convertView.findViewById(R.id.post_title);
+        articleTitle = (TextView)convertView.findViewById(R.id.article_title);
 
-        TextView postDetails;
-        postDetails = (TextView)convertView.findViewById(R.id.post_details);
+        TextView articleDetails;
+        articleDetails = (TextView)convertView.findViewById(R.id.article_details);
 
-        postTitle.setText(posts.get(position).getTitle());
-        postDetails.setText(posts.get(position).getDetails());
+        articleTitle.setText(articles.get(position).getTitle());
+        articleDetails.setText(articles.get(position).getDetails());
 
         return convertView;
       }
@@ -153,13 +157,13 @@ public class PostFragment extends Activity
     
     /*
     ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-    animationAdapter.setAbsListView(postsList);
-    postsList.setAdapter(animationAdapter);
+    animationAdapter.setAbsListView(articleList);
+    articleList.setAdapter(animationAdapter);
     */
     
-    postsList.setAdapter(adapter);
-    postsList.setOnItemClickListener(new ListListener<Post>(posts, this));
-    postsList.setOnItemLongClickListener(new ListListener<Post>(posts, this));
+    articleList.setAdapter(adapter);
+    articleList.setOnItemClickListener(new ListListener<RedditArticle>(articles, this));
+    articleList.setOnItemLongClickListener(new ListListener<RedditArticle>(articles, this));
   }
 
 }

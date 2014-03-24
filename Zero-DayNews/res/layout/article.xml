@@ -5,7 +5,7 @@
     android:background="@color/lightblue" >
 
     <TextView
-        android:id="@+id/post_title"
+        android:id="@+id/article_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -13,10 +13,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/post_details"
+        android:id="@+id/article_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/post_title"
+        android:layout_below="@+id/article_title"
         android:layout_toLeftOf="@+id/post_score"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

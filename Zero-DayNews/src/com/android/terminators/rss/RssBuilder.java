@@ -1,5 +1,6 @@
 package com.android.terminators.rss;
 
+import com.android.terminators.Article;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
 import android.app.Activity;
@@ -23,12 +24,16 @@ import java.util.List;
  * Update: Downloading RSS data in an async task 
  * 
  * @author ITCuties
- *
+ * 
+ * Modified by:
+ * @author Derrick
+ * Made many changes
+ * See git history
  */
-public class ITCutiesReaderAppActivity extends Activity
+public class RssBuilder extends Activity
 {
   // A reference to the local object
-  private ITCutiesReaderAppActivity local;
+  private RssBuilder local;
 
   /** 
    * This method creates main application view
@@ -38,7 +43,7 @@ public class ITCutiesReaderAppActivity extends Activity
   {
     super.onCreate(savedInstanceState);
     // Set view
-    setContentView(R.layout.activity_news_feed);
+    setContentView(R.layout.article_list);
 
     // Set reference to this activity
     local = this;
@@ -69,7 +74,7 @@ public class ITCutiesReaderAppActivity extends Activity
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        //nconfigureRssFeeds();
+        // configureRssFeeds();
         break;
       case R.id.action_addFeed:
         // addFeed();
@@ -85,10 +90,10 @@ public class ITCutiesReaderAppActivity extends Activity
     return true;
   }
 
-  private class GetRSSDataTask extends AsyncTask<String, Void, List<RssItem> > 
+  private class GetRSSDataTask extends AsyncTask<String, Void, List<Article> > 
   {
     @Override
-    protected List<RssItem> doInBackground(String... urls) 
+    protected List<Article> doInBackground(String... urls) 
     {
       // Debug the task thread name
       Log.d("ITCRssReader", Thread.currentThread().getName());
@@ -110,27 +115,26 @@ public class ITCutiesReaderAppActivity extends Activity
     }
 
     @Override
-    protected void onPostExecute(final List<RssItem> result)
+    protected void onPostExecute(final List<Article> result)
     {
       // Get a ListView from main view
-      ListView itcItems = (ListView)findViewById(R.id.listMainView);
+      ListView itcItems = (ListView)findViewById(R.id.article_list);
 
       // Create a list adapter
-      // ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), android.R.layout.simple_list_item_1, result);
-      ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(getBaseContext(), R.layout.post_item, result)
+      ArrayAdapter<Article> adapter = new ArrayAdapter<Article>(getBaseContext(), R.layout.article, result)
       {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) 
         {
           if (convertView == null)
-            convertView = getLayoutInflater().inflate(R.layout.post_item, null);
+            convertView = getLayoutInflater().inflate(R.layout.article, null);
 
           TextView postTitle;
           //ID can be found in post_item.xml
-          postTitle = (TextView)convertView.findViewById(R.id.post_title);
+          postTitle = (TextView)convertView.findViewById(R.id.article_title);
 
           TextView postDetails;
-          postDetails = (TextView)convertView.findViewById(R.id.post_details);
+          postDetails = (TextView)convertView.findViewById(R.id.article_details);
 
           postTitle.setText(result.get(position).getTitle());
           postDetails.setText(result.get(position).getDetails());
@@ -151,14 +155,14 @@ public class ITCutiesReaderAppActivity extends Activity
         Toast.makeText(getBaseContext(), "An error has occurred" , Toast.LENGTH_SHORT).show();
         e.printStackTrace();
       }
-       */
+      */
 
       // Set list adapter for the ListView
       itcItems.setAdapter(adapter);
 
       // Set list view item click listener
-      itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
-      itcItems.setOnItemLongClickListener(new ListListener<RssItem>(result, local));
+      itcItems.setOnItemClickListener(new ListListener<Article>(result, local));
+      itcItems.setOnItemLongClickListener(new ListListener<Article>(result, local));
     }
   }
 }

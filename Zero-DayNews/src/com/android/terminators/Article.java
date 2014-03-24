@@ -9,10 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Brian
  */
 
-public abstract class Article
+public class Article
 {
 	static AtomicInteger nextId = new AtomicInteger();
-
 	private int id;
 	private String title;
 	private String description;
@@ -67,5 +66,9 @@ public abstract class Article
 		return link;
 	}
 
-	public abstract String getDetails();
+  public String getDetails()
+  {
+    return getLink();
+  }
+
 }
