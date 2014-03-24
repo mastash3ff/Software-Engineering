@@ -139,7 +139,7 @@ public class ITCutiesReaderAppActivity extends Activity
         }
       };
 
-          /*
+      /*
       try
       {
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
@@ -151,14 +151,14 @@ public class ITCutiesReaderAppActivity extends Activity
         Toast.makeText(getBaseContext(), "An error has occurred" , Toast.LENGTH_SHORT).show();
         e.printStackTrace();
       }
-           */
+       */
 
-          // Set list adapter for the ListView
-          itcItems.setAdapter(adapter);
+      // Set list adapter for the ListView
+      itcItems.setAdapter(adapter);
 
-          // Set list view item click listener
-          itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
-          itcItems.setOnItemLongClickListener(new ListListener<RssItem>(result, local));
+      // Set list view item click listener
+      itcItems.setOnItemClickListener(new ListListener<RssItem>(result, local));
+      itcItems.setOnItemLongClickListener(new ListListener<RssItem>(result, local));
     }
   }
 }

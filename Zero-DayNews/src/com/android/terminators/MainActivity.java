@@ -86,11 +86,16 @@ public class MainActivity extends Activity
         Toast.makeText(getApplicationContext(), "Feeds Loaded" , Toast.LENGTH_SHORT).show();
         break;
       case R.id.action_saveFeed:
-        ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
-        feedList.addAll( FeedManager.getInstance().getFeedList(Feed.RSS_FEED) );
+        ArrayList<Feed> feedList = FeedManager.getInstance().getFeedList(Feed.RSS_FEED);
+        for (int i = 4; i < feedList.size(); ++i)
+          StorageLinks.writeStoredFeeds(feedList.get(i).getFeedSite() + " "
+            + Integer.toString(feedList.get(i).getFeedType()) + " " + feedList.get(i).isEnabled().toString());
 
-        for ( int i = 4; i < feedList.size(); ++i)
-          StorageLinks.writeStoredFeeds( feedList.get(i).getFeedSite() );
+        feedList = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED);
+        for (int i = 3; i < feedList.size(); ++i)
+          StorageLinks.writeStoredFeeds(feedList.get(i).getFeedSite() + " "
+            + Integer.toString(feedList.get(i).getFeedType()) + " " + feedList.get(i).isEnabled().toString());
+
         Toast.makeText(getApplicationContext(), "Feeds Saved" , Toast.LENGTH_SHORT).show();
         break;
       default:
