@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-
 import android.util.Log;
 
 /** Class that creates Post objects out of the Reddit API and stores a list of these posts for other classes

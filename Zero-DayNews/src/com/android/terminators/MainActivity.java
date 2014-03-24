@@ -1,15 +1,12 @@
 package com.android.terminators;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.RedditBuilder;
 import com.android.terminators.rss.RssBuilder;
 import com.android.terminators.storage.StorageLinks;
 import com.google.android.gms.ads.*;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -33,7 +29,6 @@ public class MainActivity extends Activity
   private Button rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
   private AdView adView;
   private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
-  private int feedType = -1;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -76,14 +71,14 @@ public class MainActivity extends Activity
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        configureFeeds();
+        FeedManager.getInstance().configureFeeds(this);
         break;
       case R.id.action_addFeed:
-        addFeed();
+        FeedManager.getInstance().addFeed(this);
         break;
       case R.id.action_loadFeed:
         StorageLinks.initializeStorage(getApplicationContext());
-        Toast.makeText(getApplicationContext(), "Feeds Loaded" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Feeds Loaded", Toast.LENGTH_SHORT).show();
         break;
       case R.id.action_saveFeed:
         //TODO: this still needs work
@@ -97,7 +92,7 @@ public class MainActivity extends Activity
           StorageLinks.writeStoredFeeds(feedList.get(i).getFeedSite() + " "
             + Integer.toString(feedList.get(i).getFeedType()) + " " + feedList.get(i).isEnabled().toString());
 
-        Toast.makeText(getApplicationContext(), "Feeds Saved" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Feeds Saved", Toast.LENGTH_SHORT).show();
         break;
       default:
         break;
@@ -127,7 +122,7 @@ public class MainActivity extends Activity
   {
     public void onClick(View v)
     {
-      addFeed();
+      FeedManager.getInstance().addFeed(MainActivity.this);
     }
   };
 
@@ -135,7 +130,7 @@ public class MainActivity extends Activity
   {
     public void onClick(View v)
     {
-      configureRssFeeds();
+      FeedManager.getInstance().configureRssFeeds(MainActivity.this);
     }
   };
 
@@ -143,7 +138,7 @@ public class MainActivity extends Activity
   {
     public void onClick(View v)
     {
-      configureRedditFeeds();
+      FeedManager.getInstance().configureRedditFeeds(MainActivity.this);
     }
   };
 
@@ -171,151 +166,6 @@ public class MainActivity extends Activity
     if (adView != null)
       adView.destroy();
     super.onDestroy();
-  }
-
-  public void addFeed()
-  {
-    feedType = -1;
-    final CharSequence[] items = {"RSS Feed", "Reddit Feed"};
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Add New Feed");
-    final EditText input = new EditText(this);
-    builder.setView(input);
-    builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener()
-    {
-      @Override
-      public void onClick(DialogInterface dialog, int id)
-      {       
-        //TODO: add bounds/error checking
-        if (id == 0)
-          feedType = Feed.RSS_FEED;
-        if (id == 1)
-          feedType = Feed.REDDIT_FEED;
-      }
-    });
-    builder.setPositiveButton("Add Feed", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        if (feedType == -1)
-          Toast.makeText(getApplicationContext(), "Error: Feed type required" , Toast.LENGTH_SHORT).show();
-        else
-        {
-          FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), feedType));  
-          Toast.makeText(getApplicationContext(), "Feed added" , Toast.LENGTH_SHORT).show();      
-        }
-      }
-    });
-    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        dialog.dismiss();
-        Toast.makeText(getApplicationContext(), "Action canceled" , Toast.LENGTH_SHORT).show();
-      }
-    });
-    AlertDialog dialog = builder.create();
-    dialog.show();
-  }
-  
-  public void configureFeeds()
-  {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Select feed type to configure:");
-    builder.setPositiveButton("Configure RSS Feeds", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        configureRssFeeds();
-      }
-    });
-    builder.setNeutralButton("Configure Reddit Feeds", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        configureRedditFeeds();
-      }
-    });
-    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        dialog.dismiss();
-        Toast.makeText(getApplicationContext(), "Action canceled" , Toast.LENGTH_SHORT).show();
-      }
-    });
-    AlertDialog dialog = builder.create();
-    dialog.show();
-  }
-
-  public void configureRssFeeds()
-  {
-    CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.RSS_FEED).size()];
-    Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.RSS_FEED).listIterator();
-    Feed feed = null;
-    boolean[] checkedItems = new boolean[items.length];
-    for (int i = 0; itr.hasNext(); ++i)
-    {
-      feed = itr.next();
-      items[i] = feed.toString();
-      checkedItems[i] = feed.isEnabled();
-    }
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Configure RSS Feeds");
-    builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id, boolean isChecked)
-      {
-        if (isChecked)
-          FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).enableFeed();
-        if (!isChecked)
-          FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).disableFeed();
-      }
-    });
-    builder.setPositiveButton("Done", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        dialog.dismiss();
-      }
-    });
-    AlertDialog dialog = builder.create();
-    dialog.show();
-  }
-
-  public void configureRedditFeeds()
-  {
-    CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).size()];
-    Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).listIterator();
-    Feed feed = null;
-    boolean[] checkedItems = new boolean[items.length];
-    for (int i = 0; itr.hasNext(); ++i)
-    {
-      feed = itr.next();
-      items[i] = feed.toString();
-      checkedItems[i] = feed.isEnabled();
-    }
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Configure Reddit Feeds");
-    builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id, boolean isChecked)
-      {
-        if (isChecked)
-          FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).enableFeed();
-        if (!isChecked)
-          FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).disableFeed();
-      }
-    });
-    builder.setPositiveButton("Done", new DialogInterface.OnClickListener()
-    {
-      public void onClick(DialogInterface dialog, int id)
-      {
-        dialog.dismiss();
-      }
-    });
-    AlertDialog dialog = builder.create();
-    dialog.show();
   }
   
   /**

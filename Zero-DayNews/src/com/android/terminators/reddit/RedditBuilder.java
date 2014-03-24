@@ -69,15 +69,15 @@ public class RedditBuilder extends Activity
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        // configureRedditFeeds();
+        FeedManager.getInstance().configureFeeds(this);
         break;
       case R.id.action_addFeed:
-        // addFeed();
+        FeedManager.getInstance().addFeed(this);
         break;
       case R.id.action_refresh:
         finish();
         startActivity(getIntent());
-        Toast.makeText(getApplicationContext(), "Feed refreshed" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Feed refreshed", Toast.LENGTH_SHORT).show();
         break;
       default:
         break;

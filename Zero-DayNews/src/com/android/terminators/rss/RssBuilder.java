@@ -1,6 +1,7 @@
 package com.android.terminators.rss;
 
 import com.android.terminators.Article;
+import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
 import com.android.terminators.ZeroDayNews.R;
 import android.app.Activity;
@@ -74,15 +75,15 @@ public class RssBuilder extends Activity
     switch (item.getItemId())
     {
       case R.id.action_configureFeeds:
-        // configureRssFeeds();
+        FeedManager.getInstance().configureFeeds(this);
         break;
       case R.id.action_addFeed:
-        // addFeed();
+        FeedManager.getInstance().addFeed(this);
         break;
       case R.id.action_refresh:
         finish();
         startActivity(getIntent());
-        Toast.makeText(getApplicationContext(), "Feed refreshed" , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Feed refreshed", Toast.LENGTH_SHORT).show();
         break;
       default:
         break;
