@@ -22,10 +22,12 @@ import android.widget.RelativeLayout;
  * @author Brandon
  * @author Brian
  * @author Derrick
+ * 
  */
+
 public class MainActivity extends Activity
 {
-	private Button rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
+	private Button articlesBtn, rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
 	private AdView adView;
 	private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
 	static final private String TAG = MainActivity.class.getSimpleName();
@@ -35,6 +37,9 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+    
+    articlesBtn = (Button)findViewById(R.id.articlesButton);
+    articlesBtn.setOnClickListener(articlesListener);
 
 		rssBtn = (Button)findViewById(R.id.rssButton);
 		rssBtn.setOnClickListener(rssListener);
@@ -89,6 +94,15 @@ public class MainActivity extends Activity
 		}
 		return true;
 	}
+	
+  OnClickListener articlesListener = new OnClickListener()
+  {
+    public void onClick(View v)
+    {
+      Intent intent = new Intent(getApplicationContext(), ArticleAdapter.class);
+      startActivity(intent);
+    }
+  };
 
 	OnClickListener rssListener = new OnClickListener()
 	{
@@ -98,7 +112,7 @@ public class MainActivity extends Activity
 			startActivity(intent);
 		}
 	};
-
+  
 	OnClickListener redditListener = new OnClickListener()
 	{
 		public void onClick(View v)
@@ -198,4 +212,5 @@ public class MainActivity extends Activity
 		
 		Log.d(TAG, "addAd ran");
 	}
+  
 }

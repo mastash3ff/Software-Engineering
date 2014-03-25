@@ -30,7 +30,9 @@ import java.util.List;
  * @author Derrick
  * Made many changes
  * See git history
+ * 
  */
+
 public class RssBuilder extends Activity
 {
   // A reference to the local object
@@ -162,8 +164,9 @@ public class RssBuilder extends Activity
       itcItems.setAdapter(adapter);
 
       // Set list view item click listener
-      itcItems.setOnItemClickListener(new ListListener<Article>(result, local));
-      itcItems.setOnItemLongClickListener(new ListListener<Article>(result, local));
+      itcItems.setOnItemClickListener(new ListListener(result, local));
+      itcItems.setOnItemLongClickListener(new ListListener(result, local));
     }
   }
+  
 }

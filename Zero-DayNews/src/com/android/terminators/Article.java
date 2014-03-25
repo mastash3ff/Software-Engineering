@@ -7,9 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Abstract class for use in RssItem and Post classes.
  * @author Derrick
  * @author Brian
+ * 
  */
 
-public class Article
+public abstract class Article
 {
 	static AtomicInteger nextId = new AtomicInteger();
 	private int id;
@@ -17,20 +18,25 @@ public class Article
 	private String description;
 	private String link;
 
-	public Article ()
+	public Article()
 	{
 		id = nextId.incrementAndGet();
 		title = "";
 		description = "";
 	}
 
-	public Article (String title, String description)
+	public Article(String title, String description)
 	{
 		id = nextId.incrementAndGet();
 		this.title = title;
 		this.description = description;
 	}
 
+	public void setId(int id)
+	{
+	  this.id = id;
+	}
+	
 	public void setTitle(String title)
 	{
 		this.title = title;
@@ -70,5 +76,22 @@ public class Article
   {
     return getLink();
   }
+  
+  /**
+   * used as virtual methods in order to
+   * treat RssArticle and RedditArticle
+   * objects as base class objects
+   */
+  public abstract String getSubreddit();
+  public abstract String getAuthor();
+  public abstract String getDomain();
+  public abstract String getPermalink();
+  public abstract String getBodyText();
+  public abstract void setSubreddit(String subreddit);
+  public abstract void setAuthor(String author);
+  public abstract void setDomain(String domain);
+  public abstract void setPermalink(String permalink);
+  public abstract void setBodyText(String bodyText);
+  public abstract void setRedditId(String id);
 
 }

@@ -11,8 +11,13 @@ import android.widget.Toast;
 /**
  * FeedManager class
  * @author Derrick
+ * 
+ * Filtering of duplicate feeds
+ * added to addFeed() by:
  * @author Brian
+ * 
  */
+
 public class FeedManager
 {
   private static FeedManager feedManager = null;

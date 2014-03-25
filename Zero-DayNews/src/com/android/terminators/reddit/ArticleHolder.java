@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import com.android.terminators.Article;
 import android.util.Log;
 
 /** Class that creates Post objects out of the Reddit API and stores a list of these posts for other classes
  * 
  * @author Hathy
- *
+ * Modified by:
+ * @author Derrick
+ * Made slight modifications
+ * for use with class Article
+ * 
  */
+
 public class ArticleHolder
 {
   /**
@@ -45,10 +51,10 @@ public class ArticleHolder
    * 
    * @return
    */
-  public List<RedditArticle> fetchArticles()
+  public List<Article> fetchArticles()
   {
     String raw = NetworkComm.readContents(url);
-    List<RedditArticle> list = new ArrayList<RedditArticle>();
+    List<Article> list = new ArrayList<Article>();
 
     try
     {
@@ -63,14 +69,14 @@ public class ArticleHolder
       {        
         JSONObject cur = children.getJSONObject(i).getJSONObject("data");
 
-        RedditArticle ra = new RedditArticle();
+        Article ra = new RedditArticle();
         ra.setTitle(cur.optString("title"));
         ra.setLink(cur.optString("url"));
         ra.setAuthor(cur.optString("author"));
         ra.setSubreddit(cur.optString("subreddit"));
         ra.setPermalink(cur.optString("permalink"));
         ra.setDomain(cur.optString("domain"));
-        ra.setId(cur.optString("id"));
+        ra.setRedditId(cur.optString("id"));
         ra.setBodyText(cur.optString("body"));
 
         if(ra.getTitle() != null)
@@ -89,7 +95,7 @@ public class ArticleHolder
    * using the 'after' property
    * @return
    */
-  public List<RedditArticle> fetchMoreArticles()
+  public List<Article> fetchMoreArticles()
   {
     generateURL();
     return fetchArticles();

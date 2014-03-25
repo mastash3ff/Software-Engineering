@@ -18,23 +18,23 @@ import android.widget.AdapterView.OnItemLongClickListener;
  * @author Derrick
  * Converted to template class
  * Added onLongClickListener for sharing to social media
- * Cast article items to base class to resolve type issue
+ * 
  */
 
-public class ListListener<T> implements OnItemClickListener, OnItemLongClickListener
+public class ListListener implements OnItemClickListener, OnItemLongClickListener
 {
   // List item's reference
-  private List<T> listItems;
+  private List<Article> listItems;
   // Calling activity reference
   private Activity activity;
 
-  public ListListener(List<T> listItems, Activity activity)
+  public ListListener(List<Article> listItems, Activity activity)
   {
     this.listItems = listItems;
     this.activity  = activity;
   }
   
-  public List<T> getList()
+  public List<Article> getList()
   {
     return listItems;
   }
@@ -50,7 +50,7 @@ public class ListListener<T> implements OnItemClickListener, OnItemLongClickList
   public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
   {
     Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setData(Uri.parse(((Article)(getList().get(pos))).getLink()));
+    intent.setData(Uri.parse(getList().get(pos).getLink()));
     getActivity().startActivity(intent);
   }
   
@@ -58,7 +58,7 @@ public class ListListener<T> implements OnItemClickListener, OnItemLongClickList
   {
     Intent shareIntent = new Intent(Intent.ACTION_SEND);
     shareIntent.setType("text/plain");
-    shareIntent.putExtra(Intent.EXTRA_TEXT, ((Article)getList().get(pos)).getLink());
+    shareIntent.putExtra(Intent.EXTRA_TEXT, (getList().get(pos).getLink()));
     getActivity().startActivity(shareIntent);
     return true;
   }

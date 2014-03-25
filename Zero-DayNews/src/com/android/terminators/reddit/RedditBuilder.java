@@ -1,5 +1,6 @@
 package com.android.terminators.reddit;
 
+import com.android.terminators.Article;
 import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
 import com.android.terminators.ListListener;
@@ -27,19 +28,21 @@ import java.util.List;
  * @author Derrick
  * Made extensive changes
  * See git history
+ * 
  */
+
 public class RedditBuilder extends Activity
 {
   private ListView articleList;
-  private ArrayAdapter<RedditArticle> adapter;
+  private ArrayAdapter<Article> adapter;
   private Handler handler;
-  private List<RedditArticle> articles;
+  private List<Article> articles;
   private ArticleHolder articleHolder;
 
   public RedditBuilder()
   {
     handler = new Handler();
-    articles = new ArrayList<RedditArticle>();
+    articles = new ArrayList<Article>();
     articleHolder = new ArticleHolder();
   }
 
@@ -102,13 +105,11 @@ public class RedditBuilder extends Activity
         {
           FeedManager feedManager = FeedManager.getInstance();
           for (int i = 0; i < feedManager.getFeedList(Feed.REDDIT_FEED).size(); ++i)
-          {
             if (feedManager.getFeed(i, Feed.REDDIT_FEED).isEnabled())
             {
               articleHolder.setSubReddit(feedManager.getFeed(i, Feed.REDDIT_FEED).toString());
               articles.addAll(articleHolder.fetchMoreArticles());
             }
-          }
 
           // UI elements should be accessed only in
           // the primary thread, so we must use the
@@ -131,9 +132,10 @@ public class RedditBuilder extends Activity
   /**
    * This method creates the adapter from the list of articles and assigns it to the list.
    */
+
   private void createAdapter()
   {
-    adapter = new ArrayAdapter<RedditArticle>(getBaseContext(), R.layout.article, articles)
+    adapter = new ArrayAdapter<Article>(getBaseContext(), R.layout.article, articles)
     {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) 
@@ -142,7 +144,7 @@ public class RedditBuilder extends Activity
           convertView = getLayoutInflater().inflate(R.layout.article, null);
 
         TextView articleTitle;
-        //ID can be found in post_item.xml
+        //ID can be found in article.xml
         articleTitle = (TextView)convertView.findViewById(R.id.article_title);
 
         TextView articleDetails;
@@ -162,8 +164,8 @@ public class RedditBuilder extends Activity
     */
     
     articleList.setAdapter(adapter);
-    articleList.setOnItemClickListener(new ListListener<RedditArticle>(articles, this));
-    articleList.setOnItemLongClickListener(new ListListener<RedditArticle>(articles, this));
+    articleList.setOnItemClickListener(new ListListener(articles, this));
+    articleList.setOnItemLongClickListener(new ListListener(articles, this));
   }
 
 }
