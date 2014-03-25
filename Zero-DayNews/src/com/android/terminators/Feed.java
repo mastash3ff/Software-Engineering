@@ -3,7 +3,9 @@ package com.android.terminators;
 /**
  * Feed class
  * @author Derrick
+ * 
  */
+
 public class Feed
 {
   private String feedSite = null;

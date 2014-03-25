@@ -15,7 +15,9 @@ import com.android.terminators.Article;
  * Modified by:
  * @author Derrick
  * Made slight modifications for use with class Article
+ * 
  */
+
 public class RssParseHandler extends DefaultHandler 
 {
   private List<Article> rssItems;
@@ -43,7 +45,7 @@ public class RssParseHandler extends DefaultHandler
   {
     if ("item".equals(qName))
     {
-      currentItem = new Article();
+      currentItem = new RssArticle();
     }
     else if ("title".equals(qName))
     {

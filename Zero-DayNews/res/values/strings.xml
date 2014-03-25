@@ -4,6 +4,7 @@
     <string name="app_name">Zero Day News</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_activity_action_bar">Activity_action_bar</string>
+    <string name="displayArticles">Display Article Feeds</string>
     <string name="displayRSS">Display RSS Feeds</string>
     <string name="displayReddit">Display Reddit Feeds</string>
     <string name="addNewFeed">Add New Feed</string>

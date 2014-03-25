@@ -21,13 +21,23 @@
         android:textSize="30sp"
         android:textStyle="bold|italic"
         android:typeface="monospace" />
+    
+    <Button
+        android:id="@+id/articlesButton"
+        style="@style/lightboxButton.Blue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
+        android:text="@string/displayArticles" />
 
     <Button
         android:id="@+id/rssButton"
         style="@style/lightboxButton.Blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/appTitle"
+        android:layout_below="@+id/articlesButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dip"
         android:text="@string/displayRSS" />

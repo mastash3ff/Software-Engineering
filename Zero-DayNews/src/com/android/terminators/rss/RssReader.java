@@ -15,7 +15,9 @@ import com.android.terminators.FeedManager;
  * Modified by:
  * @author Derrick
  * Modified class to use FeedManager public interface
+ * 
  */
+
 public class RssReader 
 {
   /**
