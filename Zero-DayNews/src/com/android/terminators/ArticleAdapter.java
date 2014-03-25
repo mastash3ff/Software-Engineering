@@ -79,7 +79,7 @@ public class ArticleAdapter extends Activity
 
   private class ArticleBuilder extends AsyncTask<String, Void, List<Article> > 
   {
-    protected List<Article> articleList = new ArrayList<Article>();
+    private List<Article> articleList = new ArrayList<Article>();
     private ArticleHolder articleHolder = new ArticleHolder();
 
     @Override
