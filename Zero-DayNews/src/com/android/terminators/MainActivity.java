@@ -3,7 +3,7 @@ package com.android.terminators;
 import com.android.terminators.ZeroDayNews.R;
 import com.android.terminators.reddit.RedditBuilder;
 import com.android.terminators.rss.RssBuilder;
-import com.android.terminators.storage.StorageLinks;
+import com.android.terminators.storage.StorageFeed;
 import com.google.android.gms.ads.*;
 import android.app.Activity;
 import android.content.Intent;
@@ -30,16 +30,16 @@ public class MainActivity extends Activity
 	private Button articlesBtn, rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
 	private AdView adView;
 	private static final String AD_UNIT_ID = "ca-app-pub-5178282085023497/1033225563";
-	static final private String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = MainActivity.class.getSimpleName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-    
-    articlesBtn = (Button)findViewById(R.id.articlesButton);
-    articlesBtn.setOnClickListener(articlesListener);
+
+		articlesBtn = (Button)findViewById(R.id.articlesButton);
+		articlesBtn.setOnClickListener(articlesListener);
 
 		rssBtn = (Button)findViewById(R.id.rssButton);
 		rssBtn.setOnClickListener(rssListener);
@@ -56,9 +56,17 @@ public class MainActivity extends Activity
 		configureRedditFeedsBtn = (Button)findViewById(R.id.configureRedditFeedsButton);
 		configureRedditFeedsBtn.setOnClickListener(configureRedditFeedsListener);
 
+		//startAd(); //experimental
 		addAd();
-		
+
 		Log.d(TAG, "onCreate called");
+	}
+
+	private void startAd()
+	{
+		
+	//take a swing at it!
+
 	}
 
 	//makes use of custom action bar
@@ -84,25 +92,25 @@ public class MainActivity extends Activity
 			FeedManager.getInstance().addFeed(this);
 			break;
 		case R.id.action_loadFeed:
-			StorageLinks.loadStorage(getApplicationContext());
+			StorageFeed.getInstance().loadStorage(getApplicationContext());
 			break;
 		case R.id.action_saveFeed:
-			StorageLinks.saveFeeds();
+			StorageFeed.getInstance().saveFeeds(getApplicationContext());
 			break;
 		default:
 			break;
 		}
 		return true;
 	}
-	
-  OnClickListener articlesListener = new OnClickListener()
-  {
-    public void onClick(View v)
-    {
-      Intent intent = new Intent(getApplicationContext(), ArticleAdapter.class);
-      startActivity(intent);
-    }
-  };
+
+	OnClickListener articlesListener = new OnClickListener()
+	{
+		public void onClick(View v)
+		{
+			Intent intent = new Intent(getApplicationContext(), ArticleAdapter.class);
+			startActivity(intent);
+		}
+	};
 
 	OnClickListener rssListener = new OnClickListener()
 	{
@@ -112,7 +120,7 @@ public class MainActivity extends Activity
 			startActivity(intent);
 		}
 	};
-  
+
 	OnClickListener redditListener = new OnClickListener()
 	{
 		public void onClick(View v)
@@ -152,8 +160,8 @@ public class MainActivity extends Activity
 		super.onResume();
 		if (adView != null) 
 			adView.resume();
-		
-		Log.d(TAG, "onPause called");
+
+		Log.d(TAG, "onResume called");
 	}
 
 	@Override
@@ -162,7 +170,7 @@ public class MainActivity extends Activity
 		if (adView != null)
 			adView.pause();
 		super.onPause();
-		
+
 		Log.d(TAG, "onPause called");
 	}
 
@@ -174,7 +182,7 @@ public class MainActivity extends Activity
 		if (adView != null)
 			adView.destroy();
 		super.onDestroy();
-		
+
 		Log.d(TAG, "onDestroy called");
 	}
 
@@ -209,8 +217,8 @@ public class MainActivity extends Activity
 
 		// Start loading the ad in the background.
 		adView.loadAd(adRequest);
-		
+
 		Log.d(TAG, "addAd ran");
 	}
-  
+
 }

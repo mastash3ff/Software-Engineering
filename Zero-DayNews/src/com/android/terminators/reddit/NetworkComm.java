@@ -56,7 +56,7 @@ public class NetworkComm
 
     //Check if the cache contains data for this URL
 
-    byte[] t=StorageCache.read(url);
+    byte[] t=StorageCache.getInstance().read(url);
     String cached=null;
     if(t!=null) {
       cached=new String(t);
@@ -85,7 +85,7 @@ public class NetworkComm
       br.close();    
 
       // We now add this data to the cache
-      StorageCache.write(url, sb.toString());
+      StorageCache.getInstance().write(url, sb.toString());
       return sb.toString();
     }catch(IOException e){
       Log.d("READ FAILED", e.toString());

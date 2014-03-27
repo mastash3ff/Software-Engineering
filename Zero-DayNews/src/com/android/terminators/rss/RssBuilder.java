@@ -37,6 +37,7 @@ public class RssBuilder extends Activity
 {
   // A reference to the local object
   private RssBuilder local;
+  private final String TAG = RssBuilder.class.getSimpleName();
 
   /** 
    * This method creates main application view
@@ -138,7 +139,7 @@ public class RssBuilder extends Activity
 
           TextView postDetails;
           postDetails = (TextView)convertView.findViewById(R.id.article_details);
-
+          
           postTitle.setText(result.get(position).getTitle());
           postDetails.setText(result.get(position).getDetails());
 
