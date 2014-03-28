@@ -55,6 +55,7 @@
             android:name="com.android.terminators.ArticleAdapter"
             android:label="@string/app_name" >
         </activity>
+
     </application>
 
 </manifest>
