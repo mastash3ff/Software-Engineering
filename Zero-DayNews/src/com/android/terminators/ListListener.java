@@ -12,13 +12,11 @@ import android.widget.AdapterView.OnItemLongClickListener;
 /**
  * Class implements a list listener
  * 
- * @author ITCuties
- * 
- * Modified by:
- * @author Derrick
+ * Modified by Derrick:
  * Converted to template class
  * Added onLongClickListener for sharing to social media
- * 
+ * @author Derrick
+ * @author ITCuties
  */
 
 public class ListListener implements OnItemClickListener, OnItemLongClickListener

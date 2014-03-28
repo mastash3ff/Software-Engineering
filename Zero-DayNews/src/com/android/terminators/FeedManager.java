@@ -9,12 +9,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * FeedManager class
- * @author Derrick
- * 
- * Filtering of duplicate feeds
- * added to addFeed() by:
+ * FeedManager class with modifications by Brian:
+ * Filtering of duplicate feeds and added to addFeed()
  * @author Brian
+ * @author Derrick
  * 
  */
 

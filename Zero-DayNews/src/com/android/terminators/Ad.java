@@ -7,9 +7,9 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 /** Ads an ad to activity_main layout.
- * @author Brandon Sheffield
+ * @author Brandon 
  * @author Derrick
- * @date 3/27/14
+ * @since 3/27/14
  *
  */
 

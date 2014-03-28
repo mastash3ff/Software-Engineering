@@ -11,10 +11,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import com.android.terminators.Feed;
 import com.android.terminators.FeedManager;
-
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
@@ -23,8 +21,9 @@ import android.widget.Toast;
 /**
  * Custom Storage class that has methods pertaining to Creation, Retrieval, and Storage of Feeds
  * on the user's Android Device.
- * @author Brandon 
- * @date 3/24/14
+ * @author Brandon
+ * @version 1.0
+ * @since 3/24/14
  */
 
 public class StorageFeed implements Storage
@@ -54,7 +53,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Uses Singleton pattern
-	 * @return
+	 * @return one instance of StorageFeed class
 	 */
 	public static StorageFeed getInstance()
 	{
@@ -64,7 +63,7 @@ public class StorageFeed implements Storage
 	}
 
 	/**
-	 * Sets the file path to the cache directory.
+	 * Sets the file path to the cache directory aka {@link #feedDirectory}
 	 * @param feedDirectory
 	 */
 	public static void setFeedDirectory(String feedDirectory)
@@ -74,7 +73,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Utility method to determine if storagelinks.txt exists on Android Storage
-	 * @return
+	 * @return true or false
 	 */
 	@Override
 	public Boolean checkIfStorageFileExists()
@@ -87,9 +86,8 @@ public class StorageFeed implements Storage
 			return false;
 	}
 
-
 	/**
-	 * Clear contents storagelinks.txt 
+	 * Deletes the file {@link #TAG}
 	 */
 	@Override
 	public void clear()
@@ -100,6 +98,10 @@ public class StorageFeed implements Storage
 			f.delete();
 	}
 
+	/**
+	 * Not utilized
+	 * @deprecated
+	 */
 	@Override
 	public String convertToStorageName(String url)
 	{
@@ -108,7 +110,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Returns the name of file aka storagelinks.txt
-	 * @return
+	 * @return name of file {@link #FILENAME}
 	 */
 	public String getFilename()
 	{
@@ -117,7 +119,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Fetches the Cache Directory which is the system's file path to the applications folder.
-	 * @return
+	 * @return directory of where feeds are stored {@link #feedDirectory}
 	 */
 	@Override
 	public String getStorageDirectory()
@@ -127,7 +129,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Returns the tag associated for the log tool
-	 * @return
+	 * @return name of class aka {@link #TAG}
 	 */
 	@Override
 	public String getTag()
@@ -136,8 +138,8 @@ public class StorageFeed implements Storage
 	}
 
 	/**
-	 * Checks if external storage is available to at least read
-	 * @return
+	 * Checks if external storage is available to Read from.
+	 * @return true or false
 	 */
 	@Override
 	public boolean isExternalStorageReadable() {
@@ -150,8 +152,8 @@ public class StorageFeed implements Storage
 	}
 
 	/**
-	 * Checks if external storage is available for read and write
-	 * @return
+	 * Checks if external storage is available for Writing.
+	 * @return true or false
 	 */
 	@Override
 	public boolean isExternalStorageWritable() {
@@ -162,9 +164,11 @@ public class StorageFeed implements Storage
 		return false;
 	}
 
-	/** Checks to see if file exists with Feed links if not creates a file called 
-	 * StoredLinks.txt on storage
-	 * @param context
+	/** Utilizes {@link #read()} to store the file contents which are used to construct feed objects
+	 *  then loads them into the application using {@link Feed}
+	 *  @see FeedManager
+	 *  @see Feed
+	 *  @param context
 	 */
 	public void loadStorage( Context context )
 	{
@@ -209,7 +213,8 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Reads the contents of storagelinks.txt file and returns a list of what it read.
-	 * @return
+	 * @return a <code>list</code> of data that is used to construct feed objects using {@link FeedManager}
+	 * @see com.android.terminators.FeedManager
 	 */
 	@Override
 	public ArrayList<String> read()
@@ -252,7 +257,7 @@ public class StorageFeed implements Storage
 			}
 		}
 
-		//remove duplicates from file
+		// easy way to remove duplicates from file
 		for (String string : list)
 			Log.d(TAG, "list contents before:  " + 	string);
 
@@ -265,7 +270,12 @@ public class StorageFeed implements Storage
 
 		return list;
 	}
-
+	
+	/**
+	 * Not utilized since {@link #read()} manages all of the file reading.
+	 * @deprecated
+	 * 
+	 */
 	@Override
 	public byte[] read(String url)
 	{
@@ -273,7 +283,7 @@ public class StorageFeed implements Storage
 	}
 
 	/**
-	 * Saves the Feed objects to disk which can be read later.  Utilizes write.
+	 * Saves the Feed objects to disk which can be read later.  Utilizes @see {@link #write(String)}
 	 * @param context
 	 */
 	public void saveFeeds(Context context)
@@ -307,7 +317,7 @@ public class StorageFeed implements Storage
 
 	}
 
-	/**Writes strings from saveFeeds() to storagelinks.txt
+	/**Writes strings from {@link #saveFeeds(Context)} to storagelinks.txt located in {@link #feedDirectory}
 	 * @param link
 	 * */
 	@Override
@@ -331,6 +341,10 @@ public class StorageFeed implements Storage
 		}
 	}
 
+	/**
+	 * Currently not used since {@link #write(String)} manages all of the write components.
+	 * @deprecated
+	 */
 	@Override
 	public void write(String url, String data)
 	{

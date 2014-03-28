@@ -10,12 +10,11 @@ import com.android.terminators.FeedManager;
 /**
  * Class reads RSS data.
  * 
- * @author ITCuties
- * 
- * Modified by:
- * @author Derrick
+ * Modified by Derrick:
  * Modified class to use FeedManager public interface
  * 
+ * @author ITCuties
+ * @author Derrick
  */
 
 public class RssReader 

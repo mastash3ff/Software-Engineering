@@ -3,9 +3,10 @@ package com.android.terminators.storage;
 import java.util.ArrayList;
 
 /**
- * Common interface for Storage classes:  StorageLinks and StorageCache
+ * Common interface for Storage classes:  {@link StorageFeed} and {@link StorageCache}
  * @author Brandon
- * @date 
+ * @version 1.0
+ * @since 3/24/14
  *
  */
 

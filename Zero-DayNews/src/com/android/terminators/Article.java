@@ -4,9 +4,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Article class
- * Abstract class for use in RssItem and Post classes.
+ * Abstract class for use in Rss classes.
  * @author Derrick
  * @author Brian
+ * @see com.android.terminators.rss
  * 
  */
 

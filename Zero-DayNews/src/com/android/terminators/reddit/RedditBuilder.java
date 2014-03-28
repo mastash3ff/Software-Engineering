@@ -22,12 +22,12 @@ import java.util.List;
 
 /**
  * Loads articles into a listview
- * @author Hathy
  * 
- * Modified by:
- * @author Derrick
+ * Modified by Derrick:
  * Made extensive changes
  * See git history
+ * @author Derrick
+ * @author Hathy
  * 
  */
 

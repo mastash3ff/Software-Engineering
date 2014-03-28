@@ -14,10 +14,13 @@ import android.os.Environment;
 import android.util.Log;
 
 /**
- * Implements the caching mechanism used by our app
+ * Implements the caching mechanism used by our app.
+ * Modifications by Brandon: Fit to Storage interface and applied singleton
  *
- * author Hathy
- * modified by Brandon
+ * @version 2.0
+ * @since 3/24/14
+ * @author Brandon
+ * @author Hathy
  */
 public class StorageCache implements Storage {
 

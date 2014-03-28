@@ -10,11 +10,11 @@ import com.android.terminators.Article;
 /**
  * SAX tag handler
  * 
- * @author ITCuties
- * 
- * Modified by:
- * @author Derrick
+ * Modified by Derrick:
  * Made slight modifications for use with class Article
+ * 
+ * @author Derrick
+ * @author ITCuties
  * 
  */
 

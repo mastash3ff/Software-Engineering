@@ -9,12 +9,11 @@ import android.util.Log;
 
 /** Class that creates Post objects out of the Reddit API and stores a list of these posts for other classes
  * 
- * @author Hathy
- * Modified by:
- * @author Derrick
+ * Derrick Modified :
  * Made slight modifications
  * for use with class Article
- * 
+ * @author Hathy
+ * @author Derrick
  */
 
 public class ArticleHolder

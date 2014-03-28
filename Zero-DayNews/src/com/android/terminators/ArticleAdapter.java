@@ -20,16 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * ArticleAdapter class
+ * ArticleAdapter class that used RSS and Reddit reader
+ * @see com.android.terminators.reddit
+ * @see com.android.terminators.rss
  * @author Derrick
- * 
- * Adapter Pattern for
- * RSS and Reddit reader
- * components by:
- * @author ITCuties
- * @author Hathy
- * 
+ * @author Brian
  */
+
 
 public class ArticleAdapter extends Activity
 {

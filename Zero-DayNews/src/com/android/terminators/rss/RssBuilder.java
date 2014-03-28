@@ -24,12 +24,11 @@ import java.util.List;
  * 
  * Update: Downloading RSS data in an async task 
  * 
- * @author ITCuties
- * 
- * Modified by:
- * @author Derrick
+ * Modified by Derrick:
  * Made many changes
  * See git history
+ *  @author ITCuties
+ *  @author Derrick
  * 
  */
 

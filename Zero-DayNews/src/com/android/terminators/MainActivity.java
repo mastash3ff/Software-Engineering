@@ -18,10 +18,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 /**
- * Zero Day News
+ * Zero Day News Main Activity launcher page
  * @author Brandon
  * @author Brian
  * @author Derrick
+ * @version 1.0
+ * @since 3/28/14
  * 
  */
 
