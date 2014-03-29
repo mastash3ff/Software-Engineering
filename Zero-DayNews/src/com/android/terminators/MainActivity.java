@@ -5,7 +5,10 @@ import com.android.terminators.reddit.RedditBuilder;
 import com.android.terminators.rss.RssBuilder;
 import com.android.terminators.storage.StorageFeed;
 import com.google.android.gms.ads.AdView;
+
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -32,6 +36,9 @@ public class MainActivity extends Activity
   private Button articlesBtn, rssBtn, redditBtn, addFeedBtn, configureRssFeedsBtn, configureRedditFeedsBtn;
   private AdView adView = null;
   private static final String TAG = MainActivity.class.getSimpleName();
+  
+  //used to build the help menu, gives the current state of the application
+  private Context context;
 
   @Override
   public void onCreate(Bundle savedInstanceState) 
@@ -91,6 +98,9 @@ public class MainActivity extends Activity
       case R.id.action_saveFeed:
         StorageFeed.getInstance().saveFeeds(getApplicationContext());
         break;
+      case R.id.action_help:
+    	context = this;
+    	showHelp();
       default:
         break;
     }
@@ -173,6 +183,26 @@ public class MainActivity extends Activity
       adView.destroy();
     super.onDestroy();
     Log.d(TAG, "onDestroy called");
+  }
+  
+  //display help overlay, disappears on click
+  public void showHelp()
+  {
+	final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+    dialog.setContentView(R.layout.help_overlay);
+    LinearLayout layout = (LinearLayout) dialog.findViewById(R.id.helpLayout);
+
+    layout.setOnClickListener(new OnClickListener()
+    {
+      @Override
+      public void onClick(View arg0)
+      {
+        dialog.dismiss();
+      }
+      
+	});
+
+    dialog.show();
   }
 
 }
