@@ -1,16 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@null"
-	android:orientation="vertical"
-	android:id="@+id/helpLayout">
+    android:id="@+id/helpLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/helpTextView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="@string/help_text_1"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/helpTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="61dp"
+        android:gravity="center"
+        android:text="@string/help_text_2"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace" />
+
+    <TextView
+        android:id="@+id/helpTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="YOU WILL BE HELPED"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_margin="20dp"
+        android:layout_marginTop="134dp"
+        android:gravity="center"
+        android:text="@string/help_text_3"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace" />
+    
+    <TextView
+        android:id="@+id/helpTextView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="134dp"
+        android:gravity="center"
+        android:text="@string/help_text_4"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace" />
 
 </LinearLayout>

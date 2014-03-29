@@ -189,6 +189,7 @@ public class MainActivity extends Activity
   public void showHelp()
   {
 	final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+    dialog.getWindow().setBackgroundDrawableResource(R.drawable.help_transparency);
     dialog.setContentView(R.layout.help_overlay);
     dialog.getWindow().setWindowAnimations(R.style.help_fade);
     
