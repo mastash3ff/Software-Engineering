@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 /**
  * Zero Day News Main Activity launcher page
+ * 
  * @author Brandon
  * @author Brian
  * @author Derrick

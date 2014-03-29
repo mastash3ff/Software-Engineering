@@ -19,8 +19,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 /**
- * Custom Storage class that has methods pertaining to Creation, Retrieval, and Storage of Feeds
- * on the user's Android Device.
+ * Concrete implementation of Storage class that has methods pertaining to Creation, Retrieval, and Storage of Feeds
+ * on the user's Android Device.  Makes use of Feed classes to load and save contents pertaining to RSS and Reddit Feeds.
+ * 
+ * Creation Date:  3/16/14
+ * @see Feed
+ * @see FeedManager
  * @author Brandon
  * @version 1.0
  * @since 3/24/14
@@ -53,7 +57,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Uses Singleton pattern
-	 * @return one instance of StorageFeed class
+	 * @return one instance of {@link StorageFeed} class
 	 */
 	public static StorageFeed getInstance()
 	{
@@ -88,6 +92,7 @@ public class StorageFeed implements Storage
 
 	/**
 	 * Deletes the file {@link #TAG}
+	 * @return 
 	 */
 	@Override
 	public void clear()
@@ -109,7 +114,7 @@ public class StorageFeed implements Storage
 	}
 
 	/**
-	 * Returns the name of file aka storagelinks.txt
+	 * Returns the name of file aka {@link #FILENAME}
 	 * @return name of file {@link #FILENAME}
 	 */
 	public String getFilename()
@@ -144,8 +149,10 @@ public class StorageFeed implements Storage
 	@Override
 	public boolean isExternalStorageReadable() {
 		String state = Environment.getExternalStorageState();
+
 		if (Environment.MEDIA_MOUNTED.equals(state) ||
-				Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+				Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) 
+		{
 			return true;
 		}
 		return false;
@@ -158,7 +165,9 @@ public class StorageFeed implements Storage
 	@Override
 	public boolean isExternalStorageWritable() {
 		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
+
+		if (Environment.MEDIA_MOUNTED.equals(state)) 
+		{
 			return true;
 		}
 		return false;
@@ -169,6 +178,7 @@ public class StorageFeed implements Storage
 	 *  @see FeedManager
 	 *  @see Feed
 	 *  @param context
+	 *  @return
 	 */
 	public void loadStorage( Context context )
 	{
@@ -238,12 +248,12 @@ public class StorageFeed implements Storage
 		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
-			Log.e(TAG, e.toString());
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			Log.e(TAG, e.toString());
+			Log.e(TAG, Log.getStackTraceString(e));
 		} 
 		finally 
 		{
@@ -253,14 +263,14 @@ public class StorageFeed implements Storage
 			} catch (IOException ex) 
 			{
 				ex.printStackTrace();
-				Log.e(TAG, ex.toString());
+				Log.e(TAG, Log.getStackTraceString(ex));
 			}
 		}
 
-		// easy way to remove duplicates from file
 		for (String string : list)
 			Log.d(TAG, "list contents before:  " + 	string);
 
+		//easy way to remove duplicates from file
 		Set<String> lStrings = new HashSet<String>(list);
 		list.clear();
 		list.addAll(lStrings);
@@ -270,7 +280,7 @@ public class StorageFeed implements Storage
 
 		return list;
 	}
-	
+
 	/**
 	 * Not utilized since {@link #read()} manages all of the file reading.
 	 * @deprecated
@@ -285,6 +295,7 @@ public class StorageFeed implements Storage
 	/**
 	 * Saves the Feed objects to disk which can be read later.  Utilizes @see {@link #write(String)}
 	 * @param context
+	 * @return
 	 */
 	public void saveFeeds(Context context)
 	{
@@ -310,7 +321,7 @@ public class StorageFeed implements Storage
 		for (int i = 3; i < feedList.size(); ++i)
 			write(feedList.get(i).getFeedSite() + " "
 					+ Integer.toString(feedList.get(i).getFeedType()) + " " + feedList.get(i).isEnabled().toString());
-		
+
 		Toast.makeText( context, "Saved Feeds Successfully" , Toast.LENGTH_SHORT).show();
 
 		Log.d(TAG, "saveFeeds ran");
@@ -319,6 +330,7 @@ public class StorageFeed implements Storage
 
 	/**Writes strings from {@link #saveFeeds(Context)} to storagelinks.txt located in {@link #feedDirectory}
 	 * @param link
+	 * @return
 	 * */
 	@Override
 	public void write(String feed)
@@ -337,7 +349,7 @@ public class StorageFeed implements Storage
 		catch(Exception e) 
 		{
 			e.printStackTrace();
-			Log.e(TAG, e.toString());
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 	}
 

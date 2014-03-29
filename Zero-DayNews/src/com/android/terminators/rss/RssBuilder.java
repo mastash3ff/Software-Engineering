@@ -57,7 +57,7 @@ public class RssBuilder extends Activity
     task.execute();
 
     // Debug the thread name
-    Log.d("ITCRssReader", Thread.currentThread().getName());
+    Log.d(TAG, Thread.currentThread().getName());
   }
 
   //makes use of custom action bar
@@ -99,7 +99,7 @@ public class RssBuilder extends Activity
     protected List<Article> doInBackground(String... urls) 
     {
       // Debug the task thread name
-      Log.d("ITCRssReader", Thread.currentThread().getName());
+      Log.d(TAG, Thread.currentThread().getName());
 
       try
       {
@@ -111,7 +111,7 @@ public class RssBuilder extends Activity
       }
       catch (Exception e)
       {
-        Log.e("ITCRssReader", e.getMessage());
+        Log.e(TAG, e.getMessage());
       }
 
       return null;
