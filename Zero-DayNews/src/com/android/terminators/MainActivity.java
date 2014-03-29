@@ -190,6 +190,8 @@ public class MainActivity extends Activity
   {
 	final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
     dialog.setContentView(R.layout.help_overlay);
+    dialog.getWindow().setWindowAnimations(R.style.help_fade);
+    
     LinearLayout layout = (LinearLayout) dialog.findViewById(R.id.helpLayout);
 
     layout.setOnClickListener(new OnClickListener()
