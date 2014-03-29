@@ -1,15 +1,23 @@
 package com.android.terminators;
 
 /**
- * Feed class
+ * Feed class:
+ * Each Feed object represents a site
+ * that is scraped for Articles.
+ * Realizes enableSiteFeed and
+ * disableSiteFeed use-cases.
+ * 
  * @author Derrick
+ * @version 1.0
+ * @since 3-13-2014
+ * @see com.android.terminators.FeedManager
  * 
  */
 
 public class Feed
 {
   private String feedSite = null;
-  private int feedType = -1;
+  private int feedType = -1; // dummy value
   private boolean enabled = true;
   public final static int RSS_FEED = 0, REDDIT_FEED = 1;
   public final static boolean DISABLED_FEED = false, ENABLED_FEED = true;
@@ -20,6 +28,7 @@ public class Feed
     setFeedType(feedType);
   }
   
+  // 3-parameter constructor used for loading sites from Storage
   public Feed(String feedSite, int feedType, boolean enabled)
   {
     setFeedSite(feedSite);

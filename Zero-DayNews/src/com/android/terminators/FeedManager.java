@@ -2,6 +2,7 @@ package com.android.terminators;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,10 +10,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * FeedManager class with modifications by Brian:
- * Filtering of duplicate feeds and added to addFeed()
- * @author Brian
+ * FeedManager class:
+ * Used to manage the lists of Feed objects,
+ * add new Feeds, and to configure Feeds.
+ * Realizes updateSiteFeed use-case.
+ * 
  * @author Derrick
+ * @version 1.0
+ * @since 3-14-2014
+ * @see com.android.terminators.Feed
  * 
  */
 
@@ -21,12 +27,13 @@ public class FeedManager
   private static FeedManager feedManager = null;
   private ArrayList<Feed> rssFeedList = null;
   private ArrayList<Feed> redditFeedList = null;
-  private int newFeedType = -1;
+  private int newFeedType = -1; // dummy value
   
   public FeedManager()
   {
     rssFeedList = new ArrayList<Feed>();
     redditFeedList = new ArrayList<Feed>();
+    // add the default Feeds
     addFeed(new Feed("http://feeds.feedburner.com/TechCrunch/", Feed.RSS_FEED));
     addFeed(new Feed("http://rss.slashdot.org/Slashdot/slashdot/", Feed.RSS_FEED));
     addFeed(new Feed("http://feeds.wired.com/wired27b/", Feed.RSS_FEED));
@@ -38,7 +45,7 @@ public class FeedManager
 
   public static FeedManager getInstance()
   {
-    // Singleton pattern
+    // Singleton design pattern
     if (feedManager == null)
       feedManager = new FeedManager();
     return feedManager;
@@ -50,7 +57,7 @@ public class FeedManager
       return rssFeedList;
     if (feedType == Feed.REDDIT_FEED)
       return redditFeedList;
-    //TODO: error checking
+    //TODO: exception handling
     return null;
   }
   
@@ -68,24 +75,24 @@ public class FeedManager
       return rssFeedList.get(i);
     if (feedType == Feed.REDDIT_FEED)
       return redditFeedList.get(i);
-    //TODO: error checking
+    //TODO: exception handling
     return null;
   }
   
   public void addFeed(Feed feed)
   {
-    //input validation for feeds; checks for duplicates and exits if one is found
+    // input validation for feeds; checks for duplicates and exits if one is found
     if (feed.getFeedType() == Feed.RSS_FEED)
     {
       for (int i = 0; i < rssFeedList.size(); ++i)
-        if (rssFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+        if (rssFeedList.get(i).getFeedSite().toLowerCase(Locale.US).equals(feed.getFeedSite().toLowerCase(Locale.US)))
           return;
       rssFeedList.add(feed);
     }
     if (feed.getFeedType() == Feed.REDDIT_FEED)
     {
       for (int i = 0; i < redditFeedList.size(); ++i)
-        if (redditFeedList.get(i).getFeedSite().toLowerCase().equals(feed.getFeedSite().toLowerCase()))
+        if (redditFeedList.get(i).getFeedSite().toLowerCase(Locale.US).equals(feed.getFeedSite().toLowerCase(Locale.US)))
           return;
       redditFeedList.add(feed);
     }
@@ -104,7 +111,7 @@ public class FeedManager
       @Override
       public void onClick(DialogInterface dialog, int id)
       {       
-        //TODO: add bounds/error checking
+        //TODO: exception handling
         if (id == 0)
           newFeedType = Feed.RSS_FEED;
         if (id == 1)
@@ -136,6 +143,10 @@ public class FeedManager
     dialog.show();
   }
   
+  /* 
+   * This method is called via action bar and allows
+   * the user to select the Feed type to configure.
+   */
   public void configureFeeds(final Context context)
   {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -168,22 +179,28 @@ public class FeedManager
 
   public void configureRssFeeds(final Context context)
   {
+    // get items to populate the multi-selection dialog
     CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.RSS_FEED).size()];
     Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.RSS_FEED).listIterator();
     Feed feed = null;
     boolean[] checkedItems = new boolean[items.length];
+    
+    // determine which feeds are enabled/disabled so they can be displayed as checked/unchecked
     for (int i = 0; itr.hasNext(); ++i)
     {
       feed = itr.next();
       items[i] = feed.toString();
       checkedItems[i] = feed.isEnabled();
     }
+    
+    // build and display the alert dialog
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle("Configure RSS Feeds");
     builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
     {
       public void onClick(DialogInterface dialog, int id, boolean isChecked)
       {
+        // enable/disable feeds on user click
         if (isChecked)
           FeedManager.getInstance().getFeed(id, Feed.RSS_FEED).enableFeed();
         if (!isChecked)
@@ -201,24 +218,34 @@ public class FeedManager
     dialog.show();
   }
 
+  /* 
+   * TODO: merge this with with configureRssFeeds()
+   * or move most of the code to a utility method
+   */
   public void configureRedditFeeds(final Context context)
   {
+    // get items to populate the multi-selection dialog
     CharSequence[] items = new CharSequence[FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).size()];
     Iterator<Feed> itr = FeedManager.getInstance().getFeedList(Feed.REDDIT_FEED).listIterator();
     Feed feed = null;
     boolean[] checkedItems = new boolean[items.length];
+    
+    // determine which feeds are enabled/disabled so they can be displayed as checked/unchecked
     for (int i = 0; itr.hasNext(); ++i)
     {
       feed = itr.next();
       items[i] = feed.toString();
       checkedItems[i] = feed.isEnabled();
     }
+    
+    // build and display the alert dialog
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle("Configure Reddit Feeds");
     builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
     {
       public void onClick(DialogInterface dialog, int id, boolean isChecked)
       {
+        // enable/disable feeds on user click
         if (isChecked)
           FeedManager.getInstance().getFeed(id, Feed.REDDIT_FEED).enableFeed();
         if (!isChecked)
