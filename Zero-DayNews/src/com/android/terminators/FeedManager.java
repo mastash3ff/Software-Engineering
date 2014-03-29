@@ -100,7 +100,7 @@ public class FeedManager
   
   public void addFeed(final Context context)
   {
-    newFeedType = -1;
+    newFeedType = -1; // reset dummy value
     final CharSequence[] items = {"RSS Feed", "Reddit Feed"};
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle("Add New Feed");
@@ -122,6 +122,7 @@ public class FeedManager
     {
       public void onClick(DialogInterface dialog, int id)
       {
+        // check for dummy value; indicates no choice made
         if (newFeedType == -1)
           Toast.makeText(context, "Error: Feed type required", Toast.LENGTH_SHORT).show();
         else
