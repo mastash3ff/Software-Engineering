@@ -1,8 +1,10 @@
 package com.android.terminators.testing;
 
 import org.junit.Before;
+
 import com.android.terminators.MainActivity;
 import com.android.terminators.ZeroDayNews.R;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.TextView;
@@ -69,27 +71,27 @@ public class MainActivityStartupTest extends ActivityInstrumentationTestCase2<Ma
 	 */
 	public void testButtonText()
 	{
-		final String expectedArticleButtonString = mainActTest.getString(R.id.articlesButton);
+		final String expectedArticleButtonString = mainActTest.getString(R.string.displayArticles);
 		final String actualArticleButtonString = (String) articlesButtons.getText().toString();
 		assertEquals("expectedArticleButtonString contains wrong text", expectedArticleButtonString, actualArticleButtonString);
 
-		final String expectedRedditButtonString =  mainActTest.getString(R.id.redditButton);
+		final String expectedRedditButtonString =  mainActTest.getString(R.string.displayReddit);
 		final String actualRedditButtonString = (String) redditButton.getText().toString();
 		assertEquals("actualRedditButtonString contains wrong text", expectedRedditButtonString	, actualRedditButtonString);
 
-		final String expectedRssButtonString = mainActTest.getString(R.id.rssButton);
+		final String expectedRssButtonString = mainActTest.getString(R.string.displayRSS);
 		final String actualRssButtonString = (String) rssButton.getText().toString();
 		assertEquals("actualRssButtonString contains wrong text", expectedRssButtonString, actualRssButtonString);
 
-		final String expectedAddFeedButtonString = mainActTest.getString(R.id.addFeedButton);
+		final String expectedAddFeedButtonString = mainActTest.getString(R.string.addNewFeed);
 		final String actualAddFeedButtonString = (String) addFeedButton.getText().toString();
 		assertEquals("actualAddFeedButtonString contains wrong text", expectedAddFeedButtonString, actualAddFeedButtonString);
 
-		final String expectedConfigureRssString = mainActTest.getString(R.id.configureRssFeedsButton);
+		final String expectedConfigureRssString = mainActTest.getString(R.string.configureRssFeeds);
 		final String actualConfigureRssString = (String) configureRssFeedsButtons.getText().toString();
 		assertEquals("actualConfigureRssString contains wrong text", expectedConfigureRssString, actualConfigureRssString);
 
-		final String expectedConfigureRedditString = mainActTest.getString(R.id.configureRedditFeedsButton);
+		final String expectedConfigureRedditString = mainActTest.getString(R.string.configureRedditFeeds);
 		final String actualConfigureRedditString = (String) configureRedditFeedsButton.getText().toString();
 		assertEquals("actualConfigureRedditString contains wrong text", expectedConfigureRedditString, actualConfigureRedditString);
 
