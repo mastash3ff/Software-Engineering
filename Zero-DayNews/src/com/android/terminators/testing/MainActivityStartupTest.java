@@ -1,10 +1,8 @@
 package com.android.terminators.testing;
 
 import org.junit.Before;
-
 import com.android.terminators.MainActivity;
 import com.android.terminators.ZeroDayNews.R;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.TextView;
