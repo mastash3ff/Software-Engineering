@@ -18,7 +18,7 @@
     <string name="action_saveFeed">Save Feed</string>
     <string name="action_loadFeed">Load Feed</string>
     <string name="help_text_1">Welcome to Zero Day News</string>
-    <string name="help_text_2">View Different Feeds By Clicking a "Display" Button</string>
+    <string name="help_text_2">View Different Feeds By Clicking "Display Article Feeds"</string>
     <string name="help_text_3">Add and Switch Feeds On/Off via the Other Buttons</string>
     <string name="help_text_4">Feeds Can Also Be Saved/Loaded via the Dropdown Menu Above</string>
 
