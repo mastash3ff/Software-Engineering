@@ -33,31 +33,11 @@
         android:text="@string/displayArticles" />
 
     <Button
-        android:id="@+id/rssButton"
-        style="@style/lightboxButton.Blue"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/articlesButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dip"
-        android:text="@string/displayRSS" />
-
-    <Button
-        android:id="@+id/redditButton"
-        style="@style/lightboxButton.Blue"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rssButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dip"
-        android:text="@string/displayReddit" />
-
-    <Button
         android:id="@+id/addFeedButton"
         style="@style/lightboxButton.Blue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/redditButton"
+        android:layout_below="@+id/articlesButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dip"
         android:text="@string/addNewFeed" />

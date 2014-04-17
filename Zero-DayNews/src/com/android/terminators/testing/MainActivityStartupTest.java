@@ -22,7 +22,7 @@ public class MainActivityStartupTest extends ActivityInstrumentationTestCase2<Ma
 	private MainActivity mainActTest;
 
 	private TextView titleTextView;
-	private Button articlesButtons, redditButton, rssButton, addFeedButton, 
+	private Button articlesButtons, addFeedButton, 
 	configureRssFeedsButtons,configureRedditFeedsButton;
 
 	public MainActivityStartupTest(Class<MainActivity> activityClass)
@@ -41,8 +41,6 @@ public class MainActivityStartupTest extends ActivityInstrumentationTestCase2<Ma
 		mainActTest = getActivity();
 		titleTextView = (TextView) mainActTest.findViewById(R.id.appTitle);
 		articlesButtons = (Button) mainActTest.findViewById(R.id.articlesButton);
-		redditButton = (Button) mainActTest.findViewById(R.id.redditButton);
-		rssButton = (Button) mainActTest.findViewById(R.id.rssButton);
 		addFeedButton = (Button) mainActTest.findViewById(R.id.addFeedButton);
 		configureRssFeedsButtons = (Button) mainActTest.findViewById(R.id.configureRssFeedsButton);
 		configureRedditFeedsButton = (Button) mainActTest.findViewById(R.id.configureRedditFeedsButton);
@@ -57,8 +55,6 @@ public class MainActivityStartupTest extends ActivityInstrumentationTestCase2<Ma
 		assertNotNull("mainActTest is null", mainActTest);
 		assertNotNull("titleTextView is null", titleTextView);
 		assertNotNull("articleButtons is null", articlesButtons);
-		assertNotNull("redditButton is null", redditButton);
-		assertNotNull("rssButton is null", rssButton);
 		assertNotNull("configureRssFeedsButton is null", configureRssFeedsButtons);
 		assertNotNull("configureRedditFeedsButton", configureRedditFeedsButton);
 
@@ -72,14 +68,6 @@ public class MainActivityStartupTest extends ActivityInstrumentationTestCase2<Ma
 		final String expectedArticleButtonString = mainActTest.getString(R.string.displayArticles);
 		final String actualArticleButtonString = (String) articlesButtons.getText().toString();
 		assertEquals("expectedArticleButtonString contains wrong text", expectedArticleButtonString, actualArticleButtonString);
-
-		final String expectedRedditButtonString =  mainActTest.getString(R.string.displayReddit);
-		final String actualRedditButtonString = (String) redditButton.getText().toString();
-		assertEquals("actualRedditButtonString contains wrong text", expectedRedditButtonString	, actualRedditButtonString);
-
-		final String expectedRssButtonString = mainActTest.getString(R.string.displayRSS);
-		final String actualRssButtonString = (String) rssButton.getText().toString();
-		assertEquals("actualRssButtonString contains wrong text", expectedRssButtonString, actualRssButtonString);
 
 		final String expectedAddFeedButtonString = mainActTest.getString(R.string.addNewFeed);
 		final String actualAddFeedButtonString = (String) addFeedButton.getText().toString();
