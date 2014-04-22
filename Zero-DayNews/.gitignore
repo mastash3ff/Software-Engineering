@@ -16,3 +16,6 @@ gen/
 local.properties
 project.properties
 /lint.xml
+/.classpath
+/.project
+/.gitignore
