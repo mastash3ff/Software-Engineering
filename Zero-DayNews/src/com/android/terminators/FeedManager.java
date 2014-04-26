@@ -79,23 +79,24 @@ public class FeedManager
     return null;
   }
   
-  public void addFeed(Feed feed)
+  public boolean addFeed(Feed feed)
   {
     // input validation for feeds; checks for duplicates and exits if one is found
     if (feed.getFeedType() == Feed.RSS_FEED)
     {
       for (int i = 0; i < rssFeedList.size(); ++i)
         if (rssFeedList.get(i).getFeedSite().toLowerCase(Locale.US).equals(feed.getFeedSite().toLowerCase(Locale.US)))
-          return;
+          return false;
       rssFeedList.add(feed);
     }
     if (feed.getFeedType() == Feed.REDDIT_FEED)
     {
       for (int i = 0; i < redditFeedList.size(); ++i)
         if (redditFeedList.get(i).getFeedSite().toLowerCase(Locale.US).equals(feed.getFeedSite().toLowerCase(Locale.US)))
-          return;
+          return false;
       redditFeedList.add(feed);
     }
+    return true;
   }
   
   public void addFeed(final Context context)
@@ -127,8 +128,10 @@ public class FeedManager
           Toast.makeText(context, "Error: Feed type required", Toast.LENGTH_SHORT).show();
         else
         {
-          FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), newFeedType));  
-          Toast.makeText(context, "Feed added", Toast.LENGTH_SHORT).show();      
+          if (FeedManager.getInstance().addFeed(new Feed(input.getText().toString(), newFeedType)))
+            Toast.makeText(context, "Feed added", Toast.LENGTH_SHORT).show();
+          else
+            Toast.makeText(context, "Duplicate feed detected", Toast.LENGTH_SHORT).show();              
         }
       }
     });
